@@ -80,7 +80,7 @@ export default function UserForm({ addContact }) {
             value={contactInfo.title}
             onChange={handleChange}
             className="block w-full p-3 text-black"
-            required
+            // required
           />
         </div>
         <div className="block w-full my-3 mx-auto">
@@ -95,7 +95,7 @@ export default function UserForm({ addContact }) {
                   value={type}
                   onChange={handleChange}
                   className="block text-black"
-                  required
+                  // required
                 />
                 <label className="mr-4">{type}</label>
               </>
@@ -114,7 +114,7 @@ export default function UserForm({ addContact }) {
                   value={core}
                   onChange={handleChange}
                   className="block text-black"
-                  required
+                  // required
                 />
                 <label className="mr-4">{core}</label>
               </>
