@@ -1,23 +1,17 @@
-import Link from "next/link";
-
-import styles from "./Nav.module.css";
+import Link from "./Link";
 
 export default function Nav() {
   return (
-    <nav className={styles.nav}>
-      <ul className={styles.list}>
-        <li>
-          <Link href="/create">
-            <a className={styles.button}>Create</a>
-          </Link>
+    <nav className="w-full border-b border-gray-300">
+      <ul className="flex justify-around list-none">
+        <li className="flex items-center">
+          <Link label="Create" url="/create" />
         </li>
-        <li>
-          <b>take pART</b>
+        <li className="flex items-center">
+          <h1 className="text-xl">take pART</h1>
         </li>
-        <li className={styles.item}>
-          <Link href="/">
-            <a className={styles.button}>Observe</a>
-          </Link>
+        <li className="flex items-center">
+          <Link label="Observe" url="/" />
         </li>
       </ul>
     </nav>

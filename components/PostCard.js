@@ -5,7 +5,7 @@ export default function PostCard({ post }) {
   // const [publishing, setPublishing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
-
+  console.log(post);
   // // Publish post
   // const publishPost = async (postId) => {
   //     // change publishing state
@@ -54,7 +54,8 @@ export default function PostCard({ post }) {
     <>
       <li>
         <h3>Name: {post.title}</h3>
-        <p>Info: {post.content}</p>
+        <p>Type: {post.type}</p>
+        <p>Core: {post.core}</p>
         <small>Created: {new Date(post.createdAt).toLocaleDateString()}</small>
         <br />
         {/* {!post.published ? (

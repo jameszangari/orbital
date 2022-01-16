@@ -1,10 +1,10 @@
 import Head from "next/head";
-
 import Nav from "../components/Nav";
 import PostCard from "../components/PostCard";
-import styles from "../styles/Home.module.css";
+import Planet from "../components/Planet";
 
 export default function Home({ posts }) {
+  console.log(posts);
   return (
     <div>
       <Head>
@@ -14,13 +14,14 @@ export default function Home({ posts }) {
       <Nav />
 
       <main>
-        <div className={styles.container}>
+        <div className="max-w-3xl my-5 mx-auto p-3">
           {posts.length === 0 ? (
             <h2>No planets added yet</h2>
           ) : (
             <ul>
               {posts.map((post, i) => (
-                <PostCard post={post} key={i} />
+                // <PostCard post={post} key={i} />
+                <Planet post={post} key={i} />
               ))}
             </ul>
           )}
