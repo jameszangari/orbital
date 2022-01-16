@@ -4,6 +4,7 @@ import PostCard from "../components/PostCard";
 import Planet from "../components/Planet";
 
 export default function Home({ posts }) {
+  // Hook into index and create threejs canvas for planets
   console.log(posts);
   return (
     <div>
