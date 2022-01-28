@@ -9,6 +9,7 @@ export default function UserForm({ addContact }) {
     title: "",
     type: "",
     core: "",
+    position: "",
   });
   const handleChange = (event) => {
     console.log(event.target);
@@ -25,6 +26,7 @@ export default function UserForm({ addContact }) {
       title: contactInfo.title,
       type: contactInfo.type,
       core: contactInfo.core,
+      position: contactInfo.position,
       createdAt: new Date().toISOString(),
     };
     // console.log(post);
@@ -46,7 +48,7 @@ export default function UserForm({ addContact }) {
       // reset the fields
       //   setTitle("");
       //   setContent("");
-      setContactInfo({ title: "", type: "", core: "" });
+      setContactInfo({ title: "", type: "", core: "", position: "" });
       // set the message
       return setMessage(data.message);
     } else {
@@ -120,6 +122,18 @@ export default function UserForm({ addContact }) {
               </>
             ))}
           </div>
+        </div>
+        <div className="block w-full my-3 mx-auto">
+          <label className="block">Choose Planet Position</label>
+          <input
+            type="number"
+            name="position"
+            value={contactInfo.position}
+            max="10"
+            onChange={handleChange}
+            className="block w-full p-3 text-black"
+            // required
+          />
         </div>
         <div>
           {/* <button type="submit">Submit</button> */}
