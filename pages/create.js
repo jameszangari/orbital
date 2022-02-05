@@ -7,7 +7,6 @@ import Nav from "../components/Nav";
 export default function AddPost() {
   // here we create an array state to store the contact form data
   const [contacts, updateContacts] = useState([]);
-
   const addContact = (contact) => {
     updateContacts([...contacts, contact]);
   };
@@ -57,7 +56,7 @@ export default function AddPost() {
   return (
     <div>
       <Nav />
-      <div className="max-w-3xl my-5 mx-auto p-3">
+      <div className="max-w-3xl mx-auto px-6 pt-4">
         <Form addContact={addContact} />
         {/* <form onSubmit={handlePost} className={styles.form} id="form">
           {error ? (

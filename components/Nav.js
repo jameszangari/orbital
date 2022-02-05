@@ -2,15 +2,15 @@ import Link from "./Link";
 
 export default function Nav() {
   return (
-    <nav className="w-full border-b border-gray-300">
-      <ul className="flex justify-around list-none">
-        <li className="flex items-center">
+    <nav className="w-full border-b border-gray-300 p-2 max-w-3xl m-auto">
+      <ul className="flex justify-evenly items-center w-full list-none">
+        <li className="block">
           <Link label="Create" url="/create" />
         </li>
-        <li className="flex items-center">
-          <h1 className="text-xl">take pART</h1>
+        <li className="block m-auto items-center">
+          <h1 className="text-xl">Orbital</h1>
         </li>
-        <li className="flex items-center">
+        <li className="block">
           <Link label="Observe" url="/" />
         </li>
       </ul>

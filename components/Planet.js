@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
+import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-// import { Box as NativeBox } from "@react-three/drei";
 import { useRouter } from "next/router";
 import Button from "./Button";
+import Sora from "../public/Sora_Regular.json";
 
 export default function Planet({ post }) {
   // // threejs stuff
@@ -80,6 +81,14 @@ export default function Planet({ post }) {
       ? "#bdaa66"
       : "#ffffff";
   };
+  // // parse JSON file with Three
+  // const font = new THREE.FontLoader().parse(Sora);
+  // // configure font geometry
+  // const textOptions = {
+  //   font,
+  //   size: 5,
+  //   height: 1,
+  // };
   return (
     <>
       <mesh
@@ -95,11 +104,9 @@ export default function Planet({ post }) {
         // onPointerOver={(event) => hover(true)}
         // onPointerOut={(event) => hover(false)}
       >
+        {/* <textGeometry attach="geometry" args={[`${post.title}`, textOptions]} /> */}
         <sphereGeometry args={[1, 50, 30]} />
-        {/* <textGeometry args={[`${post.title}`]} /> */}
-        <meshStandardMaterial color={typeColor()} />
-        {/* <meshStandardMaterial map="rocky.jpg" /> */}
-        {/* <meshStandardMaterial color={"orange"} /> */}
+        <meshStandardMaterial attach="material" color={typeColor()} />
       </mesh>
       {/* <NativeBox
         args={[1, 1, 1]}
