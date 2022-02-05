@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useRouter } from "next/router";
 import Button from "./Button";
-import Sora from "../public/Sora_Regular.json";
+// import Sora from "../public/Sora_Regular.json";
 
 export default function Planet({ post }) {
   // // threejs stuff

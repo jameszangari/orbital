@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import Planet from "../components/Planet";
-import Sun from "../components/Sun";
+// import Sun from "../components/Sun";
 
 export default function Home({ posts }) {
   console.log(posts);
