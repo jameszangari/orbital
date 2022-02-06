@@ -1,24 +1,19 @@
+// import * as THREE from "three";
 import { useRef, useState } from "react";
-import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useRouter } from "next/router";
-import Button from "./Button";
-// import Sora from "../public/Sora_Regular.json";
+import { LayerMaterial, Base, Depth } from "lamina";
+import { Sphere } from "@react-three/drei";
 
 export default function Planet({ post }) {
-  // // threejs stuff
-  // const mesh = useRef();
-
-  // const [hovered, setHover] = useState(false);
-  // const [active, setActive] = useState(false);
-  // useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
-
+  console.log(post);
   // This reference gives us direct access to the THREE.Mesh object
   const ref = useRef();
 
   // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (ref.current.rotation.y += 0.01));
-  useFrame((state, delta) => (ref.current.rotation.z += 0.01));
+  // useFrame((state, delta) => (ref.current.rotation.x += 0.025));
+  useFrame((state, delta) => (ref.current.rotation.y += 0.025));
+  // useFrame((state, delta) => (ref.current.rotation.z += 0.025));
 
   // Delete post
   const [deleting, setDeleting] = useState(false);
@@ -72,7 +67,7 @@ export default function Planet({ post }) {
   };
   const typeColor = () => {
     return gasGiant
-      ? "#2e2d71"
+      ? "#4443A7"
       : neptuneLike
       ? "#36c69b"
       : superEarth
@@ -81,20 +76,15 @@ export default function Planet({ post }) {
       ? "#bdaa66"
       : "#ffffff";
   };
-  // // parse JSON file with Three
-  // const font = new THREE.FontLoader().parse(Sora);
-  // // configure font geometry
-  // const textOptions = {
-  //   font,
-  //   size: 5,
-  //   height: 1,
-  // };
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
   return (
     <>
-      <mesh
+      {/* <mesh
         ref={ref}
         position={[`${typePosition()}`, 0, 0]}
-        rotation={[Math.PI / 20, 0, 0]}
+        rotation={[Math.PI / 10, 20, 10]}
         // position={[`${post.position}`, 0, 0]}
         // scale={clicked ? 1.5 : 1}
         // rotation={[20, 10, 0]}
@@ -104,51 +94,27 @@ export default function Planet({ post }) {
         // onPointerOver={(event) => hover(true)}
         // onPointerOut={(event) => hover(false)}
       >
-        {/* <textGeometry attach="geometry" args={[`${post.title}`, textOptions]} /> */}
         <sphereGeometry args={[1, 50, 30]} />
         <meshStandardMaterial attach="material" color={typeColor()} />
-      </mesh>
-      {/* <NativeBox
-        args={[1, 1, 1]}
-        {...post}
-        ref={mesh}
-        scale={active ? [6, 6, 6] : [5, 5, 5]}
-        onClick={() => setActive(!active)}
-        onPointerOver={() => setHover(true)}
-        onPointerOut={() => setHover(false)}
+      </mesh> */}
+      <Sphere
+        ref={ref}
+        position={[getRandomInt(10), getRandomInt(10), getRandomInt(10)]}
+        scale={post.scale}
       >
-        <meshStandardMaterial
-          attach="material"
-          color={hovered ? "#2b6c76" : "#720b23"}
-        />
-      </NativeBox> */}
-      {/* <li className="planet flex flex-col mb-16">
-        <h3>Name: {post.title}</h3>
-        {post.type === "Gas Giant" && (
-          <div className={"bg-red-500"}>{post.type}</div>
-        )}
-        {post.type === "Neptune-like" && (
-          <div className={"bg-blue-500"}>{post.type}</div>
-        )}
-        {post.type === "Super-Earth" && (
-          <div className={"bg-green-500"}>{post.type}</div>
-        )}
-        {post.type === "Terrestrial" && (
-          <div className={"bg-amber-500"}>{post.type}</div>
-        )}
-        {post.core === "Metallic" && (
-          <div className={"bg-gray-500"}>{post.core}</div>
-        )}
-        {post.core === "Rocky" && (
-          <div className={"bg-yellow-900"}>{post.core}</div>
-        )}
-        <small>Created: {new Date(post.createdAt).toLocaleDateString()}</small>
-        <Button
-          label={deleting ? "Deleting" : "Delete"}
-          type="submit"
-          click={() => deletePost(post["_id"])}
-        />
-      </li> */}
+        <LayerMaterial>
+          <Base color={post.baseColor} alpha={1} mode="normal" />
+          <Depth
+            colorA="#121212"
+            colorB="#EDEDED"
+            alpha={1}
+            mode="multiply"
+            near={0}
+            far={2}
+            origin={[1, 1, 1]}
+          />
+        </LayerMaterial>
+      </Sphere>
     </>
   );
 }

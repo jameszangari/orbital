@@ -9,8 +9,13 @@ export default function Planet() {
   const ref = useRef();
 
   // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (ref.current.rotation.y += 0.01));
-  useFrame((state, delta) => (ref.current.rotation.z += 0.01));
+  useFrame(({ clock }) => {
+    ref.current.rotation.x = clock.getElapsedTime() / 2;
+    ref.current.rotation.y = clock.getElapsedTime() / 2;
+  });
+
+  // useFrame((state, delta) => (ref.current.rotation.y += 0.01));
+  // useFrame((state, delta) => (ref.current.rotation.z += 0.01));
 
   return (
     <>
