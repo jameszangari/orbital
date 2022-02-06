@@ -77,6 +77,7 @@ export default function AddPost() {
       baseColor,
       layerColorA,
       layerColorB,
+      fresnelColor,
       createdAt: new Date().toISOString(),
     };
 
