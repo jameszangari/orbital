@@ -37,7 +37,7 @@ export default function Home({ posts }) {
                 {posts.map((post, i) => (
                   <Planet post={post} key={i} />
                 ))}
-                <OrbitControls />
+                <OrbitControls enableZoom={false} />
               </Canvas>
             </div>
           </>
@@ -53,6 +53,7 @@ export async function getServerSideProps(ctx) {
   let { DEV_URL, PROD_URL } = process.env;
 
   // request posts from api
+  // TODO figure out way to refresh this request every 'x' seconds
   let response = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
   // extract the data
   let data = await response.json();

@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Canvas, useLoader, useFrame } from "@react-three/fiber";
+import { Image, OrbitControls } from "@react-three/drei";
 import { Leva, LevaPanel, useControls } from "leva";
-import { LayerMaterial, Base, Depth } from "lamina";
+import { Color } from "three";
+import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
 import { Sphere } from "@react-three/drei";
-import Form from "../components/Form";
-import Planet from "../components/Planet";
+import Button from "../components/Button";
 import Nav from "../components/Nav";
 
 export default function AddPost() {
@@ -17,14 +17,6 @@ export default function AddPost() {
   //   updateContacts([...contacts, contact]);
   // };
 
-  const { scale } = useControls({
-    scale: {
-      value: 1,
-      min: 1,
-      max: 5,
-      step: 1,
-    },
-  });
   const typeScale = () => {
     return gasGiant
       ? 2
@@ -59,16 +51,21 @@ export default function AddPost() {
       : "#ffffff";
   };
   const targetRef = useRef();
-  const [{ title, type, baseColor, layerColorA, layerColorB }, set] =
-    useControls(() => ({
-      title: "",
-      type: {
-        options: ["Gas Giant", "Neptune-like", "Terrestrial", "Super Earth"],
-      },
-      baseColor: "#fff",
-      layerColorA: "#121212",
-      layerColorB: "#EDEDED",
-    }));
+  // useFrame((state, delta) => (targetRef.current.rotation.y += 0.025));
+  const colorMap = "PavingStones092_1K_Color.jpg";
+  const [
+    { title, type, baseColor, layerColorA, layerColorB, fresnelColor },
+    set,
+  ] = useControls(() => ({
+    title: "",
+    type: {
+      options: ["Gas Giant", "Neptune-like", "Terrestrial", "Super Earth"],
+    },
+    baseColor: "#fff",
+    layerColorA: "#ff0000",
+    layerColorB: "#fff",
+    fresnelColor: "#00ff49",
+  }));
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const handleSubmit = async (event) => {
@@ -124,6 +121,7 @@ export default function AddPost() {
             near: 1,
             far: 1000,
             position: [10, 10, 10],
+            zoom: 3,
           }}
           setPixelRatio={2160}
           // className="js-canvas"
@@ -132,7 +130,7 @@ export default function AddPost() {
           {/* <pointLight position={[0, 0, 0]} /> */}
           {/* <Sun /> */}
           {/* <Planet post={post} key={i} /> */}
-          <Sphere ref={targetRef} position={[0, 0, 0]} scale={scale}>
+          <Sphere ref={targetRef} position={[0, 0, 0]} scale={1}>
             <LayerMaterial>
               <Base
                 color={baseColor}
@@ -156,14 +154,26 @@ export default function AddPost() {
                 far={2}
                 origin={[1, 1, 1]}
               />
+              <Fresnel
+                color={fresnelColor}
+                onChange={(e) => set({ fresnelColor: e.target.value })}
+                alpha={1}
+                mode="softlight"
+                power={1}
+                intensity={1}
+                bias={0.1}
+              />
+              {/* <Texture args={colorMap} /> */}
             </LayerMaterial>
           </Sphere>
-          <OrbitControls />
+          <OrbitControls enableZoom={false} enablePan={false} />
         </Canvas>
         <div className="max-w-3xl m-auto">
           <Leva
+            collapsed={false}
+            hideCopyButton={true}
             fill={true}
-            titleBar={{ drag: false, title: "Planet Options" }}
+            titleBar={{ drag: false, title: "Planet Options", filter: false }}
           />
           {error ? (
             <div className="block w-full my-3 mx-auto">
@@ -175,7 +185,9 @@ export default function AddPost() {
               <h3 className="text-green-500">{message}</h3>
             </div>
           ) : null}
-          <button onClick={handleSubmit}>Submit Planet</button>
+          <div className="mt-4">
+            <Button click={handleSubmit} label={"Submit Planet"} />
+          </div>
         </div>
       </div>
       {/* <Form addContact={addContact} /> */}
