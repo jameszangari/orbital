@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useRouter } from "next/router";
-import { LayerMaterial, Base, Depth } from "lamina";
+import { LayerMaterial, Base, Depth, Fresnel } from "lamina";
 import { Sphere } from "@react-three/drei";
 
 export default function Planet({ post }) {
@@ -105,13 +105,21 @@ export default function Planet({ post }) {
         <LayerMaterial>
           <Base color={post.baseColor} alpha={1} mode="normal" />
           <Depth
-            colorA="#121212"
-            colorB="#EDEDED"
+            colorA={post.layerColorA}
+            colorB={post.layerColorB}
             alpha={1}
             mode="multiply"
             near={0}
             far={2}
             origin={[1, 1, 1]}
+          />
+          <Fresnel
+            color={post.fresnelColor}
+            alpha={1}
+            mode="softlight"
+            power={1}
+            intensity={1}
+            bias={0.1}
           />
         </LayerMaterial>
       </Sphere>
