@@ -1,11 +1,10 @@
 import Head from "next/head";
 import "../styles/globals.css";
 
-const title = "React Three Next Starter";
-const url = "https://react-three-next.vercel.app/";
-const description =
-  "The easiest and fastest way to create a 3D website using React Three Fiber and NextJS";
-const author = "Author";
+const title = "Orbital";
+const url = "https://orbital-webapp.vercel.app/";
+const description = "Drexel UXID Senior Project Team";
+const author = "The Orbital Team";
 
 function MyApp({ Component, pageProps }) {
   return (
