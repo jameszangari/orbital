@@ -2,7 +2,7 @@ import Link from "./Link";
 
 export default function Nav() {
   return (
-    <nav className="w-full bg-[#292d39] rounded-b-lg p-2 max-w-3xl m-auto">
+    <nav className="w-full bg-levaElevation1 rounded-b-lg p-2 max-w-3xl m-auto">
       <ul className="flex justify-evenly items-center w-full list-none">
         <li className="block">
           <Link label="Create" url="/create" />

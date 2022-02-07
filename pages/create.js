@@ -1,22 +1,13 @@
 import Head from "next/head";
 import { useRef, useState } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
-import { Image, OrbitControls } from "@react-three/drei";
-import { Leva, LevaPanel, useControls } from "leva";
-import { Color } from "three";
+import { OrbitControls } from "@react-three/drei";
+import { Leva, useControls } from "leva";
 import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
 import { Sphere } from "@react-three/drei";
 import Button from "../components/Button";
-import Nav from "../components/Nav";
 
 export default function AddPost() {
-  // // here we create an array state to store the contact form data
-  // const [contacts, updateContacts] = useState([]);
-  // const addContact = (contact) => {
-  //   console.log(contact);
-  //   updateContacts([...contacts, contact]);
-  // };
-
   const typeScale = () => {
     return gasGiant
       ? 2
@@ -51,8 +42,8 @@ export default function AddPost() {
       : "#ffffff";
   };
   const targetRef = useRef();
+  // TODO rotate planet slowly during creation
   // useFrame((state, delta) => (targetRef.current.rotation.y += 0.025));
-  const colorMap = "PavingStones092_1K_Color.jpg";
   const [
     { title, type, baseColor, layerColorA, layerColorB, fresnelColor },
     set,
@@ -71,6 +62,7 @@ export default function AddPost() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // set database options
     let post = {
       title,
       type,
@@ -109,13 +101,11 @@ export default function AddPost() {
   };
 
   return (
-    <div>
+    <>
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <Nav />
-      {/* <div className="max-w-3xl mx-auto px-6 pt-4"> */}
-      <div style={{ width: "100vw", height: "50vh" }}>
+      <div>
         <Canvas
           camera={{
             fov: 35,
@@ -125,12 +115,11 @@ export default function AddPost() {
             zoom: 3,
           }}
           setPixelRatio={2160}
-          // className="js-canvas"
+          style={{ height: "50vh" }}
         >
+          {/* TODO figure out lighting */}
           {/* <ambientLight intensity={1} /> */}
           {/* <pointLight position={[0, 0, 0]} /> */}
-          {/* <Sun /> */}
-          {/* <Planet post={post} key={i} /> */}
           <Sphere ref={targetRef} position={[0, 0, 0]} scale={1}>
             <LayerMaterial>
               <Base
@@ -193,6 +182,6 @@ export default function AddPost() {
       </div>
       {/* <Form addContact={addContact} /> */}
       {/* </div> */}
-    </div>
+    </>
   );
 }

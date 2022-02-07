@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Nav from "../components/Nav";
 import "../styles/globals.css";
 
 const title = "Orbital";
@@ -21,10 +22,7 @@ function MyApp({ Component, pageProps }) {
         {/* Search Engine Optimization Meta Tags */}
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta
-          name="keywords"
-          content="Software Engineer,Product Manager,Project Manager,Data Scientist,Computer Scientist"
-        />
+        <meta name="keywords" content="" />
         <meta name="robots" content="index,follow" />
         <meta name="distribution" content="web" />
         {/* 
@@ -76,9 +74,12 @@ function MyApp({ Component, pageProps }) {
         documentation: https://dev.twitter.com/cards/getting-started
         Be sure validate your Twitter card markup on the documentation site. */}
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@onirenaud" />
+        {/* <meta name="twitter:site" content="@" /> */}
       </Head>
-      <Component {...pageProps} />
+      <Nav />
+      <main className="max-w-3xl mx-auto">
+        <Component {...pageProps} />
+      </main>
     </>
   );
 }
