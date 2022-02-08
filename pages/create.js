@@ -1,24 +1,13 @@
 import Head from "next/head";
 import { useRef, useState } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Text, Stars } from "@react-three/drei";
 import { Leva, useControls } from "leva";
 import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
 import { Sphere } from "@react-three/drei";
 import Button from "../components/Button";
 
 export default function AddPost() {
-  const typeScale = () => {
-    return gasGiant
-      ? 2
-      : neptuneLike
-      ? 1.5
-      : superEarth
-      ? 1
-      : terrestrial
-      ? 0.5
-      : 1;
-  };
   const typePosition = () => {
     return gasGiant
       ? 10
@@ -30,17 +19,6 @@ export default function AddPost() {
       ? -3
       : 1;
   };
-  const typeColor = () => {
-    return gasGiant
-      ? "#4443A7"
-      : neptuneLike
-      ? "#36c69b"
-      : superEarth
-      ? "#6fb23a"
-      : terrestrial
-      ? "#bdaa66"
-      : "#ffffff";
-  };
   const targetRef = useRef();
   // TODO rotate planet slowly during creation
   // useFrame((state, delta) => (targetRef.current.rotation.y += 0.025));
@@ -50,15 +28,35 @@ export default function AddPost() {
   ] = useControls(() => ({
     title: "",
     type: {
-      options: ["Gas Giant", "Neptune-like", "Terrestrial", "Super Earth"],
+      options: ["Gas Giant", "Neptune-like", "Super Earth", "Terrestrial"],
     },
-    baseColor: "#fff",
-    layerColorA: "#ff0000",
-    layerColorB: "#fff",
-    fresnelColor: "#00ff49",
+    baseColor: "#FFFFFF",
+    layerColorA: "#D33CE7",
+    layerColorB: "#FFFFFF",
+    fresnelColor: "#496EEF",
   }));
+
+  // set type to variable
+  const gasGiant = type === "Gas Giant";
+  const neptuneLike = type === "Neptune-like";
+  const superEarth = type === "Super Earth";
+  const terrestrial = type === "Terrestrial";
+  const typeScale = () => {
+    return gasGiant
+      ? 2
+      : neptuneLike
+      ? 1.5
+      : superEarth
+      ? 1
+      : terrestrial
+      ? 0.5
+      : 1;
+  };
+  console.log(typeScale());
+
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -83,8 +81,7 @@ export default function AddPost() {
       body: JSON.stringify(post),
     });
 
-    console.log(response);
-    // // get the data
+    // get the data
     let data = await response.json();
 
     if (data.success) {
@@ -107,6 +104,11 @@ export default function AddPost() {
       </Head>
       <div>
         <Canvas
+          dpr={[1, 2]}
+          camera={{ fov: 50, position: [0, 0, 10] }}
+          style={{ height: "50vh" }}
+        >
+          {/* <Canvas
           camera={{
             fov: 35,
             near: 1,
@@ -116,11 +118,22 @@ export default function AddPost() {
           }}
           setPixelRatio={2160}
           style={{ height: "50vh" }}
-        >
+        > */}
           {/* TODO figure out lighting */}
           {/* <ambientLight intensity={1} /> */}
           {/* <pointLight position={[0, 0, 0]} /> */}
-          <Sphere ref={targetRef} position={[0, 0, 0]} scale={1}>
+          <Text
+            fontSize={0.5}
+            outlineWidth={"5%"}
+            outlineColor="#000000"
+            outlineOpacity={1}
+            position={[0, 3, 0]}
+            onChange={(e) => set({ title: e.target.value })}
+          >
+            {title}
+          </Text>
+          <Stars />
+          <Sphere ref={targetRef} position={[0, 0, 0]} scale={typeScale()}>
             <LayerMaterial>
               <Base
                 color={baseColor}
