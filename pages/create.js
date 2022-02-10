@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRef, useState } from "react";
-import { Canvas, useLoader, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text, Stars } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Text, Stars, Cloud } from "@react-three/drei";
 import { Leva, useControls } from "leva";
 import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
 import { Sphere } from "@react-three/drei";
@@ -96,7 +96,6 @@ export default function AddPost() {
       return setError(data.message);
     }
   };
-
   return (
     <>
       <Head>
@@ -105,6 +104,7 @@ export default function AddPost() {
       <div>
         <Canvas
           dpr={[1, 2]}
+          gl={{ antialias: false }}
           camera={{ fov: 50, position: [0, 0, 10] }}
           style={{ height: "50vh" }}
         >
@@ -133,6 +133,7 @@ export default function AddPost() {
             {title}
           </Text>
           <Stars />
+          {/* <Cloud position={[-4, -2, 0]} args={[3, 2]} /> */}
           <Sphere ref={targetRef} position={[0, 0, 0]} scale={typeScale()}>
             <LayerMaterial>
               <Base
@@ -166,7 +167,7 @@ export default function AddPost() {
                 intensity={1}
                 bias={0.1}
               />
-              {/* <Texture args={colorMap} /> */}
+              {/* <Texture map={"/rocky.jpg"} alpha={1} /> */}
             </LayerMaterial>
           </Sphere>
           <OrbitControls enableZoom={false} enablePan={false} />

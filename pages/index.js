@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { TrackballControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
@@ -18,30 +18,22 @@ export default function Home({ posts }) {
           <div className="mx-auto">
             <Canvas
               dpr={[1, 2]}
-              camera={{ fov: 50, position: [0, 0, 25] }}
+              gl={{ antialias: true, alpha: false }}
+              camera={{ fov: 50, position: [0, 0, 50] }}
               style={{ height: "100vh" }}
             >
-              <Stars />
-              {/* <Canvas
-              camera={{
-                fov: 35,
-                near: 1,
-                far: 1000,
-                position: [50, 50, 50],
-                zoom: 3,
-              }}
-              setPixelRatio={2160}
-              style={{ height: "100vh" }}
-            > */}
-              {/* TODO figure out lighting */}
-              <ambientLight intensity={1} />
-              <pointLight position={[100, 100, 100]} />
-              {/* <Sun /> */}
-              {posts.map((post, i) => (
-                <Planet post={post} key={i} />
-              ))}
-              {/* <OrbitControls enableZoom={false} /> */}
-              <TrackballControls />
+              <Suspense fallback={null}>
+                <Stars />
+                {/* TODO figure out lighting */}
+                <ambientLight intensity={1} />
+                <pointLight position={[100, 100, 100]} />
+                {/* <Sun /> */}
+                {posts.map((post, i) => (
+                  <Planet post={post} key={i} />
+                ))}
+                {/* <OrbitControls enableZoom={false} /> */}
+                <TrackballControls />
+              </Suspense>
             </Canvas>
           </div>
         )}

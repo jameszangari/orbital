@@ -99,7 +99,9 @@ export default function Planet({ post }) {
       </mesh> */}
       <Sphere
         ref={ref}
-        position={[getRandomInt(10), getRandomInt(10), getRandomInt(10)]}
+        // TODO each time pacge is loaded this position is randomized... position needs to be stored as a value
+        position={[getRandomInt(15), 0, getRandomInt(15)]}
+        // position={[getRandomInt(10), getRandomInt(10), getRandomInt(10)]}
         scale={post.scale}
       >
         <LayerMaterial>
