@@ -21,7 +21,11 @@ export default function AddPost() {
   };
   const targetRef = useRef();
   // TODO rotate planet slowly during creation
-  // useFrame((state, delta) => (targetRef.current.rotation.y += 0.025));
+  // useFrame(({ clock }) => {
+  //   targetRef.current.rotation.x = clock.getElapsedTime();
+  //   // targetRef.current.rotation.y += 0.025;
+  // });
+
   const [
     { title, type, baseColor, layerColorA, layerColorB, fresnelColor },
     set,
@@ -86,8 +90,6 @@ export default function AddPost() {
 
     if (data.success) {
       // reset the fields
-      //   setTitle("");
-      //   setContent("");
       set({ title: "" });
       // set the message
       return setMessage(data.message);
@@ -101,101 +103,88 @@ export default function AddPost() {
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <div>
-        <Canvas
-          dpr={[1, 2]}
-          gl={{ antialias: false }}
-          camera={{ fov: 50, position: [0, 0, 10] }}
-          style={{ height: "50vh" }}
+      <Canvas
+        dpr={[1, 2]}
+        gl={{ antialias: false }}
+        camera={{ fov: 50, position: [0, 0, 10] }}
+        style={{ height: "50vh" }}
+      >
+        {/* TODO figure out lighting */}
+        {/* <ambientLight intensity={1} /> */}
+        {/* <pointLight position={[0, 0, 0]} /> */}
+        {/* TODO add planet atmosphere */}
+        {/* <Cloud position={[0, 0, 0]} args={[3, 2]} /> */}
+        <Text
+          fontSize={0.5}
+          outlineWidth={"5%"}
+          outlineColor="#000000"
+          outlineOpacity={1}
+          position={[0, 3, 0]}
+          onChange={(e) => set({ title: e.target.value })}
         >
-          {/* <Canvas
-          camera={{
-            fov: 35,
-            near: 1,
-            far: 1000,
-            position: [10, 10, 10],
-            zoom: 3,
-          }}
-          setPixelRatio={2160}
-          style={{ height: "50vh" }}
-        > */}
-          {/* TODO figure out lighting */}
-          {/* <ambientLight intensity={1} /> */}
-          {/* <pointLight position={[0, 0, 0]} /> */}
-          <Text
-            fontSize={0.5}
-            outlineWidth={"5%"}
-            outlineColor="#000000"
-            outlineOpacity={1}
-            position={[0, 3, 0]}
-            onChange={(e) => set({ title: e.target.value })}
-          >
-            {title}
-          </Text>
-          <Stars />
-          {/* <Cloud position={[-4, -2, 0]} args={[3, 2]} /> */}
-          <Sphere ref={targetRef} position={[0, 0, 0]} scale={typeScale()}>
-            <LayerMaterial>
-              <Base
-                color={baseColor}
-                value={baseColor}
-                onChange={(e) => set({ baseColor: e.target.value })}
-                alpha={1}
-                mode="normal"
-              />
-              <Depth
-                colorA={layerColorA}
-                colorB={layerColorB}
-                onChange={(e) =>
-                  set({
-                    layerColorA: e.target.value,
-                    layerColorB: e.target.value,
-                  })
-                }
-                alpha={1}
-                mode="multiply"
-                near={0}
-                far={2}
-                origin={[1, 1, 1]}
-              />
-              <Fresnel
-                color={fresnelColor}
-                onChange={(e) => set({ fresnelColor: e.target.value })}
-                alpha={1}
-                mode="softlight"
-                power={1}
-                intensity={1}
-                bias={0.1}
-              />
-              {/* <Texture map={"/rocky.jpg"} alpha={1} /> */}
-            </LayerMaterial>
-          </Sphere>
-          <OrbitControls enableZoom={false} enablePan={false} />
-        </Canvas>
-        <div className="max-w-3xl m-auto">
-          <Leva
-            collapsed={false}
-            hideCopyButton={true}
-            fill={true}
-            titleBar={{ drag: false, title: "Planet Options", filter: false }}
-          />
-          {error ? (
-            <div className="block w-full my-3 mx-auto">
-              <h3 className="text-red-500">{error}</h3>
-            </div>
-          ) : null}
-          {message ? (
-            <div className="block w-full my-3 mx-auto">
-              <h3 className="text-green-500">{message}</h3>
-            </div>
-          ) : null}
-          <div className="mt-4">
-            <Button click={handleSubmit} label={"Submit Planet"} />
+          {title}
+        </Text>
+        <Stars />
+        <Sphere ref={targetRef} position={[0, 0, 0]} scale={typeScale()}>
+          <LayerMaterial>
+            <Base
+              color={baseColor}
+              value={baseColor}
+              onChange={(e) => set({ baseColor: e.target.value })}
+              alpha={1}
+              mode="normal"
+            />
+            <Depth
+              colorA={layerColorA}
+              colorB={layerColorB}
+              onChange={(e) =>
+                set({
+                  layerColorA: e.target.value,
+                  layerColorB: e.target.value,
+                })
+              }
+              alpha={1}
+              mode="multiply"
+              near={0}
+              far={2}
+              origin={[1, 1, 1]}
+            />
+            <Fresnel
+              color={fresnelColor}
+              onChange={(e) => set({ fresnelColor: e.target.value })}
+              alpha={1}
+              mode="softlight"
+              power={1}
+              intensity={1}
+              bias={0.1}
+            />
+            {/* TODO add texture */}
+            {/* <Texture map={"/rocky.jpg"} alpha={1} /> */}
+          </LayerMaterial>
+        </Sphere>
+        <OrbitControls enableZoom={false} enablePan={false} />
+      </Canvas>
+      <div className="max-w-3xl m-auto">
+        <Leva
+          collapsed={false}
+          hideCopyButton={true}
+          fill={true}
+          titleBar={{ drag: false, title: "Planet Options", filter: false }}
+        />
+        {error ? (
+          <div className="block w-full my-3 mx-auto">
+            <h3 className="text-red-500">{error}</h3>
           </div>
+        ) : null}
+        {message ? (
+          <div className="block w-full my-3 mx-auto">
+            <h3 className="text-green-500">{message}</h3>
+          </div>
+        ) : null}
+        <div className="mt-4">
+          <Button click={handleSubmit} label={"Submit Planet"} />
         </div>
       </div>
-      {/* <Form addContact={addContact} /> */}
-      {/* </div> */}
     </>
   );
 }

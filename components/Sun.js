@@ -26,7 +26,7 @@ export default function Planet() {
         // position={[`${post.position}`, 0, 0]}
         // scale={clicked ? 1.5 : 1}
         // rotation={[20, 10, 0]}
-        scale={2}
+        scale={4}
         // scale={gasGiant ? 1.5 : 0.5}
         // onClick={(event) => click(!clicked)}
         // onPointerOver={(event) => hover(true)}

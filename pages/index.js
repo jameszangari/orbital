@@ -1,11 +1,12 @@
 import Head from "next/head";
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
+import { Stats } from "@react-three/drei";
 import { TrackballControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
+import Sun from "../components/Sun";
 
 export default function Home({ posts }) {
-  // console.log(posts);
   return (
     <>
       <Head>
@@ -22,12 +23,13 @@ export default function Home({ posts }) {
               camera={{ fov: 50, position: [0, 0, 50] }}
               style={{ height: "100vh" }}
             >
+              <Stats />
               <Suspense fallback={null}>
                 <Stars />
                 {/* TODO figure out lighting */}
                 <ambientLight intensity={1} />
                 <pointLight position={[100, 100, 100]} />
-                {/* <Sun /> */}
+                <Sun />
                 {posts.map((post, i) => (
                   <Planet post={post} key={i} />
                 ))}
