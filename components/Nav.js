@@ -5,7 +5,7 @@ export default function Nav() {
     <nav className="w-full bg-levaElevation1 rounded-b-lg p-2 m-auto">
       <ul className="flex justify-evenly items-center w-full list-none">
         <li className="block">
-          <Link label="Create" url="/create" />
+          <Link label="Create" url="/" />
         </li>
         <li className="block m-auto items-center">
           <h1 className="text-xl uppercase">Orbital</h1>
