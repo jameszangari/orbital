@@ -1,127 +1,270 @@
 import Head from "next/head";
-import useSWR from "swr";
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Stats } from "@react-three/drei";
-import { TrackballControls, Stars } from "@react-three/drei";
-import Planet from "../components/Planet";
-import Sun from "../components/Sun";
+import { Suspense, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Text, Stars, Cloud } from "@react-three/drei";
+import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
+import { Sphere, useTexture } from "@react-three/drei";
+import Button from "../components/Button";
+// import Particles from "../components/Particles";
 
-// // TODO figure out dev/prod api url
-// let dev = process.env.NODE_ENV !== "production";
-// let DEV_URL = process.env.DEV_URL;
-// let PROD_URL = process.env.PROD_URL;
-// const API_URL = `${dev ? DEV_URL : PROD_URL}/api/posts`;
-const API_URL = "/api/posts";
+export default function Create() {
+  const [formStatus, setFormStatus] = useState(false);
+  const [captchaStatus, setCaptchaStatus] = useState(false);
 
-async function fetcher(url) {
-  const res = await fetch(url);
-  const json = await res.json();
-  return {
-    posts: json["message"],
+  // Set default values for all inputs
+  const [pType, setType] = useState("Gas Giant");
+  const [pSize, setSize] = useState(1);
+  const [pCore, setCore] = useState("#FFFFFF");
+  const [pAtmos, setAtmos] = useState("#FFFFFF");
+  // Log inputs
+  console.log(pType);
+  console.log(pSize);
+  console.log(pCore);
+  console.log(pAtmos);
+
+  // const baseColor = "#FFFFFF";
+  // const layerColorA = "#D33CE7";
+  // const layerColorB = "#FFFFFF";
+  // const noiseColorA = "#D33CE7";
+  // const noiseColorB = "#FFFFFF";
+  // const fresnelColor = "#496EEF";
+
+  // set type to variable
+  const gasGiant = pType === "Gas Giant";
+  const neptuneLike = pType === "Neptune-like";
+  const superEarth = pType === "Super Earth";
+  const terrestrial = pType === "Terrestrial";
+
+  const Planet = () => {
+    const targetRef = useRef();
+    const texture = useTexture([
+      "/metallic.jpg",
+      "/rocky.jpg",
+      "/water.jpg",
+      "/terrestrial.jpg",
+    ]);
+    const chooseTexture = () => {
+      if (gasGiant) {
+        return texture[0];
+      }
+      if (neptuneLike) {
+        return texture[1];
+      }
+      if (superEarth) {
+        return texture[2];
+      }
+      if (terrestrial) {
+        return texture[3];
+      }
+    };
+    return (
+      <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
+        <LayerMaterial>
+          <Base color={pCore} value={pCore} alpha={1} mode="normal" />
+          {/* <Particles /> */}
+          <Noise
+            colorA="#000000"
+            colorB={pAtmos}
+            onChange={(e) => setAtmos(e.target.value)}
+            alpha={1}
+            mode="lighten"
+          />
+          {/* <Depth
+            colorA={layerColorA}
+            colorB={layerColorB}
+            onChange={(e) =>
+              set({
+                layerColorA: e.target.value,
+                layerColorB: e.target.value,
+              })
+            }
+            alpha={1}
+            mode="multiply"
+            near={0}
+            // far={2}
+            origin={[1, 1, 1]}
+          />
+          <Fresnel
+            color={fresnelColor}
+            onChange={(e) => set({ fresnelColor: e.target.value })}
+            alpha={1}
+            mode="softlight"
+            power={1}
+            intensity={1}
+            bias={0.1}
+          />
+          <Noise
+            colorA={noiseColorA}
+            colorB={noiseColorB}
+            onChange={(e) =>
+              set({
+                noiseColorA: e.target.value,
+                noiseColorB: e.target.value,
+              })
+            }
+            alpha={1}
+            mode="lighten"
+          /> */}
+          <Texture map={chooseTexture()} alpha={0.85} />
+        </LayerMaterial>
+      </Sphere>
+    );
   };
-}
-function Home() {
-  // Allows for hot reload of planets
-  const { data, error } = useSWR(API_URL, fetcher);
-  const posts = data?.posts;
+  // set variables for error and message
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-  if (!error) {
-    console.log("No Error:");
-    console.log(!error);
-  }
-  if (error) {
-    console.log("Error:");
-    console.log(error);
-  }
-  if (!data) {
-    console.log("No Data:");
-    console.log(!data);
-  }
-  if (data) {
-    console.log("Data:");
-    console.log(data);
-  }
+  // submit planet data to mongodb
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const radius = () => {
-    for (let index = 0; index < posts.length; index++) {
-      return index + 1.5;
-    }
-  };
-  const speed = () => {
-    const random = (a, b) => a + Math.random() * b;
-    for (let index = 0; index < posts.length; index++) {
-      return random(0.1, 0.6);
-    }
-  };
-  const offset = () => {
-    const random = (a, b) => a + Math.random() * b;
-    for (let index = 0; index < posts.length; index++) {
-      return random(0, Math.PI * 2);
+    // catch variables and set database options
+    let post = {
+      pType,
+      pSize,
+      pCore,
+      pAtmos,
+      createdAt: new Date().toISOString(),
+    };
+
+    // reset error and message
+    setError("");
+    setMessage("");
+
+    // save the post
+    let response = await fetch("/api/posts", {
+      method: "POST",
+      body: JSON.stringify(post),
+    });
+
+    // get the data
+    let data = await response.json();
+
+    if (data.success) {
+      // reset the fields back to default values
+      setType("Gas Giant");
+      setSize(1);
+      setCore("#FFFFFF");
+      setAtmos("#FFFFFF");
+      // set the message
+      return setMessage(data.message);
+    } else {
+      // set the error
+      return setError(data.message);
     }
   };
   return (
     <>
       <Head>
-        <title>Orbital | Observe</title>
+        <title>Orbital | Create</title>
       </Head>
-      <div>
-        {posts.length === 0 ? (
-          <h2 className="mx-auto px-2 pt-4 font-primary">
-            No planets added yet
-          </h2>
-        ) : (
-          <div className="mx-auto">
-            <Canvas
-              dpr={[1, 2]}
-              gl={{ antialias: true, alpha: false }}
-              camera={{ fov: 50, position: [50, 0, 0] }}
-              style={{ height: "100vh" }}
-            >
-              <Stats />
-              <Suspense fallback={null}>
-                <Stars />
-                <ambientLight intensity={1} />
-                {/* <pointLight position={[0, 0, 0]} shadow intensity={1} /> */}
-                <Sun />
-                {posts.map((post, i) => (
-                  <Planet
-                    post={post}
-                    key={i}
-                    xRadius={radius() * 24}
-                    zRadius={radius() * 16}
-                    speed={speed()}
-                    offset={offset()}
-                  />
-                ))}
-                {/* <OrbitControls enableZoom={false} /> */}
-                <TrackballControls />
-              </Suspense>
-            </Canvas>
+      <div className="flex flex-row">
+        <Canvas
+          dpr={[1, 2]}
+          gl={{ antialias: false }}
+          camera={{ fov: 50, position: [0, 0, 20] }}
+          style={{ height: "100vh" }}
+        >
+          <Suspense fallback={null}>
+            <ambientLight intensity={1} />
+            <pointLight position={[100, 100, 100]} />
+            {/* TODO figure out planet name tags */}
+            {/* <Text
+            fontSize={0.5}
+            outlineWidth={"5%"}
+            outlineColor="#000000"
+            outlineOpacity={1}
+            position={[0, 3, 0]}
+            onChange={(e) => set({ title: e.target.value })}
+          >
+            {title}
+          </Text> */}
+            <Stars />
+            <Planet />
+            <OrbitControls enableZoom={false} enablePan={false} />
+          </Suspense>
+        </Canvas>
+        {/* TODO convert form elements to collapsible accordion */}
+        <div className="m-auto absolute right-0">
+          <form action="">
+            <div>
+              <h1>Planet Type</h1>
+              <div className="flex gap-3">
+                <a
+                  value="Gas Giant"
+                  className="cursor-pointer bg-white text-black p-2"
+                  onClick={(e) => setType(e.target.text)}
+                >
+                  Gas Giant
+                </a>
+                <a
+                  value="Neptune-like"
+                  className="cursor-pointer bg-white text-black p-2"
+                  onClick={(e) => setType(e.target.text)}
+                >
+                  Neptune-like
+                </a>
+                <a
+                  value="Super Earth"
+                  className="cursor-pointer bg-white text-black p-2"
+                  onClick={(e) => setType(e.target.text)}
+                >
+                  Super Earth
+                </a>
+                <a
+                  value="Terrestrial"
+                  className="cursor-pointer bg-white text-black p-2"
+                  onClick={(e) => setType(e.target.text)}
+                >
+                  Terrestrial
+                </a>
+              </div>
+            </div>
+            <div>
+              <h1>Size</h1>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                defaultValue="1"
+                onChange={(e) => setSize(e.target.value)}
+                id=""
+              ></input>
+            </div>
+            <div>
+              <h1>Core</h1>
+              <input
+                onChange={(e) => setCore(e.target.value)}
+                type="color"
+                name=""
+                id="core"
+              />
+            </div>
+            <div>
+              <h1>Atmosphere</h1>
+              <input
+                onChange={(e) => setAtmos(e.target.value)}
+                type="color"
+                name=""
+                id="atmos"
+              />
+            </div>
+          </form>
+          {error ? (
+            <div className="block w-full my-3 mx-auto">
+              <h3 className="text-red-500">{error}</h3>
+            </div>
+          ) : null}
+          {message ? (
+            <div className="block w-full my-3 mx-auto">
+              <h3 className="text-green-500">{message}</h3>
+            </div>
+          ) : null}
+          <div className="mt-4">
+            <Button click={handleSubmit} label={"Submit Planet"} />
           </div>
-        )}
+        </div>
       </div>
     </>
   );
 }
-
-// export async function getStaticProps(ctx) {
-//   // get the current environment
-//   let dev = process.env.NODE_ENV !== "production";
-//   let { DEV_URL, PROD_URL } = process.env;
-
-//   // request posts from api
-//   // TODO figure out way to refresh this request every 'x' seconds
-//   const res = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
-//   // extract the data
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       posts: data["message"],
-//     },
-//     revalidate: 10, // In seconds
-//   };
-// }
-
-export default Home;

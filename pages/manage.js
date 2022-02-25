@@ -1,9 +1,63 @@
-import { useState } from "react";
+import Head from "next/head";
+import useSWR from "swr";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
 
-export default function Manage({ posts }) {
+// // TODO figure out dev/prod api url
+// let dev = process.env.NODE_ENV !== "production";
+// let DEV_URL = process.env.DEV_URL;
+// let PROD_URL = process.env.PROD_URL;
+// const API_URL = `${dev ? DEV_URL : PROD_URL}/api/posts`;
+const API_URL = "/api/posts";
+
+async function fetcher(url) {
+  const res = await fetch(url);
+  const json = await res.json();
+  return {
+    posts: json["message"],
+  };
+}
+function Manage() {
+  // Allows for hot reload of planets
+  const { data, error } = useSWR(API_URL, fetcher);
+  const posts = data?.posts;
   console.log(posts);
+  if (!error) {
+    console.log("No Error:");
+    console.log(!error);
+  }
+  if (error) {
+    console.log("Error:");
+    console.log(error);
+  }
+  if (!data) {
+    console.log("No Data:");
+    console.log(!data);
+  }
+  if (data) {
+    console.log("Data:");
+    console.log(data);
+  }
+
+  let renderObjects;
+  if (posts) {
+    renderObjects = posts.map((post, i) => (
+      <div key={i} className="py-4 max-w-3xl m-auto">
+        <p>ID: {post._id}</p>
+        <p>Created: {post.createdAt}</p>
+        <p>Type: {post.pType}</p>
+        <p>Size: {post.pSize}</p>
+        <p>Core: {post.pCore}</p>
+        <Button
+          label={deleting ? "Deleting" : "Delete"}
+          type={"button"}
+          click={() => deletePost(post["_id"])}
+        />
+      </div>
+    ));
+  }
+
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
 
@@ -31,43 +85,16 @@ export default function Manage({ posts }) {
   };
   return (
     <>
+      <Head>
+        <title>Orbital | Manage</title>
+      </Head>
       {/* TODO password protect this page */}
       <h1 className="text-center pt-8 pb-4 text-3xl max-w-3xl m-auto">
         Admin Panel
       </h1>
-      {posts.map((post, i) => (
-        <div key={i} className="py-4 max-w-3xl m-auto">
-          <p>ID: {post._id}</p>
-          <p>Created: {post.createdAt}</p>
-          <p>Type: {post.pType}</p>
-          <p>Size: {post.pSize}</p>
-          <p>Core: {post.pCore}</p>
-          <Button
-            label={deleting ? "Deleting" : "Delete"}
-            type={"button"}
-            click={() => deletePost(post["_id"])}
-          />
-        </div>
-      ))}
+      {renderObjects}
     </>
   );
 }
 
-export async function getStaticProps(ctx) {
-  // get the current environment
-  let dev = process.env.NODE_ENV !== "production";
-  let { DEV_URL, PROD_URL } = process.env;
-
-  // request posts from api
-  // TODO figure out way to refresh this request every 'x' seconds
-  const res = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
-  // extract the data
-  const data = await res.json();
-
-  return {
-    props: {
-      posts: data["message"],
-    },
-    revalidate: 10, // In seconds
-  };
-}
+export default Manage;

@@ -11,7 +11,7 @@ export default function Nav() {
           <h1 className="text-xl uppercase">Orbital</h1>
         </li>
         <li className="block">
-          <Link label="Observe" url="/" />
+          <Link label="Observe" url="/observe" />
         </li>
       </ul>
     </nav>
