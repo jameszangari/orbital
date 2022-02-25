@@ -1,20 +1,104 @@
-// import * as THREE from "three";
+import * as THREE from "three";
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useRouter } from "next/router";
-import { LayerMaterial, Base, Depth, Fresnel } from "lamina";
-import { Sphere } from "@react-three/drei";
+import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
+import { Sphere, useTexture } from "@react-three/drei";
 
-export default function Planet({ post }) {
+export default function Planet({ post, xRadius, zRadius, speed, offset }) {
   console.log(post);
   // This reference gives us direct access to the THREE.Mesh object
   const ref = useRef();
+  const rotationSpeed = 0.005;
 
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-  // useFrame((state, delta) => (ref.current.rotation.x += 0.025));
-  useFrame((state, delta) => (ref.current.rotation.y += 0.025));
-  // useFrame((state, delta) => (ref.current.rotation.z += 0.025));
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime() * speed + offset;
+    const x = xRadius * Math.sin(t);
+    const z = zRadius * Math.cos(t);
+    ref.current.position.x = x;
+    ref.current.position.z = z;
+    ref.current.rotation.y += rotationSpeed;
+  });
 
+  function Ecliptic({ xRadius = 1, zRadius = 1 }) {
+    const points = [];
+    for (let index = 0; index < 64; index++) {
+      const angle = (index / 64) * 2 * Math.PI;
+      const x = xRadius * Math.cos(angle);
+      const z = zRadius * Math.sin(angle);
+      points.push(new THREE.Vector3(x, 0, z));
+    }
+
+    points.push(points[0]);
+
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+    return (
+      <line geometry={lineGeometry}>
+        <lineBasicMaterial attach="material" color="#393e46" linewidth={10} />
+      </line>
+    );
+  }
+
+  // const Ecliptic = () => {
+  //   const points = [];
+  //   for (let index = 0; index < 64; index++) {
+  //     const angle = (index / 64) * 2 * Math.PI;
+  //     const x = xRadius * Math.cos(angle);
+  //     const z = zRadius * Math.sin(angle);
+  //     points.push(new THREE.Vector3(x, 0, z));
+  //   }
+  //   points.push(points[0]);
+  //   const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+  //   return (
+  //     <line geometry={lineGeometry}>
+  //       <lineBasicMaterial attach="material" color="#BFBBDA" linewidth={10} />
+  //     </line>
+  //   );
+  // };
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime() * speed + offset;
+    const x = xRadius * Math.sin(t);
+    const z = zRadius * Math.cos(t);
+    ref.current.position.x = x;
+    ref.current.position.z = z;
+    ref.current.rotation.y += rotationSpeed;
+  });
+  // set type to variable
+  const gasGiant = post.pType === "Gas Giant";
+  const neptuneLike = post.pType === "Neptune-like";
+  const superEarth = post.pType === "Super Earth";
+  const terrestrial = post.pType === "Terrestrial";
+  const typeScale = () => {
+    return gasGiant
+      ? 2
+      : neptuneLike
+      ? 1.5
+      : superEarth
+      ? 1
+      : terrestrial
+      ? 0.5
+      : 1;
+  };
+  const texture = useTexture([
+    "/metallic.jpg",
+    "/rocky.jpg",
+    "/water.jpg",
+    "/terrestrial.jpg",
+  ]);
+  const chooseTexture = () => {
+    if (gasGiant) {
+      return texture[0];
+    }
+    if (neptuneLike) {
+      return texture[1];
+    }
+    if (superEarth) {
+      return texture[2];
+    }
+    if (terrestrial) {
+      return texture[3];
+    }
+  };
   // Delete post
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
@@ -39,74 +123,22 @@ export default function Planet({ post }) {
       return setDeleting(false);
     }
   };
-  const gasGiant = post.type === "Gas Giant";
-  const neptuneLike = post.type === "Neptune-like";
-  const superEarth = post.type === "Super-Earth";
-  const terrestrial = post.type === "Terrestrial";
-  const typeScale = () => {
-    return gasGiant
-      ? 2
-      : neptuneLike
-      ? 1.5
-      : superEarth
-      ? 1
-      : terrestrial
-      ? 0.5
-      : 1;
-  };
-  const typePosition = () => {
-    return gasGiant
-      ? 10
-      : neptuneLike
-      ? 7
-      : superEarth
-      ? 1
-      : terrestrial
-      ? -3
-      : 1;
-  };
-  const typeColor = () => {
-    return gasGiant
-      ? "#4443A7"
-      : neptuneLike
-      ? "#36c69b"
-      : superEarth
-      ? "#6fb23a"
-      : terrestrial
-      ? "#bdaa66"
-      : "#ffffff";
-  };
+
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
   return (
     <>
-      {/* <mesh
-        ref={ref}
-        position={[`${typePosition()}`, 0, 0]}
-        rotation={[Math.PI / 10, 20, 10]}
-        // position={[`${post.position}`, 0, 0]}
-        // scale={clicked ? 1.5 : 1}
-        // rotation={[20, 10, 0]}
-        scale={typeScale()}
-        // scale={gasGiant ? 1.5 : 0.5}
-        // onClick={(event) => click(!clicked)}
-        // onPointerOver={(event) => hover(true)}
-        // onPointerOut={(event) => hover(false)}
-      >
-        <sphereGeometry args={[1, 50, 30]} />
-        <meshStandardMaterial attach="material" color={typeColor()} />
-      </mesh> */}
       <Sphere
         ref={ref}
-        // TODO each time page is loaded this position is randomized... position needs to be stored as a value
-        position={[getRandomInt(15), 0, getRandomInt(15)]}
+        // position={[getRandomInt(15), 0, getRandomInt(15)]}
         // position={[getRandomInt(10), getRandomInt(10), getRandomInt(10)]}
-        scale={post.scale}
+        // position={[80, getRandomInt(10), 0]}
+        scale={post.pSize}
       >
         <LayerMaterial>
-          <Base color={post.baseColor} alpha={1} mode="normal" />
-          <Depth
+          <Base color={post.pCore} alpha={1} mode="normal" />
+          {/* <Depth
             colorA={post.layerColorA}
             colorB={post.layerColorB}
             alpha={1}
@@ -122,9 +154,12 @@ export default function Planet({ post }) {
             power={1}
             intensity={1}
             bias={0.1}
-          />
+          /> */}
+          <Texture map={chooseTexture()} alpha={0.85} />
         </LayerMaterial>
       </Sphere>
+      {/* <Ecliptic xRadius={getRandomInt(15)} zRadius={getRandomInt(15)} /> */}
+      <Ecliptic xRadius={xRadius} zRadius={zRadius} />
     </>
   );
 }

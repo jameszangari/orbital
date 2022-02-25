@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }) {
         {/* <meta name="twitter:site" content="@" /> */}
       </Head>
       <Nav />
-      <main className="max-w-3xl mx-auto">
+      <main className="">
         <Component {...pageProps} />
       </main>
     </>
