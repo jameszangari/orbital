@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }) {
         {/* <meta name="twitter:site" content="@" /> */}
       </Head>
       <Nav />
-      <main className="">
+      <main className="overflow-x-hidden">
         <Component {...pageProps} />
       </main>
     </>

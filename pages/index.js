@@ -184,7 +184,7 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto">
+        <div className="m-auto w-1/2 p-4">
           <form action="">
             <div className="mb-4">
               <h1 className="mb-2">Planet Type</h1>
@@ -297,10 +297,10 @@ export default function Create() {
                 </li>
               </ul>
             </div>
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <h1>Core</h1>
               <ColorPicker
-                width={500}
+                width={300}
                 height={150}
                 color={pCore}
                 onChange={setCore}
@@ -311,10 +311,10 @@ export default function Create() {
                 dark
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <h1>Atmosphere</h1>
               <ColorPicker
-                width={500}
+                width={300}
                 height={150}
                 color={pAtmos}
                 onChange={setAtmos}
