@@ -43,19 +43,18 @@ function Observe() {
     console.log(data);
   }
 
+  const random = (a, b) => a + Math.random() * b;
   const radius = () => {
     for (let index = 0; index < posts.length; index++) {
       return index + 1.5;
     }
   };
   const speed = () => {
-    const random = (a, b) => a + Math.random() * b;
     for (let index = 0; index < posts.length; index++) {
       return random(0.1, 0.6);
     }
   };
   const offset = () => {
-    const random = (a, b) => a + Math.random() * b;
     for (let index = 0; index < posts.length; index++) {
       return random(0, Math.PI * 2);
     }
@@ -90,10 +89,10 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 50, position: [50, 0, 0] }}
+            camera={{ fov: 50, position: [100, 50, 0] }}
             style={{ height: "100vh" }}
           >
-            <Stats />
+            {/* <Stats /> */}
             <Suspense fallback={null}>
               <Stars />
               <ambientLight intensity={1} />
