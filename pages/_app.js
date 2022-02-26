@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Nav from "../components/Nav";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/dist/client/router";
 import "../styles/globals.css";
+import Loading from "../components/Loading";
 
 const title = "Orbital";
 const url = "https://orbital-webapp.vercel.app/";
@@ -9,6 +12,19 @@ const description = "Drexel UXID Senior Project Team";
 const author = "The Orbital Team";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = (url) => {
+      url !== router.pathname ? setLoading(true) : setLoading(false);
+    };
+    const handleComplete = (url) => setLoading(false);
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+  }, [router]);
   return (
     <>
       <Head>
@@ -67,6 +83,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Nav />
       <main className="overflow-x-hidden">
+        <Loading loading={loading} />
         <Component {...pageProps} />
       </main>
     </>

@@ -6,14 +6,14 @@ import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
 import Image from "next/image";
 import Button from "../components/Button";
+import { CirclePicker } from "react-color";
+// Color Picker
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
+import Accordion from "../components/Accordion";
 // import Particles from "../components/Particles";
 
 export default function Create() {
-  const [formStatus, setFormStatus] = useState(false);
-  const [captchaStatus, setCaptchaStatus] = useState(false);
-
   // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
   const [pSize, setSize] = useState("1");
@@ -186,145 +186,151 @@ export default function Create() {
         {/* TODO convert form elements to collapsible accordion */}
         <div className="m-auto w-1/2 p-4">
           <form action="">
-            <div className="mb-4">
-              <h1 className="mb-2">Planet Type</h1>
-              <div className="flex gap-3 w-full">
-                <a
-                  value="Gas Giant"
-                  className="cursor-pointer bg-white text-black p-2 w-full"
-                  onClick={() => setType("Gas Giant")}
-                >
-                  <span className="flex flex-col justify-center items-center">
+            <Accordion title={"Planet Type"}>
+              <div className="mb-4">
+                <div className="flex gap-3 w-full">
+                  <a
+                    value="Gas Giant"
+                    className="cursor-pointer bg-white text-black p-2 w-full"
+                    onClick={() => setType("Gas Giant")}
+                  >
+                    <span className="flex flex-col justify-center items-center">
+                      <Image
+                        src="/metallic.jpg"
+                        alt="Gas Giant"
+                        layout="fixed"
+                        width={50}
+                        height={50}
+                        className="rounded-full select-none"
+                      />
+                      <span className="mt-2">Gas Giant</span>
+                    </span>
+                  </a>
+                  <a
+                    value="Neptune-like"
+                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
+                    onClick={() => setType("Neptune-like")}
+                  >
                     <Image
-                      src="/metallic.jpg"
-                      alt="Gas Giant"
+                      src="/rocky.jpg"
+                      alt="Neptune-like"
                       layout="fixed"
                       width={50}
                       height={50}
-                      className="rounded-full select-none"
+                      className="rounded-full"
                     />
-                    <span className="mt-2">Gas Giant</span>
-                  </span>
-                </a>
-                <a
-                  value="Neptune-like"
-                  className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                  onClick={() => setType("Neptune-like")}
-                >
-                  <Image
-                    src="/rocky.jpg"
-                    alt="Neptune-like"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                  <span className="mt-2">Neptune-like</span>
-                </a>
-                <a
-                  value="Super Earth"
-                  className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                  onClick={(e) => setType("Super Earth")}
-                >
-                  <Image
-                    src="/water.jpg"
-                    alt="Super Earth"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                  <span className="mt-2">Super Earth</span>
-                </a>
-                <a
-                  value="Terrestrial"
-                  className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                  onClick={(e) => setType("Terrestrial")}
-                >
-                  <Image
-                    src="/terrestrial.jpg"
-                    alt="Terrestrial"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                  <span className="mt-2">Terrestrial</span>
-                </a>
+                    <span className="mt-2">Neptune-like</span>
+                  </a>
+                  <a
+                    value="Super Earth"
+                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
+                    onClick={(e) => setType("Super Earth")}
+                  >
+                    <Image
+                      src="/water.jpg"
+                      alt="Super Earth"
+                      layout="fixed"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <span className="mt-2">Super Earth</span>
+                  </a>
+                  <a
+                    value="Terrestrial"
+                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
+                    onClick={(e) => setType("Terrestrial")}
+                  >
+                    <Image
+                      src="/terrestrial.jpg"
+                      alt="Terrestrial"
+                      layout="fixed"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <span className="mt-2">Terrestrial</span>
+                  </a>
+                </div>
               </div>
-            </div>
-            <div className="mb-4 flex flex-col space-y-2 w-full">
-              <h1 className="mb-2">Size</h1>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                defaultValue="1"
-                onChange={(e) => setSize(e.target.value)}
-                id="size"
-                className="w-full"
-              ></input>
-              <ul className="flex justify-between w-full px-[10px] pb-4">
-                <li className="flex justify-center relative">
-                  <span className="absolute">1</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">2</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">3</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">4</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">5</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">6</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">7</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">8</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">9</span>
-                </li>
-                <li className="flex justify-center relative">
-                  <span className="absolute">10</span>
-                </li>
-              </ul>
-            </div>
-            <div className="mb-4 w-full">
-              <h1>Core</h1>
-              <ColorPicker
-                width={300}
-                height={150}
-                color={pCore}
-                onChange={setCore}
-                useColor="hex"
-                hideHEX
-                hideRGB
-                hideHSV
-                dark
-              />
-            </div>
-            <div className="mb-4 w-full">
-              <h1>Atmosphere</h1>
-              <ColorPicker
-                width={300}
-                height={150}
-                color={pAtmos}
-                onChange={setAtmos}
-                useColor="hex"
-                hideHEX
-                hideRGB
-                hideHSV
-                dark
-              />
-            </div>
+            </Accordion>
+            <Accordion title={"Size"}>
+              <div className="mb-4 flex flex-col space-y-2 w-full">
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  defaultValue="1"
+                  onChange={(e) => setSize(e.target.value)}
+                  id="size"
+                  className="w-full"
+                ></input>
+                <ul className="flex justify-between w-full px-[10px] pb-4">
+                  <li className="flex justify-center relative">
+                    <span className="absolute">1</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">2</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">3</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">4</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">5</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">6</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">7</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">8</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">9</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">10</span>
+                  </li>
+                </ul>
+              </div>
+            </Accordion>
+            <Accordion title={"Core"}>
+              <div className="mb-4 w-full">
+                <CirclePicker color={pCore} onChange={setCore} />
+                {/* <ColorPicker
+                  width={300}
+                  height={150}
+                  color={pCore}
+                  onChange={setCore}
+                  useColor="hex"
+                  hideHEX
+                  hideRGB
+                  hideHSV
+                  dark
+                /> */}
+              </div>
+            </Accordion>
+            <Accordion title={"Atmosphere"}>
+              <div className="mb-4 w-full">
+                <CirclePicker color={pAtmos} onChange={setAtmos} />
+                {/* <ColorPicker
+                  width={300}
+                  height={150}
+                  color={pAtmos}
+                  onChange={setAtmos}
+                  useColor="hex"
+                  hideHEX
+                  hideRGB
+                  hideHSV
+                  dark
+                /> */}
+              </div>
+            </Accordion>
           </form>
           {error ? (
             <div className="block w-full my-3 mx-auto">
