@@ -19,6 +19,10 @@ module.exports = {
         levaHighlight1: "#535760",
         levaHighlight2: "#8c92a4",
         levaHighlight3: "#fefefe",
+        oBlue: "#496EEF",
+        oPurple: "#5B2CCB",
+        oPink: "#D33CE7",
+        oPinkLight: "#E894FB",
       },
       fontFamily: {
         primary: '"Krona One"',

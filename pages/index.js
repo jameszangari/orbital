@@ -11,7 +11,11 @@ import { CirclePicker } from "react-color";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 import Accordion from "../components/Accordion";
-// import Particles from "../components/Particles";
+import Particles from "../components/Particles";
+import GasGiant from "../public/metallic.jpg";
+import NeptuneLike from "../public/rocky.jpg";
+import SuperEarth from "../public/water.jpg";
+import Terrestrial from "../public/terrestrial.jpg";
 
 export default function Create() {
   // Set default values for all inputs
@@ -19,12 +23,13 @@ export default function Create() {
   const [pSize, setSize] = useState("1");
   const [pCore, setCore] = useColor("hex", "#ff000e");
   const [pAtmos, setAtmos] = useColor("hex", "#0700ff");
+  const pCoreColor = pCore.hex;
+  const pAtmosColor = pAtmos.hex;
   // Log inputs
   console.log("type: " + pType);
-  console.log(pType);
   console.log("size: " + pSize);
-  console.log("core: " + pCore.hex);
-  console.log("atmos: " + pAtmos.hex);
+  console.log("core: " + pCoreColor);
+  console.log("atmos: " + pAtmosColor);
 
   // set type to variable
   const gasGiant = pType === "Gas Giant";
@@ -120,9 +125,8 @@ export default function Create() {
     let post = {
       pType,
       pSize,
-      pCore,
-      pAtmos,
-      pColor,
+      pCoreColor,
+      pAtmosColor,
       createdAt: new Date().toISOString(),
     };
 
@@ -184,78 +188,79 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto w-1/2 p-4">
-          <form action="">
-            <Accordion title={"Planet Type"}>
-              <div className="mb-4">
-                <div className="flex gap-3 w-full">
-                  <a
-                    value="Gas Giant"
-                    className="cursor-pointer bg-white text-black p-2 w-full"
-                    onClick={() => setType("Gas Giant")}
-                  >
-                    <span className="flex flex-col justify-center items-center">
-                      <Image
-                        src="/metallic.jpg"
-                        alt="Gas Giant"
-                        layout="fixed"
-                        width={50}
-                        height={50}
-                        className="rounded-full select-none"
-                      />
-                      <span className="mt-2">Gas Giant</span>
-                    </span>
-                  </a>
-                  <a
-                    value="Neptune-like"
-                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                    onClick={() => setType("Neptune-like")}
-                  >
+        <div className="m-auto w-1/2 p-4 h-screen">
+          <form action="" className="flex flex-col justify-between h-full">
+            <Accordion
+              title={"Planet Type"}
+              className={"p-4 border-2 border-oBlue"}
+            >
+              <div className="flex gap-3 w-full">
+                <a
+                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
+                  onClick={() => setType("Gas Giant")}
+                >
+                  <span className="flex flex-col justify-center items-center">
                     <Image
-                      src="/rocky.jpg"
-                      alt="Neptune-like"
+                      src={GasGiant}
+                      alt="Gas Giant"
                       layout="fixed"
                       width={50}
                       height={50}
-                      className="rounded-full"
+                      placeholder="blur"
+                      className="rounded-full pointer-events-none"
                     />
-                    <span className="mt-2">Neptune-like</span>
-                  </a>
-                  <a
-                    value="Super Earth"
-                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                    onClick={(e) => setType("Super Earth")}
-                  >
-                    <Image
-                      src="/water.jpg"
-                      alt="Super Earth"
-                      layout="fixed"
-                      width={50}
-                      height={50}
-                      className="rounded-full"
-                    />
-                    <span className="mt-2">Super Earth</span>
-                  </a>
-                  <a
-                    value="Terrestrial"
-                    className="cursor-pointer bg-white text-black p-2 flex flex-col justify-center items-center w-full"
-                    onClick={(e) => setType("Terrestrial")}
-                  >
-                    <Image
-                      src="/terrestrial.jpg"
-                      alt="Terrestrial"
-                      layout="fixed"
-                      width={50}
-                      height={50}
-                      className="rounded-full"
-                    />
-                    <span className="mt-2">Terrestrial</span>
-                  </a>
-                </div>
+                    <span className="mt-2 pointer-events-none">Gas Giant</span>
+                  </span>
+                </a>
+                <a
+                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
+                  onClick={() => setType("Neptune-like")}
+                >
+                  <Image
+                    src={NeptuneLike}
+                    alt="Neptune-like"
+                    layout="fixed"
+                    width={50}
+                    height={50}
+                    placeholder="blur"
+                    className="rounded-full pointer-events-none"
+                  />
+                  <span className="mt-2 pointer-events-none">Neptune-like</span>
+                </a>
+                <a
+                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
+                  onClick={(e) => setType("Super Earth")}
+                >
+                  <Image
+                    src={SuperEarth}
+                    alt="Super Earth"
+                    layout="fixed"
+                    width={50}
+                    height={50}
+                    placeholder="blur"
+                    className="rounded-full pointer-events-none"
+                  />
+                  <span className="mt-2 pointer-events-none">Super Earth</span>
+                </a>
+                <a
+                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
+                  onClick={(e) => setType("Terrestrial")}
+                >
+                  <Image
+                    src={Terrestrial}
+                    alt="Terrestrial"
+                    layout="fixed"
+                    width={50}
+                    height={50}
+                    placeholder="blur"
+                    className="rounded-full pointer-events-none"
+                  />
+                  <span className="mt-2 pointer-events-none">Terrestrial</span>
+                </a>
               </div>
             </Accordion>
-            <Accordion title={"Size"}>
-              <div className="mb-4 flex flex-col space-y-2 w-full">
+            <Accordion title={"Size"} className={"p-4 border-2 border-oBlue"}>
+              <div className="flex flex-col space-y-2 w-full">
                 <input
                   type="range"
                   min="1"
@@ -263,9 +268,10 @@ export default function Create() {
                   defaultValue="1"
                   onChange={(e) => setSize(e.target.value)}
                   id="size"
-                  className="w-full"
+                  // className="w-full"
+                  className="form-range appearance-none w-full h-1 p-0 bg-oBlue focus:outline-none focus:ring-0 focus:shadow-none"
                 ></input>
-                <ul className="flex justify-between w-full px-[10px] pb-4">
+                <ul className="flex justify-between w-full px-[10px] py-4 font-bold">
                   <li className="flex justify-center relative">
                     <span className="absolute">1</span>
                   </li>
@@ -299,8 +305,8 @@ export default function Create() {
                 </ul>
               </div>
             </Accordion>
-            <Accordion title={"Core"}>
-              <div className="mb-4 w-full">
+            <Accordion title={"Core"} className={"p-4 border-2 border-oBlue"}>
+              <div className="w-full">
                 <CirclePicker color={pCore} onChange={setCore} />
                 {/* <ColorPicker
                   width={300}
@@ -315,8 +321,11 @@ export default function Create() {
                 /> */}
               </div>
             </Accordion>
-            <Accordion title={"Atmosphere"}>
-              <div className="mb-4 w-full">
+            <Accordion
+              title={"Atmosphere"}
+              className={"p-4 border-2 border-oBlue"}
+            >
+              <div className="w-full">
                 <CirclePicker color={pAtmos} onChange={setAtmos} />
                 {/* <ColorPicker
                   width={300}
@@ -331,6 +340,15 @@ export default function Create() {
                 /> */}
               </div>
             </Accordion>
+            <div className="mt-4">
+              <button
+                onClick={handleSubmit}
+                className="text-lg bg-oBlue bg-opacity-50 border-oBlue border-2 text-levaHighlight3 py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-50 hover:border-oPurple w-full"
+              >
+                Submit Planet
+              </button>
+              {/* <Button click={handleSubmit} label={"Submit Planet"} /> */}
+            </div>
           </form>
           {error ? (
             <div className="block w-full my-3 mx-auto">
@@ -342,9 +360,6 @@ export default function Create() {
               <h3 className="text-green-500">{message}</h3>
             </div>
           ) : null}
-          <div className="mt-4">
-            <Button click={handleSubmit} label={"Submit Planet"} />
-          </div>
         </div>
       </div>
     </>

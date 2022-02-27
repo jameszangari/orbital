@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Nav from "../components/Nav";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import "../styles/globals.css";
 import Loading from "../components/Loading";
 
