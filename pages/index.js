@@ -166,7 +166,7 @@ export default function Create() {
           dpr={[1, 2]}
           gl={{ antialias: false }}
           camera={{ fov: 50, position: [0, 0, 20] }}
-          style={{ height: "100vh", width: "50vw" }}
+          style={{ height: "100vh", width: "50vw", position: "fixed" }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={1} />
@@ -188,7 +188,7 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto w-1/2 p-4 h-screen">
+        <div className="m-auto fixed right-0 w-1/2 p-4 h-screen overflow-scroll">
           <form action="" className="flex flex-col justify-between h-full">
             <Accordion
               title={"Planet Type"}
