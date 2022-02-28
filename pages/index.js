@@ -188,7 +188,7 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto fixed right-0 w-1/2 p-4 h-screen overflow-scroll">
+        <div className="m-auto fixed right-0 w-1/2 p-4 h-screen overflow-y-scroll">
           <form action="" className="flex flex-col justify-between h-full">
             <Accordion
               title={"Planet Type"}
