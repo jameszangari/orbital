@@ -46,9 +46,13 @@ function Manage() {
       <div key={i} className="py-4 max-w-3xl m-auto">
         <p>ID: {post._id}</p>
         <p>Created: {post.createdAt}</p>
-        <p>Type: {post.pType}</p>
-        <p>Size: {post.pSize}</p>
-        <p>Core: {post.pCore}</p>
+        <p>type: {post.pType}</p>
+        <p>size: {post.pSize}</p>
+        {/* <p>core: {post.pCoreColor.hex}</p> */}
+        {/* <p>atmos: {post.pAtmosColor.hex}</p> */}
+        <p>core texture: {post.pCoreTexture}</p>
+        <p>cloud texture: {post.pCloudTexture}</p>
+        <p>cloud alpha: {post.pCloudAlpha}</p>
         <Button
           label={deleting ? "Deleting" : "Delete"}
           type={"button"}
@@ -89,7 +93,7 @@ function Manage() {
         <title>Orbital | Manage</title>
       </Head>
       {/* TODO password protect this page */}
-      <h1 className="text-center pt-8 pb-4 text-3xl max-w-3xl m-auto">
+      <h1 className="text-center pt-24 pb-8 text-3xl max-w-3xl m-auto">
         Admin Panel
       </h1>
       {renderObjects}

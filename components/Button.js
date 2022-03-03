@@ -1,7 +1,10 @@
-export default function Button({ label, type, click }) {
+export default function Button({ label, type, className, click }) {
   return (
     <button
-      className="text-lg bg-levaElevation1 text-levaHighlight2 py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-levaElevation2 hover:text-white w-full"
+      className={
+        "text-lg bg-oBlue bg-opacity-50 border-oBlue border-2 text-levaHighlight3 py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-50 hover:border-oPurple w-full " +
+        className
+      }
       type={type}
       onClick={click}
     >

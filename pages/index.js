@@ -4,32 +4,25 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Stars, Cloud } from "@react-three/drei";
 import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
-import Image from "next/image";
 import Button from "../components/Button";
-import { CirclePicker } from "react-color";
+import FormButton from "../components/Form/FormButton";
 // Color Picker
-import { ColorPicker, useColor } from "react-color-palette";
-import "react-color-palette/lib/css/styles.css";
+import { CirclePicker } from "react-color";
+// Components
 import Accordion from "../components/Accordion";
 import Particles from "../components/Particles";
-import GasGiant from "../public/metallic.jpg";
-import NeptuneLike from "../public/rocky.jpg";
-import SuperEarth from "../public/water.jpg";
-import Terrestrial from "../public/terrestrial.jpg";
 
 export default function Create() {
   // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
   const [pSize, setSize] = useState("1");
-  const [pCore, setCore] = useColor("hex", "#ff000e");
-  const [pAtmos, setAtmos] = useColor("hex", "#0700ff");
-  const pCoreColor = pCore.hex;
-  const pAtmosColor = pAtmos.hex;
+  const [pCoreColor, setCoreColor] = useState("#f44336");
+  const [pAtmosColor, setAtmosColor] = useState("#2196f3");
   // Log inputs
   console.log("type: " + pType);
   console.log("size: " + pSize);
-  console.log("core: " + pCoreColor);
-  console.log("atmos: " + pAtmosColor);
+  console.log("core: " + pCoreColor.hex);
+  console.log("atmos: " + pAtmosColor.hex);
 
   // set type to variable
   const gasGiant = pType === "Gas Giant";
@@ -37,39 +30,66 @@ export default function Create() {
   const superEarth = pType === "Super Earth";
   const terrestrial = pType === "Terrestrial";
 
+  const gasTextures = [
+    "/img/gaseous/Gaseous1.png",
+    "/img/gaseous/Gaseous2.png",
+    "/img/gaseous/Gaseous3.png",
+    "/img/gaseous/Gaseous4.png",
+  ];
+  const neptuneTextures = [
+    "/img/inhabitable/Icy.png",
+    "/img/inhabitable/Martian.png",
+    "/img/inhabitable/Venusian.png",
+    "/img/inhabitable/Volcanic.png",
+  ];
+  const superTextures = [
+    "/img/habitable/Alpine.png",
+    "/img/habitable/Savannah.png",
+    "/img/habitable/Swamp.png",
+    "/img/habitable/Tropical.png",
+  ];
+  const terrestrialTextures = [
+    "/img/terrestrial/Terrestrial1.png",
+    "/img/terrestrial/Terrestrial2.png",
+    "/img/terrestrial/Terrestrial3.png",
+    "/img/terrestrial/Terrestrial4.png",
+  ];
+  const cloudTextures = [
+    "/img/clouds/Clouds1.png",
+    "/img/clouds/Clouds2.png",
+    "/img/clouds/Clouds3.png",
+    "/img/clouds/Clouds4.png",
+  ];
+  const setTextures = () => {
+    return gasGiant
+      ? "/img/gas-giant/Gaseous1.png"
+      : neptuneLike
+      ? "/img/habitable/Tropical.png"
+      : superEarth
+      ? "/img/habitable/Savannah.png"
+      : terrestrial
+      ? "/img/terrestrial/Terrestrial1.png"
+      : "";
+  };
+  // console.log(setTextures());
+  const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
+  const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
+  const [pCloudAlpha, setCloudAlpha] = useState(1);
+  console.log("core texture: " + pCoreTexture);
+  console.log("cloud texture: " + pCloudTexture);
+  console.log("cloud alpha: " + pCloudAlpha);
+
   const Planet = () => {
     const targetRef = useRef();
-    const texture = useTexture([
-      "/metallic.jpg",
-      "/rocky.jpg",
-      "/water.jpg",
-      "/terrestrial.jpg",
-    ]);
-    const chooseTexture = () => {
-      if (gasGiant) {
-        return texture[0];
-      }
-      if (neptuneLike) {
-        return texture[1];
-      }
-      if (superEarth) {
-        return texture[2];
-      }
-      if (terrestrial) {
-        return texture[3];
-      }
-    };
     return (
       <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
-        <meshStandardMaterial color={"orange"} />
+        {/* <meshStandardMaterial color={"orange"} /> */}
         <LayerMaterial>
-          <Base color={pCore.hex} value={pCore.hex} alpha={1} mode="normal" />
-          <Noise
-            colorA="#000000"
-            colorB={pAtmos.hex}
-            onChange={(e) => setAtmos(e.target.value)}
+          <Base
+            color={pCoreColor.hex}
+            value={pCoreColor.hex}
             alpha={1}
-            mode="lighten"
+            mode="normal"
           />
           {/* <Particles /> */}
           {/* <Depth
@@ -108,7 +128,19 @@ export default function Create() {
             alpha={1}
             mode="lighten"
           /> */}
-          <Texture map={chooseTexture()} alpha={0.65} />
+          <Texture map={useTexture(pCoreTexture)} alpha={0.65} />
+          <Texture
+            map={useTexture(pCloudTexture)}
+            alpha={pCloudAlpha}
+            attachObject={Noise}
+          />
+          <Noise
+            colorA={pAtmosColor.hex}
+            colorB="#000000"
+            onChange={(e) => setAtmosColor(e.target.value)}
+            alpha={0.5}
+            mode="darken"
+          />
         </LayerMaterial>
       </Sphere>
     );
@@ -127,6 +159,9 @@ export default function Create() {
       pSize,
       pCoreColor,
       pAtmosColor,
+      pCoreTexture,
+      pCloudTexture,
+      pCloudAlpha,
       createdAt: new Date().toISOString(),
     };
 
@@ -147,8 +182,11 @@ export default function Create() {
       // reset the fields back to default values
       setType("Gas Giant");
       setSize(1);
-      setCore("#FFFFFF");
-      setAtmos("#FFFFFF");
+      setCoreColor("#f44336");
+      setAtmosColor("#2196f3");
+      setCoreTexture(gasTextures[0]);
+      setCloudTexture(cloudTextures[0]);
+      setCloudAlpha(1);
       // set the message
       return setMessage(data.message);
     } else {
@@ -188,79 +226,53 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto fixed right-0 w-1/2 p-4 h-screen overflow-y-scroll">
-          <form action="" className="flex flex-col justify-between h-full">
+        <div className="m-auto fixed right-0 w-1/2 p-2 h-screen overflow-y-scroll">
+          <form
+            action=""
+            className="flex flex-col justify-between h-full min-h-screen"
+          >
             <Accordion
               title={"Planet Type"}
               className={"p-4 border-2 border-oBlue"}
+              collapsed={false}
             >
-              <div className="flex gap-3 w-full">
-                <a
-                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
-                  onClick={() => setType("Gas Giant")}
-                >
-                  <span className="flex flex-col justify-center items-center">
-                    <Image
-                      src={GasGiant}
-                      alt="Gas Giant"
-                      layout="fixed"
-                      width={50}
-                      height={50}
-                      placeholder="blur"
-                      className="rounded-full pointer-events-none"
-                    />
-                    <span className="mt-2 pointer-events-none">Gas Giant</span>
-                  </span>
-                </a>
-                <a
-                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
-                  onClick={() => setType("Neptune-like")}
-                >
-                  <Image
-                    src={NeptuneLike}
-                    alt="Neptune-like"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    placeholder="blur"
-                    className="rounded-full pointer-events-none"
-                  />
-                  <span className="mt-2 pointer-events-none">Neptune-like</span>
-                </a>
-                <a
-                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
-                  onClick={(e) => setType("Super Earth")}
-                >
-                  <Image
-                    src={SuperEarth}
-                    alt="Super Earth"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    placeholder="blur"
-                    className="rounded-full pointer-events-none"
-                  />
-                  <span className="mt-2 pointer-events-none">Super Earth</span>
-                </a>
-                <a
-                  className="cursor-pointer bg-oBlue bg-opacity-50 border-oBlue text-levaHighlight3 border-2 p-2 flex flex-col justify-center items-center w-full active:bg-oPurple focus:bg-oPurple hover:bg-oPurple active:border-oPurple focus:border-oPurple hover:border-oPurple active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 "
-                  onClick={(e) => setType("Terrestrial")}
-                >
-                  <Image
-                    src={Terrestrial}
-                    alt="Terrestrial"
-                    layout="fixed"
-                    width={50}
-                    height={50}
-                    placeholder="blur"
-                    className="rounded-full pointer-events-none"
-                  />
-                  <span className="mt-2 pointer-events-none">Terrestrial</span>
-                </a>
+              <div className="mt-4 flex gap-2 w-full">
+                <FormButton
+                  imgSrc={gasTextures[0]}
+                  label={"Gas Giant"}
+                  click={() => setType("Gas Giant")}
+                />
+                <FormButton
+                  imgSrc={neptuneTextures[0]}
+                  label={"Neptune-like"}
+                  click={() => setType("Neptune-like")}
+                />
+                <FormButton
+                  imgSrc={superTextures[0]}
+                  label={"Super Earth"}
+                  click={() => setType("Super Earth")}
+                />
+                <FormButton
+                  imgSrc={terrestrialTextures[0]}
+                  label={"Terrestrial"}
+                  click={() => setType("Terrestrial")}
+                />
               </div>
+              <Button
+                label={"Next"}
+                click={(e) => {
+                  e.preventDefault;
+                  completed.push[0];
+                }}
+                className="mt-4"
+              />
             </Accordion>
-            <Accordion title={"Size"} className={"p-4 border-2 border-oBlue"}>
-              <div className="flex flex-col space-y-2 w-full">
+            <Accordion
+              title={"Size"}
+              className={"p-4 border-2 border-oBlue"}
+              collapsed={false}
+            >
+              <div className="mt-4 flex flex-col space-y-2 w-full">
                 <input
                   type="range"
                   min="1"
@@ -305,49 +317,168 @@ export default function Create() {
                 </ul>
               </div>
             </Accordion>
-            <Accordion title={"Core"} className={"p-4 border-2 border-oBlue"}>
-              <div className="w-full">
-                <CirclePicker color={pCore} onChange={setCore} />
-                {/* <ColorPicker
-                  width={300}
-                  height={150}
-                  color={pCore}
-                  onChange={setCore}
-                  useColor="hex"
-                  hideHEX
-                  hideRGB
-                  hideHSV
-                  dark
-                /> */}
+            <Accordion
+              title={"Core"}
+              className={"p-4 border-2 border-oBlue"}
+              collapsed={false}
+            >
+              <div className="mt-4 w-full">
+                <div className="mb-4 flex gap-2 w-full">
+                  {gasGiant && (
+                    <>
+                      <FormButton
+                        imgSrc={gasTextures[0]}
+                        label={"Type 1"}
+                        click={() => setCoreTexture(gasTextures[0])}
+                      />
+                      <FormButton
+                        imgSrc={gasTextures[1]}
+                        label={"Type 2"}
+                        click={() => setCoreTexture(gasTextures[1])}
+                      />
+                      <FormButton
+                        imgSrc={gasTextures[2]}
+                        label={"Type 3"}
+                        click={() => setCoreTexture(gasTextures[2])}
+                      />
+                      <FormButton
+                        imgSrc={gasTextures[3]}
+                        label={"Type 4"}
+                        click={() => setCoreTexture(gasTextures[3])}
+                      />
+                    </>
+                  )}
+                  {neptuneLike && (
+                    <>
+                      <FormButton
+                        imgSrc={neptuneTextures[0]}
+                        label={"Type 1"}
+                        click={() => setCoreTexture(neptuneTextures[0])}
+                      />
+                      <FormButton
+                        imgSrc={neptuneTextures[1]}
+                        label={"Type 2"}
+                        click={() => setCoreTexture(neptuneTextures[1])}
+                      />
+                      <FormButton
+                        imgSrc={neptuneTextures[2]}
+                        label={"Type 3"}
+                        click={() => setCoreTexture(neptuneTextures[2])}
+                      />
+                      <FormButton
+                        imgSrc={neptuneTextures[3]}
+                        label={"Type 4"}
+                        click={() => setCoreTexture(neptuneTextures[3])}
+                      />
+                    </>
+                  )}
+                  {superEarth && (
+                    <>
+                      <FormButton
+                        imgSrc={superTextures[0]}
+                        label={"Type 1"}
+                        click={() => setCoreTexture(superTextures[0])}
+                      />
+                      <FormButton
+                        imgSrc={superTextures[1]}
+                        label={"Type 2"}
+                        click={() => setCoreTexture(superTextures[1])}
+                      />
+                      <FormButton
+                        imgSrc={superTextures[2]}
+                        label={"Type 3"}
+                        click={() => setCoreTexture(superTextures[2])}
+                      />
+                      <FormButton
+                        imgSrc={superTextures[3]}
+                        label={"Type 4"}
+                        click={() => setCoreTexture(superTextures[3])}
+                      />
+                    </>
+                  )}
+                  {terrestrial && (
+                    <>
+                      <FormButton
+                        imgSrc={terrestrialTextures[0]}
+                        label={"Type 1"}
+                        click={() => setCoreTexture(terrestrialTextures[0])}
+                      />
+                      <FormButton
+                        imgSrc={terrestrialTextures[1]}
+                        label={"Type 2"}
+                        click={() => setCoreTexture(terrestrialTextures[1])}
+                      />
+                      <FormButton
+                        imgSrc={terrestrialTextures[2]}
+                        label={"Type 3"}
+                        click={() => setCoreTexture(terrestrialTextures[2])}
+                      />
+                      <FormButton
+                        imgSrc={terrestrialTextures[3]}
+                        label={"Type 4"}
+                        click={() => setCoreTexture(terrestrialTextures[3])}
+                      />
+                    </>
+                  )}
+                </div>
+                <CirclePicker color={pCoreColor} onChange={setCoreColor} />
+                {/* <HuePicker color={pCore} onChange={setCore} />
+                <AlphaPicker color={pCoreAlpha} onChange={setCoreAlpha} /> */}
               </div>
             </Accordion>
             <Accordion
               title={"Atmosphere"}
               className={"p-4 border-2 border-oBlue"}
+              collapsed={false}
             >
-              <div className="w-full">
-                <CirclePicker color={pAtmos} onChange={setAtmos} />
-                {/* <ColorPicker
-                  width={300}
-                  height={150}
-                  color={pAtmos}
-                  onChange={setAtmos}
-                  useColor="hex"
-                  hideHEX
-                  hideRGB
-                  hideHSV
-                  dark
-                /> */}
+              <div className="mt-4 w-full">
+                <div className="mb-4 flex gap-2 w-full">
+                  <FormButton
+                    imgSrc={cloudTextures[0]}
+                    label={"Type 1"}
+                    click={() => setCloudTexture(cloudTextures[0])}
+                  />
+                  <FormButton
+                    imgSrc={cloudTextures[1]}
+                    label={"Type 2"}
+                    click={() => setCloudTexture(cloudTextures[1])}
+                  />
+                  <FormButton
+                    imgSrc={cloudTextures[2]}
+                    label={"Type 3"}
+                    click={() => setCloudTexture(cloudTextures[2])}
+                  />
+                  <FormButton
+                    imgSrc={cloudTextures[3]}
+                    label={"Type 4"}
+                    click={() => setCloudTexture(cloudTextures[3])}
+                  />
+                </div>
+                <CirclePicker
+                  color={pAtmosColor.hex}
+                  onChange={setAtmosColor}
+                />
+                <h1 className="mt-4">Opacity</h1>
+                <div className="mt-4">
+                  <input
+                    type="range"
+                    min="0"
+                    max="10"
+                    defaultValue="1"
+                    onChange={(e) => setCloudAlpha(e.target.value)}
+                    id="size"
+                    // className="w-full"
+                    className="form-range appearance-none w-full h-1 p-0 bg-oBlue focus:outline-none focus:ring-0 focus:shadow-none"
+                  ></input>
+                </div>
               </div>
             </Accordion>
             <div className="mt-4">
-              <button
-                onClick={handleSubmit}
-                className="text-lg bg-oBlue bg-opacity-50 border-oBlue border-2 text-levaHighlight3 py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-50 hover:border-oPurple w-full"
-              >
-                Submit Planet
-              </button>
-              {/* <Button click={handleSubmit} label={"Submit Planet"} /> */}
+              <Button
+                label={"Create Planet"}
+                type={"submit"}
+                click={handleSubmit}
+              />
             </div>
           </form>
           {error ? (

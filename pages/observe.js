@@ -44,36 +44,37 @@ function Observe() {
   }
 
   const random = (a, b) => a + Math.random() * b;
-  const radius = () => {
-    for (let index = 0; index < posts.length; index++) {
-      return index + 1.5;
+  const radius = (length) => {
+    for (let index = 0; index < length; index++) {
+      return index + 1.5 * 24;
     }
   };
-  const speed = () => {
-    for (let index = 0; index < posts.length; index++) {
+  const speed = (length) => {
+    for (let index = 0; index < length; index++) {
       return random(0.1, 0.6);
     }
   };
-  const offset = () => {
-    for (let index = 0; index < posts.length; index++) {
+  const offset = (length) => {
+    for (let index = 0; index < length; index++) {
       return random(0, Math.PI * 2);
     }
   };
 
   let renderPlanets;
   if (posts) {
+    let length = posts.length;
     renderPlanets = posts.map((post, i) => (
       <Planet
         post={post}
         key={i}
-        xRadius={radius() * 24}
-        zRadius={radius() * 16}
-        speed={speed()}
-        offset={offset()}
+        xRadius={radius(length)}
+        zRadius={radius(length)}
+        speed={speed(length)}
+        offset={offset(length)}
       />
     ));
   }
-  // console.log(renderPlanets);
+  console.log(renderPlanets);
   return (
     <>
       <Head>

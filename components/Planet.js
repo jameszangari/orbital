@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useRouter } from "next/router";
-import { LayerMaterial, Base, Depth, Fresnel, Texture } from "lamina";
+import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
 
 export default function Planet({ post, xRadius, zRadius, speed, offset }) {
@@ -20,7 +20,7 @@ export default function Planet({ post, xRadius, zRadius, speed, offset }) {
     ref.current.rotation.y += rotationSpeed;
   });
 
-  function Ecliptic({ xRadius = 1, zRadius = 1 }) {
+  function Ecliptic() {
     const points = [];
     for (let index = 0; index < 64; index++) {
       const angle = (index / 64) * 2 * Math.PI;
@@ -28,9 +28,7 @@ export default function Planet({ post, xRadius, zRadius, speed, offset }) {
       const z = zRadius * Math.sin(angle);
       points.push(new THREE.Vector3(x, 0, z));
     }
-
     points.push(points[0]);
-
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
     return (
       <line geometry={lineGeometry}>
@@ -38,31 +36,6 @@ export default function Planet({ post, xRadius, zRadius, speed, offset }) {
       </line>
     );
   }
-
-  // const Ecliptic = () => {
-  //   const points = [];
-  //   for (let index = 0; index < 64; index++) {
-  //     const angle = (index / 64) * 2 * Math.PI;
-  //     const x = xRadius * Math.cos(angle);
-  //     const z = zRadius * Math.sin(angle);
-  //     points.push(new THREE.Vector3(x, 0, z));
-  //   }
-  //   points.push(points[0]);
-  //   const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-  //   return (
-  //     <line geometry={lineGeometry}>
-  //       <lineBasicMaterial attach="material" color="#BFBBDA" linewidth={10} />
-  //     </line>
-  //   );
-  // };
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime() * speed + offset;
-    const x = xRadius * Math.sin(t);
-    const z = zRadius * Math.cos(t);
-    ref.current.position.x = x;
-    ref.current.position.z = z;
-    ref.current.rotation.y += rotationSpeed;
-  });
   // set type to variable
   const gasGiant = post.pType === "Gas Giant";
   const neptuneLike = post.pType === "Neptune-like";
@@ -156,6 +129,19 @@ export default function Planet({ post, xRadius, zRadius, speed, offset }) {
             bias={0.1}
           /> */}
           <Texture map={chooseTexture()} alpha={0.85} />
+
+          <Texture map={useTexture(post.pCoreTexture)} alpha={0.65} />
+          <Texture
+            map={useTexture(post.pCloudTexture)}
+            alpha={post.pCloudAlpha}
+            attachObject={Noise}
+          />
+          <Noise
+            colorA={post.pAtmosColor.hex}
+            colorB="#000000"
+            alpha={0.5}
+            mode="darken"
+          />
         </LayerMaterial>
       </Sphere>
       {/* <Ecliptic xRadius={getRandomInt(15)} zRadius={getRandomInt(15)} /> */}

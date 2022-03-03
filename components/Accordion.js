@@ -8,12 +8,12 @@ const Accordion = ({ collapsed, children, title, className }) => {
         className={"block w-full cursor-pointer"}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        <h1 className="mb-8 uppercase tracking-wider">
+        <h1 className="uppercase tracking-wider">
           {isCollapsed ? "-" : "+"} {title}
         </h1>
       </a>
       <div
-        className={`${isCollapsed ? "hidden" : "block mb-4"}`}
+        className={`${isCollapsed ? "hidden" : "block"}`}
         aria-expanded={isCollapsed}
       >
         {children}
