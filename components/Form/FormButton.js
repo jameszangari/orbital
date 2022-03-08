@@ -14,6 +14,7 @@ export default function Create({ imgSrc, label, click }) {
           width={50}
           height={50}
           // placeholder="blur"
+          priority={true}
           className="rounded-full pointer-events-none"
         />
         <span className="mt-2 pointer-events-none">{label}</span>

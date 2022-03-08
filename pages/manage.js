@@ -1,67 +1,9 @@
 import Head from "next/head";
-import useSWR from "swr";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
 
-// // TODO figure out dev/prod api url
-// let dev = process.env.NODE_ENV !== "production";
-// let DEV_URL = process.env.DEV_URL;
-// let PROD_URL = process.env.PROD_URL;
-// const API_URL = `${dev ? DEV_URL : PROD_URL}/api/posts`;
-const API_URL = "/api/posts";
-
-async function fetcher(url) {
-  const res = await fetch(url);
-  const json = await res.json();
-  return {
-    posts: json["message"],
-  };
-}
-function Manage() {
-  // Allows for hot reload of planets
-  const { data, error } = useSWR(API_URL, fetcher);
-  const posts = data?.posts;
-  console.log(posts);
-  if (!error) {
-    console.log("No Error:");
-    console.log(!error);
-  }
-  if (error) {
-    console.log("Error:");
-    console.log(error);
-  }
-  if (!data) {
-    console.log("No Data:");
-    console.log(!data);
-  }
-  if (data) {
-    console.log("Data:");
-    console.log(data);
-  }
-
-  let renderObjects;
-  if (posts) {
-    renderObjects = posts.map((post, i) => (
-      <div key={i} className="py-4 max-w-3xl m-auto">
-        <p>ID: {post._id}</p>
-        <p>Created: {post.createdAt}</p>
-        <p>type: {post.pType}</p>
-        <p>size: {post.pSize}</p>
-        {/* <p>core: {post.pCoreColor.hex}</p> */}
-        {/* <p>atmos: {post.pAtmosColor.hex}</p> */}
-        <p>core texture: {post.pCoreTexture}</p>
-        <p>cloud texture: {post.pCloudTexture}</p>
-        <p>cloud alpha: {post.pCloudAlpha}</p>
-        <Button
-          label={deleting ? "Deleting" : "Delete"}
-          type={"button"}
-          click={() => deletePost(post["_id"])}
-        />
-      </div>
-    ));
-  }
-
+export default function Manage({ posts }) {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
 
@@ -96,9 +38,83 @@ function Manage() {
       <h1 className="text-center pt-24 pb-8 text-3xl max-w-3xl m-auto">
         Admin Panel
       </h1>
-      {renderObjects}
+      {posts
+        ? posts.map((planet, i) => {
+            {
+              console.log(planet);
+            }
+            return (
+              <div key={i} className="py-4 max-w-3xl m-auto">
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">ID: </span>
+                  <span className="w-1/2 text-right">{planet._id}</span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">Created: </span>
+                  <span className="w-1/2 text-right">{planet.createdAt}</span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">type: </span>
+                  <span className="w-1/2 text-right">{planet.pType}</span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">size: </span>
+                  <span className="w-1/2 text-right">{planet.pSize}</span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">core: </span>
+                  <span className="w-1/2 text-right">
+                    {planet.pCoreColor.hex}
+                  </span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">atmos: </span>
+                  <span className="w-1/2 text-right">
+                    {planet.pAtmosColor.hex}
+                  </span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">core texture: </span>
+                  <span className="w-1/2 text-right">
+                    {planet.pCoreTexture}
+                  </span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">cloud texture: </span>
+                  <span className="w-1/2 text-right">
+                    {planet.pCloudTexture}
+                  </span>
+                </p>
+                <p className="flex flex-row w-full">
+                  <span className="w-1/2">cloud alpha: </span>
+                  <span className="w-1/2 text-right">{planet.pCloudAlpha}</span>
+                </p>
+                <Button
+                  label={deleting ? "Deleting" : "Delete"}
+                  type={"button"}
+                  className={"mt-4"}
+                  click={() => deletePost(planet["_id"])}
+                />
+              </div>
+            );
+          })
+        : null}
     </>
   );
 }
+export async function getServerSideProps(ctx) {
+  // get the current environment
+  let dev = process.env.NODE_ENV !== "production";
+  let { DEV_URL, PROD_URL } = process.env;
 
-export default Manage;
+  // request posts from api
+  let response = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
+  // extract the data
+  let data = await response.json();
+
+  return {
+    props: {
+      posts: data["message"],
+    },
+  };
+}

@@ -13,7 +13,7 @@ export default function Planet() {
   // });
   return (
     <>
-      <mesh ref={ref} position={[0, 0, 0]} scale={10}>
+      <mesh ref={ref} position={[0, 0, 0]} scale={5}>
         <sphereGeometry args={[1, 50, 30]} />
         <meshStandardMaterial color={"orange"} map={texture} />
       </mesh>
