@@ -19,7 +19,9 @@ async function fetcher(url) {
   const json = await res.json();
   let planets = [];
   json.message.forEach((row, i) => {
-    (row.xRadius = (i + 3) * 6), (row.zRadius = (i + 3) * 4), planets.push(row);
+    (row.xRadius = (i + 6) * 12),
+      (row.zRadius = (i + 6) * 8),
+      planets.push(row);
   });
   return {
     posts: planets,
@@ -28,8 +30,13 @@ async function fetcher(url) {
 function Observe() {
   // Allows for hot reload of planets
   const { data, error } = useSWR(API_URL, fetcher);
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+
+  if (error)
+    return (
+      <div className="absolute w-full h-full text-center">failed to load</div>
+    );
+  if (!data)
+    return <div className="absolute w-full h-full text-center">loading...</div>;
 
   const posts = data?.posts;
 

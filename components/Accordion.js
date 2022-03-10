@@ -13,10 +13,39 @@ const Accordion = ({ collapsed, children, title, className }) => {
         </h1>
       </a>
       <div
-        className={`${isCollapsed ? "hidden" : "block"}`}
-        aria-expanded={isCollapsed}
+        className={isCollapsed ? "hidden" : "block"}
+        aria-expanded={!isCollapsed}
       >
         {children}
+        {/* {step === 1 ? (
+          <Button
+            label={"Next"}
+            click={(e) => {
+              e.preventDefault;
+              nextStep();
+            }}
+            className="mt-4"
+          />
+        ) : (
+          <div className="flex gap-2">
+            <Button
+              label={"Back"}
+              click={(e) => {
+                e.preventDefault;
+                prevStep();
+              }}
+              className="mt-4 w-1/2"
+            />
+            <Button
+              label={"Next"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              className="mt-4 w-1/2"
+            />
+          </div>
+        )} */}
       </div>
     </div>
   );

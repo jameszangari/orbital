@@ -19,8 +19,12 @@ export default function Dashboard() {
   // Allows for hot reload of planets
   const { data, error } = useSWR(API_URL, fetcher);
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (error)
+    return (
+      <div className="absolute w-full h-full text-center">failed to load</div>
+    );
+  if (!data)
+    return <div className="absolute w-full h-full text-center">loading...</div>;
 
   if (error) {
     console.log("Error:");
@@ -151,13 +155,6 @@ export default function Dashboard() {
               <h2>{superEarth} Super Earth</h2>
               <h2>{terrestrial} Terrestrial</h2>
             </div>
-            {/* {AllPlanets.map((planet, i) => {
-              return (
-                <div key={i}>
-                  <p>{gasGiant ? "yo" : "nah"}</p>
-                </div>
-              );
-            })} */}
           </div>
         </>
       )}

@@ -14,7 +14,7 @@ export default function Ecliptic({ xRadius = 1, zRadius = 1 }) {
   const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
   return (
     <line geometry={lineGeometry}>
-      <lineBasicMaterial attach="material" color="#fff" linewidth={10} />
+      <lineBasicMaterial attach="material" color="#535760" linewidth={10} />
     </line>
   );
 }

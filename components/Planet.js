@@ -47,8 +47,8 @@ export default function Planet({ post, xRadius, zRadius }) {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime() * post.pSpeed + post.pOffset;
-    const x = xRadius * Math.sin(t);
-    const z = zRadius * Math.cos(t);
+    const x = xRadius * Math.sin(t * 2);
+    const z = zRadius * Math.cos(t * 2);
     ref.current.position.x = x;
     ref.current.position.z = z;
     ref.current.rotation.y += random(0.008, 0.004);
@@ -62,7 +62,13 @@ export default function Planet({ post, xRadius, zRadius }) {
         scale={post.pSize}
       >
         <LayerMaterial>
-          <Base color={post.pCore} alpha={1} mode="normal" />
+          <Base
+            color={post.pCoreColor.hex}
+            value={post.pCoreColor.hex}
+            alpha={1}
+            mode="normal"
+          />
+          {/* <Base color={post.pCore} alpha={1} mode="normal" /> */}
           {/* <Depth
             colorA={post.layerColorA}
             colorB={post.layerColorB}
@@ -80,7 +86,7 @@ export default function Planet({ post, xRadius, zRadius }) {
             intensity={1}
             bias={0.1}
           /> */}
-          <Texture map={setTextures()} alpha={0.65} />
+          <Texture map={useTexture(post.pCoreTexture)} alpha={0.65} />
           <Texture
             map={useTexture(post.pCloudTexture)}
             alpha={post.pCloudAlpha}

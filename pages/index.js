@@ -16,9 +16,11 @@ export default function Create() {
 
   // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
-  const [pSize, setSize] = useState("1");
+  const [pSize, setSize] = useState("10");
   const [pCoreColor, setCoreColor] = useState("#f44336");
   const [pAtmosColor, setAtmosColor] = useState("#2196f3");
+  //  TODO set these values based on type
+  //  ie. larger planetes = slower; smaller planets = faster;
   const pSpeed = random(0.05, 0.06);
   const pOffset = random(0, Math.PI * 2);
   // Log inputs
@@ -150,6 +152,320 @@ export default function Create() {
       </>
     );
   };
+
+  const RenderSteps = () => {
+    const [step, setStep] = useState(1);
+    const stepOne = step === 1;
+    const stepTwo = step === 2;
+    const nextStep = () => setStep(() => step + 1);
+    const prevStep = () => setStep(() => step - 1);
+    console.log(step);
+    return (
+      <>
+        <Accordion
+          title={"Planet Type"}
+          className={"my-2 p-4 border-2 border-oBlue"}
+          collapsed={stepOne ? false : true}
+        >
+          <div className="mt-4 grid grid-cols-2 gap-2 w-full">
+            <FormButton
+              imgSrc={gasTextures[0]}
+              label={"Gas Giant"}
+              click={() => {
+                setType("Gas Giant");
+                setSize("10");
+                setCoreTexture(gasTextures[0]);
+              }}
+            />
+            <FormButton
+              imgSrc={neptuneTextures[0]}
+              label={"Neptune-like"}
+              click={() => {
+                setType("Neptune-like");
+                setSize("7");
+                setCoreTexture(neptuneTextures[0]);
+              }}
+            />
+            <FormButton
+              imgSrc={superTextures[0]}
+              label={"Super Earth"}
+              click={() => {
+                setType("Super Earth");
+                setSize("4");
+                setCoreTexture(superTextures[0]);
+              }}
+            />
+            <FormButton
+              imgSrc={terrestrialTextures[0]}
+              label={"Terrestrial"}
+              click={() => {
+                setType("Terrestrial");
+                setSize("1");
+                setCoreTexture(terrestrialTextures[0]);
+              }}
+            />
+          </div>
+          {/* <a
+            onClick={(e) => {
+              e.preventDefault;
+              nextStep();
+            }}
+            className="mt-4"
+          >
+            Next
+          </a> */}
+          {/* <Button
+            label={"Next"}
+            click={(e) => {
+              e.preventDefault;
+              nextStep();
+            }}
+            className="mt-4"
+          /> */}
+        </Accordion>
+        <Accordion
+          title={"Size"}
+          className={"my-2 p-4 border-2 border-oBlue"}
+          collapsed={false}
+        >
+          <div className="mt-4 flex flex-col space-y-2 w-full">
+            <input
+              type="range"
+              min={
+                terrestrial
+                  ? "1"
+                  : superEarth
+                  ? "4"
+                  : neptuneLike
+                  ? "7"
+                  : gasGiant
+                  ? "10"
+                  : "1"
+              }
+              max={
+                terrestrial
+                  ? "3"
+                  : superEarth
+                  ? "6"
+                  : neptuneLike
+                  ? "9"
+                  : gasGiant
+                  ? "13"
+                  : "10"
+              }
+              defaultValue={
+                terrestrial
+                  ? "1"
+                  : superEarth
+                  ? "4"
+                  : neptuneLike
+                  ? "7"
+                  : gasGiant
+                  ? "10"
+                  : null
+              }
+              onChange={(e) => setSize(e.target.value)}
+              id="size"
+              className="form-range appearance-none w-full h-1 p-0 bg-oBlue focus:outline-none focus:ring-0 focus:shadow-none"
+            ></input>
+            {/* <ul className="flex justify-between w-full px-[10px] py-4 font-bold">
+                  <li className="flex justify-center relative">
+                    <span className="absolute">1</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">2</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">3</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">4</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">5</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">6</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">7</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">8</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">9</span>
+                  </li>
+                  <li className="flex justify-center relative">
+                    <span className="absolute">10</span>
+                  </li>
+                </ul> */}
+          </div>
+        </Accordion>
+        <Accordion
+          title={"Core"}
+          className={"my-2 p-4 border-2 border-oBlue"}
+          collapsed={false}
+        >
+          <div className="mt-4 w-full">
+            <div className="mb-4 grid grid-cols-2 gap-2 w-full">
+              {gasGiant && (
+                <>
+                  <FormButton
+                    imgSrc={gasTextures[0]}
+                    label={"Type 1"}
+                    click={() => setCoreTexture(gasTextures[0])}
+                  />
+                  <FormButton
+                    imgSrc={gasTextures[1]}
+                    label={"Type 2"}
+                    click={() => setCoreTexture(gasTextures[1])}
+                  />
+                  <FormButton
+                    imgSrc={gasTextures[2]}
+                    label={"Type 3"}
+                    click={() => setCoreTexture(gasTextures[2])}
+                  />
+                  <FormButton
+                    imgSrc={gasTextures[3]}
+                    label={"Type 4"}
+                    click={() => setCoreTexture(gasTextures[3])}
+                  />
+                </>
+              )}
+              {neptuneLike && (
+                <>
+                  <FormButton
+                    imgSrc={neptuneTextures[0]}
+                    label={"Type 1"}
+                    click={() => setCoreTexture(neptuneTextures[0])}
+                  />
+                  <FormButton
+                    imgSrc={neptuneTextures[1]}
+                    label={"Type 2"}
+                    click={() => setCoreTexture(neptuneTextures[1])}
+                  />
+                  <FormButton
+                    imgSrc={neptuneTextures[2]}
+                    label={"Type 3"}
+                    click={() => setCoreTexture(neptuneTextures[2])}
+                  />
+                  <FormButton
+                    imgSrc={neptuneTextures[3]}
+                    label={"Type 4"}
+                    click={() => setCoreTexture(neptuneTextures[3])}
+                  />
+                </>
+              )}
+              {superEarth && (
+                <>
+                  <FormButton
+                    imgSrc={superTextures[0]}
+                    label={"Type 1"}
+                    click={() => setCoreTexture(superTextures[0])}
+                  />
+                  <FormButton
+                    imgSrc={superTextures[1]}
+                    label={"Type 2"}
+                    click={() => setCoreTexture(superTextures[1])}
+                  />
+                  <FormButton
+                    imgSrc={superTextures[2]}
+                    label={"Type 3"}
+                    click={() => setCoreTexture(superTextures[2])}
+                  />
+                  <FormButton
+                    imgSrc={superTextures[3]}
+                    label={"Type 4"}
+                    click={() => setCoreTexture(superTextures[3])}
+                  />
+                </>
+              )}
+              {terrestrial && (
+                <>
+                  <FormButton
+                    imgSrc={terrestrialTextures[0]}
+                    label={"Type 1"}
+                    click={() => setCoreTexture(terrestrialTextures[0])}
+                  />
+                  <FormButton
+                    imgSrc={terrestrialTextures[1]}
+                    label={"Type 2"}
+                    click={() => setCoreTexture(terrestrialTextures[1])}
+                  />
+                  <FormButton
+                    imgSrc={terrestrialTextures[2]}
+                    label={"Type 3"}
+                    click={() => setCoreTexture(terrestrialTextures[2])}
+                  />
+                  <FormButton
+                    imgSrc={terrestrialTextures[3]}
+                    label={"Type 4"}
+                    click={() => setCoreTexture(terrestrialTextures[3])}
+                  />
+                </>
+              )}
+            </div>
+            <CirclePicker
+              width={"100%"}
+              color={pCoreColor}
+              onChange={setCoreColor}
+            />
+          </div>
+        </Accordion>
+        <Accordion
+          title={"Atmosphere"}
+          className={"my-2 p-4 border-2 border-oBlue"}
+          collapsed={false}
+        >
+          <div className="mt-4 w-full">
+            <div className="mb-4 grid grid-cols-2 gap-2 w-full">
+              <FormButton
+                imgSrc={cloudTextures[0]}
+                label={"Type 1"}
+                click={() => setCloudTexture(cloudTextures[0])}
+              />
+              <FormButton
+                imgSrc={cloudTextures[1]}
+                label={"Type 2"}
+                click={() => setCloudTexture(cloudTextures[1])}
+              />
+              <FormButton
+                imgSrc={cloudTextures[2]}
+                label={"Type 3"}
+                click={() => setCloudTexture(cloudTextures[2])}
+              />
+              <FormButton
+                imgSrc={cloudTextures[3]}
+                label={"Type 4"}
+                click={() => setCloudTexture(cloudTextures[3])}
+              />
+            </div>
+            <CirclePicker
+              width={"100%"}
+              color={pAtmosColor.hex}
+              onChange={setAtmosColor}
+            />
+
+            <div className="mt-6 flex flex-row items-center">
+              <input
+                type="checkbox"
+                id="cloudAlpha"
+                name="cloudAlpha"
+                value="Alpha"
+                className="form-check-input appearance-none h-6 w-6 border border-gray-300 rounded-sm bg-white checked:bg-oBlue checked:border-oBlue focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer"
+                onChange={(e) =>
+                  setCloudAlpha(e.target.checked === true ? "0" : "1")
+                }
+              ></input>
+              <label className="ml-2">No Atmosphere</label>
+            </div>
+          </div>
+        </Accordion>
+      </>
+    );
+  };
+
   // set variables for error and message
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -210,7 +526,7 @@ export default function Create() {
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
-          camera={{ fov: 50, position: [0, 0, 20] }}
+          camera={{ fov: 50, position: [0, 0, 50] }}
           style={{ height: "100vh", width: "50vw", position: "fixed" }}
         >
           <Suspense fallback={null}>
@@ -233,276 +549,16 @@ export default function Create() {
           </Suspense>
         </Canvas>
         {/* TODO convert form elements to collapsible accordion */}
-        <div className="m-auto fixed right-0 w-1/2 p-2 h-screen overflow-y-scroll">
-          <form
-            action=""
-            className="flex flex-col justify-between h-full min-h-screen"
-          >
-            <Accordion
-              title={"Planet Type"}
-              className={"my-2 p-4 border-2 border-oBlue"}
-              collapsed={false}
-            >
-              <div className="mt-4 flex gap-2 w-full">
-                <FormButton
-                  imgSrc={gasTextures[0]}
-                  label={"Gas Giant"}
-                  click={() => {
-                    setType("Gas Giant");
-                    setCoreTexture(gasTextures[0]);
-                  }}
-                />
-                <FormButton
-                  imgSrc={neptuneTextures[0]}
-                  label={"Neptune-like"}
-                  click={() => {
-                    setType("Neptune-like");
-                    setCoreTexture(neptuneTextures[0]);
-                  }}
-                />
-                <FormButton
-                  imgSrc={superTextures[0]}
-                  label={"Super Earth"}
-                  click={() => {
-                    setType("Super Earth");
-                    setCoreTexture(superTextures[0]);
-                  }}
-                />
-                <FormButton
-                  imgSrc={terrestrialTextures[0]}
-                  label={"Terrestrial"}
-                  click={() => {
-                    setType("Terrestrial");
-                    setCoreTexture(terrestrialTextures[0]);
-                  }}
-                />
-              </div>
-              <Button
-                label={"Next"}
-                click={(e) => {
-                  e.preventDefault;
-                  completed.push[0];
-                }}
-                className="mt-4"
-              />
-            </Accordion>
-            <Accordion
-              title={"Size"}
-              className={"my-2 p-4 border-2 border-oBlue"}
-              collapsed={false}
-            >
-              <div className="mt-4 flex flex-col space-y-2 w-full">
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  defaultValue="1"
-                  onChange={(e) => setSize(e.target.value)}
-                  id="size"
-                  // className="w-full"
-                  className="form-range appearance-none w-full h-1 p-0 bg-oBlue focus:outline-none focus:ring-0 focus:shadow-none"
-                ></input>
-                <ul className="flex justify-between w-full px-[10px] py-4 font-bold">
-                  <li className="flex justify-center relative">
-                    <span className="absolute">1</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">2</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">3</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">4</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">5</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">6</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">7</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">8</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">9</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">10</span>
-                  </li>
-                </ul>
-              </div>
-            </Accordion>
-            <Accordion
-              title={"Core"}
-              className={"my-2 p-4 border-2 border-oBlue"}
-              collapsed={false}
-            >
-              <div className="mt-4 w-full">
-                <div className="mb-4 flex gap-2 w-full">
-                  {gasGiant && (
-                    <>
-                      <FormButton
-                        imgSrc={gasTextures[0]}
-                        label={"Type 1"}
-                        click={() => setCoreTexture(gasTextures[0])}
-                      />
-                      <FormButton
-                        imgSrc={gasTextures[1]}
-                        label={"Type 2"}
-                        click={() => setCoreTexture(gasTextures[1])}
-                      />
-                      <FormButton
-                        imgSrc={gasTextures[2]}
-                        label={"Type 3"}
-                        click={() => setCoreTexture(gasTextures[2])}
-                      />
-                      <FormButton
-                        imgSrc={gasTextures[3]}
-                        label={"Type 4"}
-                        click={() => setCoreTexture(gasTextures[3])}
-                      />
-                    </>
-                  )}
-                  {neptuneLike && (
-                    <>
-                      <FormButton
-                        imgSrc={neptuneTextures[0]}
-                        label={"Type 1"}
-                        click={() => setCoreTexture(neptuneTextures[0])}
-                      />
-                      <FormButton
-                        imgSrc={neptuneTextures[1]}
-                        label={"Type 2"}
-                        click={() => setCoreTexture(neptuneTextures[1])}
-                      />
-                      <FormButton
-                        imgSrc={neptuneTextures[2]}
-                        label={"Type 3"}
-                        click={() => setCoreTexture(neptuneTextures[2])}
-                      />
-                      <FormButton
-                        imgSrc={neptuneTextures[3]}
-                        label={"Type 4"}
-                        click={() => setCoreTexture(neptuneTextures[3])}
-                      />
-                    </>
-                  )}
-                  {superEarth && (
-                    <>
-                      <FormButton
-                        imgSrc={superTextures[0]}
-                        label={"Type 1"}
-                        click={() => setCoreTexture(superTextures[0])}
-                      />
-                      <FormButton
-                        imgSrc={superTextures[1]}
-                        label={"Type 2"}
-                        click={() => setCoreTexture(superTextures[1])}
-                      />
-                      <FormButton
-                        imgSrc={superTextures[2]}
-                        label={"Type 3"}
-                        click={() => setCoreTexture(superTextures[2])}
-                      />
-                      <FormButton
-                        imgSrc={superTextures[3]}
-                        label={"Type 4"}
-                        click={() => setCoreTexture(superTextures[3])}
-                      />
-                    </>
-                  )}
-                  {terrestrial && (
-                    <>
-                      <FormButton
-                        imgSrc={terrestrialTextures[0]}
-                        label={"Type 1"}
-                        click={() => setCoreTexture(terrestrialTextures[0])}
-                      />
-                      <FormButton
-                        imgSrc={terrestrialTextures[1]}
-                        label={"Type 2"}
-                        click={() => setCoreTexture(terrestrialTextures[1])}
-                      />
-                      <FormButton
-                        imgSrc={terrestrialTextures[2]}
-                        label={"Type 3"}
-                        click={() => setCoreTexture(terrestrialTextures[2])}
-                      />
-                      <FormButton
-                        imgSrc={terrestrialTextures[3]}
-                        label={"Type 4"}
-                        click={() => setCoreTexture(terrestrialTextures[3])}
-                      />
-                    </>
-                  )}
-                </div>
-                <CirclePicker
-                  width={"100%"}
-                  color={pCoreColor}
-                  onChange={setCoreColor}
-                />
-              </div>
-            </Accordion>
-            <Accordion
-              title={"Atmosphere"}
-              className={"my-2 p-4 border-2 border-oBlue"}
-              collapsed={false}
-            >
-              <div className="mt-4 w-full">
-                <div className="mb-4 flex gap-2 w-full">
-                  <FormButton
-                    imgSrc={cloudTextures[0]}
-                    label={"Type 1"}
-                    click={() => setCloudTexture(cloudTextures[0])}
-                  />
-                  <FormButton
-                    imgSrc={cloudTextures[1]}
-                    label={"Type 2"}
-                    click={() => setCloudTexture(cloudTextures[1])}
-                  />
-                  <FormButton
-                    imgSrc={cloudTextures[2]}
-                    label={"Type 3"}
-                    click={() => setCloudTexture(cloudTextures[2])}
-                  />
-                  <FormButton
-                    imgSrc={cloudTextures[3]}
-                    label={"Type 4"}
-                    click={() => setCloudTexture(cloudTextures[3])}
-                  />
-                </div>
-                <CirclePicker
-                  width={"100%"}
-                  color={pAtmosColor.hex}
-                  onChange={setAtmosColor}
-                />
-
-                <div className="mt-6 flex flex-row items-center">
-                  <input
-                    type="checkbox"
-                    id="cloudAlpha"
-                    name="cloudAlpha"
-                    value="Alpha"
-                    className="form-check-input appearance-none h-6 w-6 border border-gray-300 rounded-sm bg-white checked:bg-oBlue checked:border-oBlue focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer"
-                    onChange={(e) =>
-                      setCloudAlpha(e.target.checked === true ? "0" : "1")
-                    }
-                  ></input>
-                  <label className="ml-2">No Atmosphere</label>
-                </div>
-              </div>
-            </Accordion>
-            <div className="my-2">
+        <div className="z-50 fixed right-0 w-2/4 p-2 h-screen overflow-y-scroll">
+          <form action="" className="flex flex-col justify-between h-full">
+            {RenderSteps()}
+            {/* <div className="my-2">
               <Button
                 label={"Create Planet"}
                 type={"submit"}
                 click={handleSubmit}
               />
-            </div>
+            </div> */}
           </form>
           {error ? (
             <div className="block w-full my-3 mx-auto">
