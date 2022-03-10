@@ -462,6 +462,9 @@ export default function Create() {
             </div>
           </div>
         </Accordion>
+        <div className="mt-4">
+          <Button click={handleSubmit} label={"Submit Planet"} />
+        </div>
       </>
     );
   };
