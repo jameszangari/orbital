@@ -19,8 +19,8 @@ async function fetcher(url) {
   const json = await res.json();
   let planets = [];
   json.message.forEach((row, i) => {
-    (row.xRadius = (i + 6) * 12),
-      (row.zRadius = (i + 6) * 8),
+    (row.xRadius = (i + 3) * 12),
+      (row.zRadius = (i + 3) * 8),
       planets.push(row);
   });
   return {

@@ -16,7 +16,7 @@ export default function Create() {
 
   // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
-  const [pSize, setSize] = useState("10");
+  const [pSize, setSize] = useState("2.5");
   const [pCoreColor, setCoreColor] = useState("#f44336");
   const [pAtmosColor, setAtmosColor] = useState("#2196f3");
   //  TODO set these values based on type
@@ -173,7 +173,7 @@ export default function Create() {
               label={"Gas Giant"}
               click={() => {
                 setType("Gas Giant");
-                setSize("10");
+                setSize("2.5");
                 setCoreTexture(gasTextures[0]);
               }}
             />
@@ -182,7 +182,7 @@ export default function Create() {
               label={"Neptune-like"}
               click={() => {
                 setType("Neptune-like");
-                setSize("7");
+                setSize("1.75");
                 setCoreTexture(neptuneTextures[0]);
               }}
             />
@@ -191,7 +191,7 @@ export default function Create() {
               label={"Super Earth"}
               click={() => {
                 setType("Super Earth");
-                setSize("4");
+                setSize("1");
                 setCoreTexture(superTextures[0]);
               }}
             />
@@ -200,7 +200,7 @@ export default function Create() {
               label={"Terrestrial"}
               click={() => {
                 setType("Terrestrial");
-                setSize("1");
+                setSize("0.25");
                 setCoreTexture(terrestrialTextures[0]);
               }}
             />
@@ -233,36 +233,36 @@ export default function Create() {
               type="range"
               min={
                 terrestrial
-                  ? "1"
+                  ? "0.5"
                   : superEarth
-                  ? "4"
+                  ? "2"
                   : neptuneLike
-                  ? "7"
+                  ? "3.5"
                   : gasGiant
-                  ? "10"
-                  : "1"
+                  ? "5"
+                  : "0.5"
               }
               max={
                 terrestrial
-                  ? "3"
+                  ? "1.5"
                   : superEarth
-                  ? "6"
+                  ? "3"
                   : neptuneLike
-                  ? "9"
+                  ? "4.5"
                   : gasGiant
-                  ? "13"
-                  : "10"
+                  ? "6.5"
+                  : "5"
               }
               defaultValue={
                 terrestrial
-                  ? "1"
+                  ? "0.25"
                   : superEarth
-                  ? "4"
+                  ? "1"
                   : neptuneLike
-                  ? "7"
+                  ? "1.75"
                   : gasGiant
-                  ? "10"
-                  : null
+                  ? "2.5"
+                  : "0.25"
               }
               onChange={(e) => setSize(e.target.value)}
               id="size"
@@ -529,7 +529,7 @@ export default function Create() {
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
-          camera={{ fov: 50, position: [0, 0, 50] }}
+          camera={{ fov: 50, position: [0, 0, 10] }}
           style={{ height: "100vh", width: "50vw", position: "fixed" }}
         >
           <Suspense fallback={null}>

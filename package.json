@@ -25,6 +25,7 @@
     "react-hooks-accordion": "^1.1.0",
     "swr": "^1.2.2",
     "three": "^0.137.5",
+    "three-plain-animator": "^1.0.6",
     "three-stdlib": "^2.8.6"
   },
   "devDependencies": {
