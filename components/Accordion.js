@@ -1,53 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Accordion = ({ collapsed, children, title, className }) => {
-  const [isCollapsed, setIsCollapsed] = useState(collapsed);
+const Accordion = ({ collapsed, children, title, className, click }) => {
+  // TODO add an active class to not collapsed div, use this to set option to open another div if not active
   return (
-    <div className={className}>
-      <a
-        className={"block w-full cursor-pointer"}
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        <h1 className="uppercase tracking-wider">
-          {isCollapsed ? "-" : "+"} {title}
-        </h1>
-      </a>
+    <>
       <div
-        className={isCollapsed ? "hidden" : "block"}
-        aria-expanded={!isCollapsed}
+        className={
+          collapsed
+            ? "border-pink-border border-2 mt-2 first-of-type:my-0 p-2 " +
+              className
+            : "border-pink-border border-2 mt-2 first-of-type:my-0 p-2 h-screen " +
+              className
+        }
       >
-        {children}
-        {/* {step === 1 ? (
-          <Button
-            label={"Next"}
-            click={(e) => {
-              e.preventDefault;
-              nextStep();
-            }}
-            className="mt-4"
-          />
-        ) : (
-          <div className="flex gap-2">
-            <Button
-              label={"Back"}
-              click={(e) => {
-                e.preventDefault;
-                prevStep();
-              }}
-              className="mt-4 w-1/2"
-            />
-            <Button
-              label={"Next"}
-              click={(e) => {
-                e.preventDefault;
-                nextStep();
-              }}
-              className="mt-4 w-1/2"
-            />
-          </div>
-        )} */}
+        <a className={"block w-full cursor-pointer"} onClick={click}>
+          <h1 className="uppercase tracking-wider font-secondary">{title}</h1>
+        </a>
+        <div
+          className={collapsed ? "hidden" : "block"}
+          aria-expanded={!collapsed}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

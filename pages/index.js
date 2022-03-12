@@ -10,17 +10,19 @@ import { CirclePicker } from "react-color";
 import Accordion from "../components/Accordion";
 // import Particles from "../components/Particles";
 import * as Images from "../components/Images";
+import Link from "./../components/Link";
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
 
   // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
-  const [pSize, setSize] = useState("2.5");
-  const [pCoreColor, setCoreColor] = useState("#f44336");
-  const [pAtmosColor, setAtmosColor] = useState("#2196f3");
+  const [pSize, setSize] = useState("5");
+  const [pCoreColor, setCoreColor] = useState({ hex: "#2196f3" });
+  const [pAtmosColor, setAtmosColor] = useState({ hex: "#f44336" });
   //  TODO set these values based on type
   //  ie. larger planetes = slower; smaller planets = faster;
+  // TODO Move these values to observe page ie. z/xRadius
   const pSpeed = random(0.05, 0.06);
   const pOffset = random(0, Math.PI * 2);
   // Log inputs
@@ -155,25 +157,23 @@ export default function Create() {
 
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
-    const stepOne = step === 1;
-    const stepTwo = step === 2;
     const nextStep = () => setStep(() => step + 1);
     const prevStep = () => setStep(() => step - 1);
-    console.log(step);
+    // console.log(step);
     return (
       <>
         <Accordion
           title={"Planet Type"}
-          className={"my-2 p-4 border-2 border-oBlue"}
-          collapsed={stepOne ? false : true}
+          collapsed={step === 1 ? false : true}
+          click={() => {}}
         >
-          <div className="mt-4 grid grid-cols-2 gap-2 w-full">
+          <div className="mt-2 grid grid-cols-4 gap-2 w-full">
             <FormButton
               imgSrc={gasTextures[0]}
               label={"Gas Giant"}
               click={() => {
                 setType("Gas Giant");
-                setSize("2.5");
+                setSize("5");
                 setCoreTexture(gasTextures[0]);
               }}
             />
@@ -182,7 +182,7 @@ export default function Create() {
               label={"Neptune-like"}
               click={() => {
                 setType("Neptune-like");
-                setSize("1.75");
+                setSize("3.5");
                 setCoreTexture(neptuneTextures[0]);
               }}
             />
@@ -191,7 +191,7 @@ export default function Create() {
               label={"Super Earth"}
               click={() => {
                 setType("Super Earth");
-                setSize("1");
+                setSize("2");
                 setCoreTexture(superTextures[0]);
               }}
             />
@@ -200,34 +200,23 @@ export default function Create() {
               label={"Terrestrial"}
               click={() => {
                 setType("Terrestrial");
-                setSize("0.25");
+                setSize("0.5");
                 setCoreTexture(terrestrialTextures[0]);
               }}
             />
           </div>
-          {/* <a
-            onClick={(e) => {
-              e.preventDefault;
-              nextStep();
-            }}
-            className="mt-4"
-          >
-            Next
-          </a> */}
-          {/* <Button
-            label={"Next"}
-            click={(e) => {
-              e.preventDefault;
-              nextStep();
-            }}
-            className="mt-4"
-          /> */}
+          <div className="flex gap-2 mt-2">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              label={"Next"}
+            />
+          </div>
         </Accordion>
-        <Accordion
-          title={"Size"}
-          className={"my-2 p-4 border-2 border-oBlue"}
-          collapsed={false}
-        >
+        <Accordion title={"Size"} collapsed={step === 2 ? false : true}>
           <div className="mt-4 flex flex-col space-y-2 w-full">
             <input
               type="range"
@@ -240,7 +229,7 @@ export default function Create() {
                   ? "3.5"
                   : gasGiant
                   ? "5"
-                  : "0.5"
+                  : "5"
               }
               max={
                 terrestrial
@@ -251,7 +240,7 @@ export default function Create() {
                   ? "4.5"
                   : gasGiant
                   ? "6.5"
-                  : "5"
+                  : "6.5"
               }
               defaultValue={
                 terrestrial
@@ -262,53 +251,36 @@ export default function Create() {
                   ? "1.75"
                   : gasGiant
                   ? "2.5"
-                  : "0.25"
+                  : "2.5"
               }
               onChange={(e) => setSize(e.target.value)}
               id="size"
-              className="form-range appearance-none w-full h-1 p-0 bg-oBlue focus:outline-none focus:ring-0 focus:shadow-none"
+              step="0.1"
+              className="form-range appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
             ></input>
-            {/* <ul className="flex justify-between w-full px-[10px] py-4 font-bold">
-                  <li className="flex justify-center relative">
-                    <span className="absolute">1</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">2</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">3</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">4</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">5</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">6</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">7</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">8</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">9</span>
-                  </li>
-                  <li className="flex justify-center relative">
-                    <span className="absolute">10</span>
-                  </li>
-                </ul> */}
+            <div className="flex gap-2 mt-2">
+              <Link
+                variant={"button"}
+                click={(e) => {
+                  e.preventDefault;
+                  prevStep();
+                }}
+                label={"Back"}
+              />
+              <Link
+                variant={"button"}
+                click={(e) => {
+                  e.preventDefault;
+                  nextStep();
+                }}
+                label={"Next"}
+              />
+            </div>
           </div>
         </Accordion>
-        <Accordion
-          title={"Core"}
-          className={"my-2 p-4 border-2 border-oBlue"}
-          collapsed={false}
-        >
-          <div className="mt-4 w-full">
-            <div className="mb-4 grid grid-cols-2 gap-2 w-full">
+        <Accordion title={"Core"} collapsed={step === 3 ? false : true}>
+          <div className="mt-2 w-full">
+            <div className="grid grid-cols-4 gap-2 w-full">
               {gasGiant && (
                 <>
                   <FormButton
@@ -410,16 +382,31 @@ export default function Create() {
               width={"100%"}
               color={pCoreColor}
               onChange={setCoreColor}
+              className={"mt-2"}
+            />
+          </div>
+          <div className="flex gap-2 mt-2">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                prevStep();
+              }}
+              label={"Back"}
+            />
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              label={"Next"}
             />
           </div>
         </Accordion>
-        <Accordion
-          title={"Atmosphere"}
-          className={"my-2 p-4 border-2 border-oBlue"}
-          collapsed={false}
-        >
-          <div className="mt-4 w-full">
-            <div className="mb-4 grid grid-cols-2 gap-2 w-full">
+        <Accordion title={"Atmosphere"} collapsed={step === 4 ? false : true}>
+          <div className="mt-2 w-full">
+            <div className="mb-4 grid grid-cols-4 gap-2 w-full">
               <FormButton
                 imgSrc={cloudTextures[0]}
                 label={"Type 1"}
@@ -461,10 +448,23 @@ export default function Create() {
               <label className="ml-2">No Atmosphere</label>
             </div>
           </div>
+          <div className="flex gap-2 mt-2">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                prevStep();
+              }}
+              label={"Back"}
+              className={"w-1/2"}
+            />
+            <Button
+              click={handleSubmit}
+              label={"Submit Planet"}
+              className={"w-1/2"}
+            />
+          </div>
         </Accordion>
-        <div className="mt-4">
-          <Button click={handleSubmit} label={"Submit Planet"} />
-        </div>
       </>
     );
   };
@@ -507,9 +507,9 @@ export default function Create() {
     if (data.success) {
       // reset the fields back to default values
       setType("Gas Giant");
-      setSize(1);
-      setCoreColor("#f44336");
-      setAtmosColor("#2196f3");
+      setSize("5");
+      setCoreColor({ hex: "#2196f3" });
+      setAtmosColor({ hex: "#f44336" });
       setCoreTexture(gasTextures[0]);
       setCloudTexture(cloudTextures[0]);
       setCloudAlpha(1);
@@ -529,7 +529,7 @@ export default function Create() {
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
-          camera={{ fov: 50, position: [0, 0, 10] }}
+          camera={{ fov: 50, position: [0, 0, 20] }}
           style={{ height: "100vh", width: "50vw", position: "fixed" }}
         >
           <Suspense fallback={null}>
@@ -551,8 +551,7 @@ export default function Create() {
             <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
-        {/* TODO convert form elements to collapsible accordion */}
-        <div className="z-50 fixed right-0 w-2/4 p-2 h-screen overflow-y-scroll">
+        <div className="z-50 fixed right-0 w-2/4 p-1 h-screen overflow-y-scroll">
           <form action="" className="flex flex-col justify-between h-full">
             {RenderSteps()}
             {/* <div className="my-2">
@@ -563,17 +562,19 @@ export default function Create() {
               />
             </div> */}
           </form>
-          {error ? (
-            <div className="block w-full my-3 mx-auto">
-              <h3 className="text-red-500">{error}</h3>
-            </div>
-          ) : null}
-          {message ? (
-            <div className="block w-full my-3 mx-auto">
-              <h3 className="text-green-500">{message}</h3>
-            </div>
-          ) : null}
         </div>
+        {error ? (
+          <div className="block w-full my-3 mx-auto">
+            <h3 className="text-red-500">{error}</h3>
+          </div>
+        ) : null}
+        {message ? (
+          <div className="absolute grid place-items-center h-screen w-full mx-auto z-50 bg-black bg-opacity-75">
+            <div className="bg-oBlue p-8 bg-opacity-10 border-2 border-oBlue">
+              <h3 className="text-xl font-secondary uppercase">{message}</h3>
+            </div>
+          </div>
+        ) : null}
       </div>
     </>
   );
