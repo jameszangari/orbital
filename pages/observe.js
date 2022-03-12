@@ -6,6 +6,7 @@ import { Stats } from "@react-three/drei";
 import { TrackballControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
+import Background from "../components/Background";
 
 // // TODO figure out dev/prod api url
 // let dev = process.env.NODE_ENV !== "production";
@@ -33,10 +34,24 @@ function Observe() {
 
   if (error)
     return (
-      <div className="absolute w-full h-full text-center">failed to load</div>
+      <div className="z-50 h-screen w-full grid place-items-center">
+        <div className="absolute z-50 grid place-items-center">
+          <h3 className="text-xl font-secondary uppercase p-8">
+            Failed to load.
+          </h3>
+          <Background />
+        </div>
+      </div>
     );
   if (!data)
-    return <div className="absolute w-full h-full text-center">loading...</div>;
+    return (
+      <div className="z-50 h-screen w-full grid place-items-center">
+        <div className="absolute z-50 grid place-items-center">
+          <h3 className="text-xl font-secondary uppercase p-8">Loading...</h3>
+          <Background />
+        </div>
+      </div>
+    );
 
   const posts = data?.posts;
 
@@ -67,7 +82,7 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 50, position: [100, 50, 0] }}
+            camera={{ fov: 75, position: [100, 50, 0] }}
             style={{ height: "100vh" }}
           >
             {/* <Stats /> */}

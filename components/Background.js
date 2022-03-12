@@ -20,7 +20,11 @@ const Corner = ({ className, stroke }) => {
 export default function Background() {
   return (
     <>
-      <div className="absolute z-0 w-full h-full bg-purple-bg border-2 border-solid border-pink-border grid grid-columns-2 grid-rows-2">
+      <div
+        className={
+          "absolute z-0 w-full h-full bg-purple-bg border-2 border-solid border-pink-border grid grid-columns-2 grid-rows-2"
+        }
+      >
         {/* top left corner */}
         <Corner
           className={

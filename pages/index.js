@@ -11,6 +11,7 @@ import Accordion from "../components/Accordion";
 // import Particles from "../components/Particles";
 import * as Images from "../components/Images";
 import Link from "./../components/Link";
+import Background from "./../components/Background";
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
@@ -165,9 +166,11 @@ export default function Create() {
         <Accordion
           title={"Planet Type"}
           collapsed={step === 1 ? false : true}
-          click={() => {}}
+          click={() => {
+            step >= 1 ? (collapsed = true) : false;
+          }}
         >
-          <div className="mt-2 grid grid-cols-4 gap-2 w-full">
+          <div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
             <FormButton
               imgSrc={gasTextures[0]}
               label={"Gas Giant"}
@@ -205,7 +208,7 @@ export default function Create() {
               }}
             />
           </div>
-          <div className="flex gap-2 mt-2">
+          <div className="flex gap-2 px-1 pt-4">
             <Link
               variant={"button"}
               click={(e) => {
@@ -217,7 +220,7 @@ export default function Create() {
           </div>
         </Accordion>
         <Accordion title={"Size"} collapsed={step === 2 ? false : true}>
-          <div className="mt-4 flex flex-col space-y-2 w-full">
+          <div className="mt-6 flex flex-col space-y-2 w-full">
             <input
               type="range"
               min={
@@ -256,9 +259,9 @@ export default function Create() {
               onChange={(e) => setSize(e.target.value)}
               id="size"
               step="0.1"
-              className="form-range appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
+              className="appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4 px-1"
             ></input>
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 px-1 pt-2">
               <Link
                 variant={"button"}
                 click={(e) => {
@@ -279,8 +282,8 @@ export default function Create() {
           </div>
         </Accordion>
         <Accordion title={"Core"} collapsed={step === 3 ? false : true}>
-          <div className="mt-2 w-full">
-            <div className="grid grid-cols-4 gap-2 w-full">
+          <div className="px-1 pt-2 w-full">
+            <div className="grid grid-cols-4 gap-2 w-full mb-4">
               {gasGiant && (
                 <>
                   <FormButton
@@ -385,7 +388,7 @@ export default function Create() {
               className={"mt-2"}
             />
           </div>
-          <div className="flex gap-2 mt-2">
+          <div className="flex gap-2 px-1 pt-4">
             <Link
               variant={"button"}
               click={(e) => {
@@ -405,8 +408,8 @@ export default function Create() {
           </div>
         </Accordion>
         <Accordion title={"Atmosphere"} collapsed={step === 4 ? false : true}>
-          <div className="mt-2 w-full">
-            <div className="mb-4 grid grid-cols-4 gap-2 w-full">
+          <div className="px-1 pt-2 w-full">
+            <div className="grid grid-cols-4 gap-2 w-full mb-4">
               <FormButton
                 imgSrc={cloudTextures[0]}
                 label={"Type 1"}
@@ -433,14 +436,25 @@ export default function Create() {
               color={pAtmosColor.hex}
               onChange={setAtmosColor}
             />
-
             <div className="mt-6 flex flex-row items-center">
+              {/* <div className="block">
+                <div className="mt-2">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      className="w-6 h-6 text-green-600 border-0 rounded-md focus:ring-0"
+                      checked
+                    />
+                    <span className="ml-2">Success checkbox</span>
+                  </label>
+                </div>
+              </div> */}
               <input
                 type="checkbox"
                 id="cloudAlpha"
                 name="cloudAlpha"
                 value="Alpha"
-                className="form-check-input appearance-none h-6 w-6 border border-gray-300 rounded-sm bg-white checked:bg-oBlue checked:border-oBlue focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer"
+                className="form-check-input appearance-none h-6 w-6 border border-pink-border rounded-sm bg-purple-bg checked:bg-oPurple checked:border-oPurple focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer focus:ring-0"
                 onChange={(e) =>
                   setCloudAlpha(e.target.checked === true ? "0" : "1")
                 }
@@ -448,7 +462,7 @@ export default function Create() {
               <label className="ml-2">No Atmosphere</label>
             </div>
           </div>
-          <div className="flex gap-2 mt-2">
+          <div className="flex gap-2 px-1 pt-4">
             <Link
               variant={"button"}
               click={(e) => {
@@ -525,12 +539,14 @@ export default function Create() {
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <div className="flex flex-row">
+      <div className="portrait:hidden flex flex-row">
+        {/* TODO convert canvas to motioncanvas */}
+        {/* @link https://www.framer.com/docs/motioncanvas/ */}
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
-          camera={{ fov: 50, position: [0, 0, 20] }}
-          style={{ height: "100vh", width: "50vw", position: "fixed" }}
+          camera={{ fov: 75, position: [0, 0, 20] }}
+          style={{ height: "100vh", width: "40vw", position: "fixed" }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={1} />
@@ -551,16 +567,9 @@ export default function Create() {
             <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
-        <div className="z-50 fixed right-0 w-2/4 p-1 h-screen overflow-y-scroll">
+        <div className="z-50 fixed right-0 w-[60vw] p-1 h-screen overflow-y-scroll">
           <form action="" className="flex flex-col justify-between h-full">
             {RenderSteps()}
-            {/* <div className="my-2">
-              <Button
-                label={"Create Planet"}
-                type={"submit"}
-                click={handleSubmit}
-              />
-            </div> */}
           </form>
         </div>
         {error ? (
@@ -569,12 +578,24 @@ export default function Create() {
           </div>
         ) : null}
         {message ? (
-          <div className="absolute grid place-items-center h-screen w-full mx-auto z-50 bg-black bg-opacity-75">
-            <div className="bg-oBlue p-8 bg-opacity-10 border-2 border-oBlue">
-              <h3 className="text-xl font-secondary uppercase">{message}</h3>
+          <div className="z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
+            <div className="absolute z-50 grid place-items-center">
+              <h3 className="text-xl font-secondary uppercase p-8">
+                {message}
+              </h3>
+              <Background />
             </div>
+            <p className="absolute mt-48">Refresh the page to start again.</p>
           </div>
         ) : null}
+      </div>
+      <div className="landscape:hidden z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
+        <div className="absolute z-50 grid place-items-center">
+          <h3 className="text-xl font-secondary uppercase p-8">
+            Please rotate your device.
+          </h3>
+          <Background />
+        </div>
       </div>
     </>
   );
