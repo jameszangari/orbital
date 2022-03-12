@@ -5,10 +5,10 @@ export default function Nav() {
     <nav className="absolute top-0 p-2 m-auto z-50">
       <ul className="flex w-full list-none">
         <li className="block mr-2">
-          <Link label="Create" url="/" />
+          <Link label="Create" url="/" variant="link" />
         </li>
         <li className="block mr-2">
-          <Link label="Observe" url="/observe" />
+          <Link label="Observe" url="/observe" variant="link" />
         </li>
         {/* <li className="block">
           <Link label="Manage" url="/manage" />

@@ -1,6 +1,6 @@
 import Link from "next/dist/client/link";
 
-export default function Button({ label, click, variant, className }) {
+export default function Button({ label, click, url, variant, className }) {
   return (
     <>
       {variant === "button" && (
@@ -10,7 +10,6 @@ export default function Button({ label, click, variant, className }) {
             className
           }
           onClick={click || null}
-          target="_blank"
         >
           {label}
         </a>
@@ -23,7 +22,6 @@ export default function Button({ label, click, variant, className }) {
               className
             }
             onClick={click || null}
-            target="_blank"
           >
             {label}
           </a>
