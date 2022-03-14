@@ -444,7 +444,7 @@ export default function Create() {
         </Accordion>
         <Accordion title={"Complete"} collapsed={step === 5 ? false : true}>
           <p className="text-sm mt-2">
-            // TODO: add overview of selections and option to go back and change
+            add overview of selections and option to go back and change
           </p>
           <div className="flex gap-2 px-1 pt-4">
             <Link
