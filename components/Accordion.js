@@ -19,7 +19,7 @@ const Accordion = ({ collapsed, children, title, className, click }) => {
           collapsed
             ? "border-pink-border border-2 mt-1 first-of-type:my-0 p-1 " +
               className
-            : "border-pink-border border-2 mt-1 first-of-type:my-0 p-1 h-screen " +
+            : "border-pink-border border-2 mt-1 first-of-type:my-0 p-1 h-max " +
               className
         }
       >

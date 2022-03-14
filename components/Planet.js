@@ -61,13 +61,13 @@ export default function Planet({ post, xRadius, zRadius }) {
         // position={[8, 0, 0]}
         scale={post.pSize}
       >
-        <LayerMaterial>
-          <Base
+        <LayerMaterial color={post.pCoreColor.hex} alpha={1}>
+          {/* <Base
             color={post.pCoreColor.hex}
             value={post.pCoreColor.hex}
             alpha={1}
             mode="normal"
-          />
+          /> */}
           {/* <Base color={post.pCore} alpha={1} mode="normal" /> */}
           {/* <Depth
             colorA={post.layerColorA}
@@ -90,14 +90,21 @@ export default function Planet({ post, xRadius, zRadius }) {
           <Texture
             map={useTexture(post.pCloudTexture)}
             alpha={post.pCloudAlpha}
-            attachObject={Noise}
+            // attachObject={Noise}
           />
-          <Noise
+          <Depth
             colorA={post.pAtmosColor.hex}
             colorB="#000000"
             alpha={0.5}
             mode="darken"
+            mapping={"vector"}
           />
+          {/* <Noise
+            colorA={post.pAtmosColor.hex}
+            colorB="#000000"
+            alpha={0.5}
+            mode="darken"
+          /> */}
         </LayerMaterial>
       </Sphere>
       <Ecliptic xRadius={xRadius} zRadius={zRadius} />
