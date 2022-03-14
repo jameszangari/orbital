@@ -2,7 +2,15 @@ import Head from "next/head";
 import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Stars, Cloud } from "@react-three/drei";
-import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
+import {
+  LayerMaterial,
+  Color,
+  Depth,
+  Fresnel,
+  Texture,
+  Noise,
+  Matcap,
+} from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
 import Button from "../components/Button";
 import FormButton from "../components/Form/FormButton";
@@ -82,7 +90,7 @@ export default function Create() {
   // console.log(setTextures());
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
-  const [pCloudAlpha, setCloudAlpha] = useState(1);
+  const [pCloudAlpha, setCloudAlpha] = useState(0.5);
   console.log("core texture: " + pCoreTexture);
   console.log("cloud texture: " + pCloudTexture);
   console.log("cloud alpha: " + pCloudAlpha);
@@ -93,62 +101,38 @@ export default function Create() {
       <>
         <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
           {/* <meshStandardMaterial color={"orange"} /> */}
-          <LayerMaterial>
-            <Base
+          <LayerMaterial color={pCoreColor.hex} alpha={1}>
+            {/* <Base
               color={pCoreColor.hex}
               value={pCoreColor.hex}
               alpha={1}
               mode="normal"
-            />
-            {/* <Particles /> */}
-            {/* <Depth
-            colorA={layerColorA}
-            colorB={layerColorB}
-            onChange={(e) =>
-              set({
-                layerColorA: e.target.value,
-                layerColorB: e.target.value,
-              })
-            }
-            alpha={1}
-            mode="multiply"
-            near={0}
-            // far={2}
-            origin={[1, 1, 1]}
-          />
-          <Fresnel
-            color={fresnelColor}
-            onChange={(e) => set({ fresnelColor: e.target.value })}
-            alpha={1}
-            mode="softlight"
-            power={1}
-            intensity={1}
-            bias={0.1}
-          />
-          <Noise
-            colorA={noiseColorA}
-            colorB={noiseColorB}
-            onChange={(e) =>
-              set({
-                noiseColorA: e.target.value,
-                noiseColorB: e.target.value,
-              })
-            }
-            alpha={1}
-            mode="lighten"
-          /> */}
+            /> */}
+            {/* <Color color={pCoreColor.hex} alpha={1} /> */}
+            <Texture map={useTexture(pCloudTexture)} alpha={0.5} />
             <Texture map={useTexture(pCoreTexture)} alpha={0.65} />
-            <Texture
-              map={useTexture(pCloudTexture)}
-              alpha={pCloudAlpha}
-              attachObject={Noise}
-            />
-            <Noise
+            {/* <Fresnel
+              color={pAtmosColor.hex}
+              // colorB="#000000"
+              onChange={(e) => setAtmosColor(e.target.value)}
+              // alpha={pCloudAlpha}
+              alpha={0.5}
+              // mode="darken"
+            /> */}
+            {/* <Noise
               colorA={pAtmosColor.hex}
               colorB="#000000"
               onChange={(e) => setAtmosColor(e.target.value)}
               alpha={0.5}
               mode="darken"
+            /> */}
+            <Depth
+              colorA={pAtmosColor.hex}
+              colorB="#000000"
+              onChange={(e) => setAtmosColor(e.target.value)}
+              alpha={0.5}
+              mode="darken"
+              mapping={"vector"}
             />
           </LayerMaterial>
         </Sphere>
@@ -436,32 +420,32 @@ export default function Create() {
               color={pAtmosColor.hex}
               onChange={setAtmosColor}
             />
-            <div className="mt-6 flex flex-row items-center">
-              {/* <div className="block">
-                <div className="mt-2">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      className="w-6 h-6 text-green-600 border-0 rounded-md focus:ring-0"
-                      checked
-                    />
-                    <span className="ml-2">Success checkbox</span>
-                  </label>
-                </div>
-              </div> */}
-              <input
-                type="checkbox"
-                id="cloudAlpha"
-                name="cloudAlpha"
-                value="Alpha"
-                className="form-check-input appearance-none h-6 w-6 border border-pink-border rounded-sm bg-purple-bg checked:bg-oPurple checked:border-oPurple focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer focus:ring-0"
-                onChange={(e) =>
-                  setCloudAlpha(e.target.checked === true ? "0" : "1")
-                }
-              ></input>
-              <label className="ml-2">No Atmosphere</label>
+            <div className="flex gap-2 px-1 pt-4">
+              <Link
+                variant={"button"}
+                click={(e) => {
+                  e.preventDefault;
+                  prevStep();
+                }}
+                label={"Back"}
+                className={"w-1/2"}
+              />
+              <Link
+                variant={"button"}
+                click={(e) => {
+                  e.preventDefault;
+                  nextStep();
+                }}
+                label={"Next"}
+                className={"w-1/2"}
+              />
             </div>
           </div>
+        </Accordion>
+        <Accordion title={"Complete"} collapsed={step === 5 ? false : true}>
+          <p className="text-sm mt-2">
+            // TODO: add overview of selections and option to go back and change
+          </p>
           <div className="flex gap-2 px-1 pt-4">
             <Link
               variant={"button"}
@@ -568,7 +552,7 @@ export default function Create() {
           </Suspense>
         </Canvas>
         <div className="z-50 fixed right-0 w-[60vw] p-1 h-screen overflow-y-scroll">
-          <form action="" className="flex flex-col justify-between h-full">
+          <form action="" className="flex flex-col justify-between h-screen">
             {RenderSteps()}
           </form>
         </div>
