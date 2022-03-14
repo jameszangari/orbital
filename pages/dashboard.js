@@ -70,13 +70,13 @@ export default function Dashboard() {
           position={[0, 0, 0]}
           scale={recentPlanet[0].pSize}
         >
-          <LayerMaterial>
-            <Base
+          <LayerMaterial color={recentPlanet[0].pCoreColor.hex} alpha={1}>
+            {/* <Base
               color={recentPlanet[0].pCoreColor.hex}
               value={recentPlanet[0].pCoreColor.hex}
               alpha={1}
               mode="normal"
-            />
+            /> */}
             <Texture
               map={useTexture(recentPlanet[0].pCoreTexture)}
               alpha={0.65}
@@ -84,13 +84,20 @@ export default function Dashboard() {
             <Texture
               map={useTexture(recentPlanet[0].pCloudTexture)}
               alpha={recentPlanet[0].pCloudAlpha}
-              attachObject={Noise}
+              // attachObject={Noise}
             />
-            <Noise
+            {/* <Noise
               colorA={recentPlanet[0].pAtmosColor.hex}
               colorB="#000000"
               alpha={0.5}
               mode="darken"
+            /> */}
+            <Depth
+              colorA={recentPlanet[0].pAtmosColor.hex}
+              colorB="#000000"
+              alpha={0.5}
+              mode="darken"
+              mapping={"vector"}
             />
           </LayerMaterial>
         </Sphere>
