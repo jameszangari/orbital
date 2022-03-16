@@ -81,7 +81,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary" />
         {/* <meta name="twitter:site" content="@" /> */}
       </Head>
-      <Nav />
+      {/* <Nav /> */}
       <main className="overflow-x-hidden">
         {/* <Loading loading={loading} /> */}
         <Component {...pageProps} />

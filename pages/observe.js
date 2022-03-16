@@ -82,12 +82,12 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 75, position: [100, 50, 0] }}
+            camera={{ fov: 25, position: [200, 100, 0] }}
             style={{ height: "100vh" }}
           >
             {/* <Stats /> */}
             <Suspense fallback={null}>
-              <Stars />
+              <Stars fade={false} />
               <ambientLight intensity={1} />
               <Sun />
               {/* {console.log(posts)} */}

@@ -530,7 +530,12 @@ export default function Create() {
           dpr={[1, 2]}
           gl={{ antialias: false }}
           camera={{ fov: 75, position: [0, 0, 20] }}
-          style={{ height: "100vh", width: "40vw", position: "fixed" }}
+          style={{
+            height: "100vh",
+            width: "40vw",
+            position: "fixed",
+            zIndex: 50,
+          }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={1} />
