@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="HandheldFriendly" content="true"/>  */}
         <meta
           name="viewport"
-          content="width=device-width, minimum-scale=1, initial-scale=1.0"
+          content="width=device-width, minimum-scale=1, initial-scale=1.0, user-scalable=no"
         />
         <meta name="theme-color" content="#000" />
         <link rel="shortcut icon" href="/favicon.ico" />

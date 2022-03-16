@@ -17,6 +17,7 @@ import FormButton from "../components/Form/FormButton";
 import { CirclePicker } from "react-color";
 import Accordion from "../components/Accordion";
 // import Particles from "../components/Particles";
+import Image from "next/image";
 import * as Images from "../components/Images";
 import Link from "./../components/Link";
 import Background from "./../components/Background";
@@ -442,9 +443,35 @@ export default function Create() {
             </div>
           </div>
         </Accordion>
-        <Accordion title={"Complete"} collapsed={step === 5 ? false : true}>
-          <p className="text-sm mt-2">
-            add overview of selections and option to go back and change
+        <Accordion title={"Overview"} collapsed={step === 5 ? false : true}>
+          {/* add overview of selections and option to go back and change */}
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Type: <span>{pType}</span>
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Size: <span>{pSize}</span>
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Core:{" "}
+            <Image src={pCoreTexture} alt="" width={50} height={50} />
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Core Color:{" "}
+            <div
+              className="w-[50px] h-[50px]"
+              style={{ backgroundColor: `${pCoreColor.hex}` }}
+            />
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Atmosphere:{" "}
+            <Image src={pCloudTexture} alt="" width={50} height={50} />
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Planet Atmosphere Color:{" "}
+            <div
+              className="w-[50px] h-[50px]"
+              style={{ backgroundColor: `${pAtmosColor.hex}` }}
+            />
           </p>
           <div className="flex gap-2 px-1 pt-4">
             <Link
@@ -551,13 +578,16 @@ export default function Create() {
           >
             {title}
           </Text> */}
-            <Stars />
+            <Stars fade={true} />
             <Planet />
             <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
-        <div className="z-50 fixed right-0 w-[60vw] p-1 h-screen overflow-y-scroll">
-          <form action="" className="flex flex-col justify-between h-screen">
+        <div className="z-50 fixed right-0 w-[60vw] p-1 h-screen">
+          <form
+            action=""
+            className="flex flex-col justify-between h-screen overflow-y-scroll overscroll-y-contain pb-4"
+          >
             {RenderSteps()}
           </form>
         </div>
