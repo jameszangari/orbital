@@ -95,6 +95,7 @@ export default function Create() {
   console.log("core texture: " + pCoreTexture);
   console.log("cloud texture: " + pCloudTexture);
   console.log("cloud alpha: " + pCloudAlpha);
+  const [pName, setName] = useState("Your Planet Name");
 
   const Planet = () => {
     const targetRef = useRef();
@@ -244,7 +245,7 @@ export default function Create() {
               onChange={(e) => setSize(e.target.value)}
               id="size"
               step="0.1"
-              className="appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4 px-1"
+              className="appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
             ></input>
             <div className="flex gap-2 px-1 pt-2">
               <Link
@@ -443,35 +444,71 @@ export default function Create() {
             </div>
           </div>
         </Accordion>
-        <Accordion title={"Overview"} collapsed={step === 5 ? false : true}>
+        <Accordion title={"Title"} collapsed={step === 5 ? false : true}>
+          <div className="px-1 pt-4">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder={pName}
+              onChange={(e) => setName(e.target.value)}
+              className={
+                "block text-sm font-medium w-full bg-transparent border-pink-border border-2 p-2"
+              }
+            />
+          </div>
+          <div className="flex gap-2 px-1 pt-4">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                prevStep();
+              }}
+              label={"Back"}
+              className={"w-1/2"}
+            />
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              label={"Next"}
+              className={"w-1/2"}
+            />
+          </div>
+        </Accordion>
+        <Accordion title={"Overview"} collapsed={step === 6 ? false : true}>
           {/* add overview of selections and option to go back and change */}
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Type: <span>{pType}</span>
+            Type: <span>{pType}</span>
           </p>
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Size: <span>{pSize}</span>
+            Size: <span>{pSize}</span>
           </p>
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Core:{" "}
-            <Image src={pCoreTexture} alt="" width={50} height={50} />
+            Core: <Image src={pCoreTexture} alt="" width={50} height={50} />
           </p>
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Core Color:{" "}
+            Core Color:{" "}
             <div
               className="w-[50px] h-[50px]"
               style={{ backgroundColor: `${pCoreColor.hex}` }}
             />
           </p>
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Atmosphere:{" "}
+            Atmosphere:{" "}
             <Image src={pCloudTexture} alt="" width={50} height={50} />
           </p>
           <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Planet Atmosphere Color:{" "}
+            Atmosphere Color:{" "}
             <div
               className="w-[50px] h-[50px]"
               style={{ backgroundColor: `${pAtmosColor.hex}` }}
             />
+          </p>
+          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
+            Name: <span>{pName}</span>
           </p>
           <div className="flex gap-2 px-1 pt-4">
             <Link
@@ -512,6 +549,7 @@ export default function Create() {
       pCoreTexture,
       pCloudTexture,
       pCloudAlpha,
+      pName,
       createdAt: new Date().getTime(),
       // createdAt: new Date().toISOString(),
     };
@@ -538,6 +576,7 @@ export default function Create() {
       setCoreTexture(gasTextures[0]);
       setCloudTexture(cloudTextures[0]);
       setCloudAlpha(1);
+      setName("Your Planet Name");
       // set the message
       return setMessage(data.message);
     } else {
