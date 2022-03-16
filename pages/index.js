@@ -589,7 +589,7 @@ export default function Create() {
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <div className="portrait:hidden flex flex-row">
+      <div className="portrait:hidden">
         {/* TODO convert canvas to motioncanvas */}
         {/* @link https://www.framer.com/docs/motioncanvas/ */}
         <Canvas
@@ -622,11 +622,11 @@ export default function Create() {
             <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
-        <div className="z-50 fixed right-0 w-[60vw] p-1 h-screen">
-          <form
-            action=""
-            className="flex flex-col justify-between h-screen overflow-y-scroll overscroll-y-contain pb-4"
-          >
+        <div
+          className="z-50 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
+          style={{ width: "60vw" }}
+        >
+          <form action="" className="flex flex-col justify-between h-max pb-4">
             {RenderSteps()}
           </form>
         </div>
