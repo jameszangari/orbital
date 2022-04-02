@@ -5,10 +5,11 @@ import Nav from "../components/Nav";
 // import Loading from "../components/Loading";
 import "../styles/globals.css";
 
-const title = "Orbital";
+const title = "Orbital: UXID Senior Project";
 const url = "https://orbital-webapp.vercel.app/";
 const image = "/orbital-icon.png";
-const description = "Drexel UXID Senior Project Team";
+const description =
+  "Orbital is an interactive art exhibit where visitors can create a custom planet and add it to our collaborative solar system and see it projected in real-time. Through the individual contributions of our visitors, our solar system will be filled with unique and vibrant planets for all to see.";
 const author = "The Orbital Team";
 
 function MyApp({ Component, pageProps }) {
