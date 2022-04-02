@@ -112,7 +112,12 @@ export default function Create() {
       <>
         <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
           {/* <meshStandardMaterial color={"orange"} /> */}
-          <LayerMaterial color={pCoreColor.hex} alpha={1}>
+          <LayerMaterial
+            color={pCoreColor.hex}
+            alpha={1}
+            lighting="physical"
+            transmission={0.5}
+          >
             {/* <Base
               color={pCoreColor.hex}
               value={pCoreColor.hex}
@@ -155,7 +160,8 @@ export default function Create() {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
     // const prevStep = () => setStep(() => step - 1);
-    // console.log(step);
+    var Filter = require("bad-words"),
+      filter = new Filter();
     return (
       <>
         <Accordion
@@ -493,7 +499,7 @@ export default function Create() {
               name="name"
               id="name"
               placeholder={pName}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setName(filter.clean(e.target.value))}
               className={
                 "block text-sm font-medium w-full bg-transparent border-blue-border border-2 p-2"
               }
@@ -673,7 +679,12 @@ export default function Create() {
               className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
             />
           </div>
-          <form action="" className="flex flex-col justify-between h-max pb-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            className="flex flex-col justify-between h-max pb-4"
+          >
             {RenderSteps()}
           </form>
         </div>

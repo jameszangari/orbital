@@ -61,7 +61,12 @@ export default function Planet({ post, xRadius, zRadius }) {
         // position={[8, 0, 0]}
         scale={post.pSize}
       >
-        <LayerMaterial color={post.pCoreColor.hex} alpha={1}>
+        <LayerMaterial
+          color={post.pCoreColor.hex}
+          alpha={1}
+          lighting="physical"
+          transmission={0.1}
+        >
           {/* <Base
             color={post.pCoreColor.hex}
             value={post.pCoreColor.hex}

@@ -86,7 +86,6 @@ function Observe() {
               <Stars fade={false} />
               <ambientLight intensity={1} />
               <Sun />
-              {/* {console.log(posts)} */}
               {posts
                 ? posts.map((planet, i) => {
                     {
@@ -102,8 +101,6 @@ function Observe() {
                     );
                   })
                 : null}
-              {/* {renderPlanets} */}
-              {/* <OrbitControls enableZoom={false} /> */}
               <TrackballControls />
             </Suspense>
           </Canvas>
