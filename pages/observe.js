@@ -1,18 +1,13 @@
 import Head from "next/head";
 import useSWR from "swr";
 import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Stats } from "@react-three/drei";
 import { TrackballControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
 import Background from "../components/Background";
+import { Canvas } from "@react-three/fiber";
+import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
 
-// // TODO figure out dev/prod api url
-// let dev = process.env.NODE_ENV !== "production";
-// let DEV_URL = process.env.DEV_URL;
-// let PROD_URL = process.env.PROD_URL;
-// const API_URL = `${dev ? DEV_URL : PROD_URL}/api/posts`;
 const API_URL = "/api/posts";
 
 async function fetcher(url) {
@@ -71,7 +66,6 @@ function Observe() {
     console.log("Data:");
     console.log(data);
   }
-
   return (
     <>
       <Head>
@@ -86,6 +80,8 @@ function Observe() {
             style={{ height: "100vh" }}
           >
             {/* <Stats /> */}
+            <AdaptiveDpr pixelated />
+            <AdaptiveEvents />
             <Suspense fallback={null}>
               <Stars fade={false} />
               <ambientLight intensity={1} />
