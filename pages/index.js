@@ -35,11 +35,11 @@ export default function Create() {
   // TODO Move these values to observe page ie. z/xRadius
   const pSpeed = random(0.05, 0.06);
   const pOffset = random(0, Math.PI * 2);
-  // Log inputs
-  console.log("type: " + pType);
-  console.log("size: " + pSize);
-  console.log("core: " + pCoreColor.hex);
-  console.log("atmos: " + pAtmosColor.hex);
+  // // Log inputs
+  // console.log("type: " + pType);
+  // console.log("size: " + pSize);
+  // console.log("core: " + pCoreColor.hex);
+  // console.log("atmos: " + pAtmosColor.hex);
 
   // set type to variable
   const gasGiant = pType === "Gas Giant";
@@ -92,13 +92,21 @@ export default function Create() {
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
   const [pCloudAlpha, setCloudAlpha] = useState(0.5);
-  console.log("core texture: " + pCoreTexture);
-  console.log("cloud texture: " + pCloudTexture);
-  console.log("cloud alpha: " + pCloudAlpha);
+  // console.log("core texture: " + pCoreTexture);
+  // console.log("cloud texture: " + pCloudTexture);
+  // console.log("cloud alpha: " + pCloudAlpha);
   const [pName, setName] = useState("Your Planet Name");
+  const [zoom, setZoom] = useState(10);
 
   const Planet = () => {
     const targetRef = useRef();
+    useFrame(({ clock }) => {
+      targetRef.current.rotation.y = clock.getElapsedTime() / 10;
+    });
+    useFrame((state) => {
+      state.camera.position.z = zoom;
+    });
+    console.log("zoom: " + zoom);
     return (
       <>
         <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
@@ -145,16 +153,17 @@ export default function Create() {
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
-    const prevStep = () => setStep(() => step - 1);
+    // const prevStep = () => setStep(() => step - 1);
     // console.log(step);
     return (
       <>
         <Accordion
           title={"Planet Type"}
-          collapsed={step === 1 ? false : true}
           click={() => {
-            step >= 1 ? (collapsed = true) : false;
+            setStep(1);
           }}
+          selection={pType}
+          collapsed={step === 1 ? false : true}
         >
           <div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
             <FormButton
@@ -164,6 +173,7 @@ export default function Create() {
                 setType("Gas Giant");
                 setSize("5");
                 setCoreTexture(gasTextures[0]);
+                setZoom(10);
               }}
             />
             <FormButton
@@ -173,6 +183,7 @@ export default function Create() {
                 setType("Neptune-like");
                 setSize("3.5");
                 setCoreTexture(neptuneTextures[0]);
+                setZoom(10);
               }}
             />
             <FormButton
@@ -182,6 +193,7 @@ export default function Create() {
                 setType("Super Earth");
                 setSize("2");
                 setCoreTexture(superTextures[0]);
+                setZoom(10);
               }}
             />
             <FormButton
@@ -191,10 +203,11 @@ export default function Create() {
                 setType("Terrestrial");
                 setSize("0.5");
                 setCoreTexture(terrestrialTextures[0]);
+                setZoom(10);
               }}
             />
           </div>
-          <div className="flex gap-2 px-1 pt-4">
+          <div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -205,8 +218,15 @@ export default function Create() {
             />
           </div>
         </Accordion>
-        <Accordion title={"Size"} collapsed={step === 2 ? false : true}>
-          <div className="mt-6 flex flex-col space-y-2 w-full">
+        <Accordion
+          title={"Size"}
+          click={() => {
+            setStep(2);
+          }}
+          selection={"Size: " + pSize}
+          collapsed={step === 2 ? false : true}
+        >
+          <div className="mt-6 flex flex-col space-y-2 w-full px-1">
             <input
               type="range"
               min={
@@ -245,29 +265,41 @@ export default function Create() {
               onChange={(e) => setSize(e.target.value)}
               id="size"
               step="0.1"
-              className="appearance-none w-full h-1 p-0 bg-oPurple bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
+              className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
             ></input>
-            <div className="flex gap-2 px-1 pt-2">
-              <Link
-                variant={"button"}
-                click={(e) => {
-                  e.preventDefault;
-                  prevStep();
-                }}
-                label={"Back"}
-              />
-              <Link
-                variant={"button"}
-                click={(e) => {
-                  e.preventDefault;
-                  nextStep();
-                }}
-                label={"Next"}
-              />
-            </div>
+          </div>
+          <div className="px-1 pt-4 pb-1">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              label={"Next"}
+            />
           </div>
         </Accordion>
-        <Accordion title={"Core"} collapsed={step === 3 ? false : true}>
+        <Accordion
+          title={"Core"}
+          click={() => {
+            setStep(3);
+          }}
+          selection={
+            <>
+              <Image
+                src={pCoreTexture}
+                alt={"Core Texture"}
+                height={30}
+                width={30}
+              />
+              <div
+                style={{ backgroundColor: pCoreColor.hex }}
+                className="w-[30px] h-[30px]"
+              />
+            </>
+          }
+          collapsed={step === 3 ? false : true}
+        >
           <div className="px-1 pt-2 w-full">
             <div className="grid grid-cols-4 gap-2 w-full mb-4">
               {gasGiant && (
@@ -374,15 +406,7 @@ export default function Create() {
               className={"mt-2"}
             />
           </div>
-          <div className="flex gap-2 px-1 pt-4">
-            <Link
-              variant={"button"}
-              click={(e) => {
-                e.preventDefault;
-                prevStep();
-              }}
-              label={"Back"}
-            />
+          <div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -393,7 +417,27 @@ export default function Create() {
             />
           </div>
         </Accordion>
-        <Accordion title={"Atmosphere"} collapsed={step === 4 ? false : true}>
+        <Accordion
+          title={"Atmosphere"}
+          click={() => {
+            setStep(4);
+          }}
+          selection={
+            <>
+              <Image
+                src={pCloudTexture}
+                alt={"Cloud Texture"}
+                height={30}
+                width={30}
+              />
+              <div
+                style={{ backgroundColor: pAtmosColor.hex }}
+                className="w-[30px] h-[30px]"
+              />
+            </>
+          }
+          collapsed={step === 4 ? false : true}
+        >
           <div className="px-1 pt-2 w-full">
             <div className="grid grid-cols-4 gap-2 w-full mb-4">
               <FormButton
@@ -422,29 +466,26 @@ export default function Create() {
               color={pAtmosColor.hex}
               onChange={setAtmosColor}
             />
-            <div className="flex gap-2 px-1 pt-4">
-              <Link
-                variant={"button"}
-                click={(e) => {
-                  e.preventDefault;
-                  prevStep();
-                }}
-                label={"Back"}
-                className={"w-1/2"}
-              />
-              <Link
-                variant={"button"}
-                click={(e) => {
-                  e.preventDefault;
-                  nextStep();
-                }}
-                label={"Next"}
-                className={"w-1/2"}
-              />
-            </div>
+          </div>
+          <div className="px-1 pt-4 pb-1">
+            <Link
+              variant={"button"}
+              click={(e) => {
+                e.preventDefault;
+                nextStep();
+              }}
+              label={"Next"}
+            />
           </div>
         </Accordion>
-        <Accordion title={"Title"} collapsed={step === 5 ? false : true}>
+        <Accordion
+          title={"Title"}
+          click={() => {
+            setStep(5);
+          }}
+          selection={pName}
+          collapsed={step === 5 ? false : true}
+        >
           <div className="px-1 pt-4">
             <input
               type="text"
@@ -453,20 +494,11 @@ export default function Create() {
               placeholder={pName}
               onChange={(e) => setName(e.target.value)}
               className={
-                "block text-sm font-medium w-full bg-transparent border-pink-border border-2 p-2"
+                "block text-sm font-medium w-full bg-transparent border-blue-border border-2 p-2"
               }
             />
           </div>
-          <div className="flex gap-2 px-1 pt-4">
-            <Link
-              variant={"button"}
-              click={(e) => {
-                e.preventDefault;
-                prevStep();
-              }}
-              label={"Back"}
-              className={"w-1/2"}
-            />
+          <div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -474,56 +506,21 @@ export default function Create() {
                 nextStep();
               }}
               label={"Next"}
-              className={"w-1/2"}
             />
           </div>
         </Accordion>
-        <Accordion title={"Overview"} collapsed={step === 6 ? false : true}>
-          {/* add overview of selections and option to go back and change */}
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Type: <span>{pType}</span>
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Size: <span>{pSize}</span>
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Core: <Image src={pCoreTexture} alt="" width={50} height={50} />
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Core Color:{" "}
-            <div
-              className="w-[50px] h-[50px]"
-              style={{ backgroundColor: `${pCoreColor.hex}` }}
-            />
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Atmosphere:{" "}
-            <Image src={pCloudTexture} alt="" width={50} height={50} />
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Atmosphere Color:{" "}
-            <div
-              className="w-[50px] h-[50px]"
-              style={{ backgroundColor: `${pAtmosColor.hex}` }}
-            />
-          </p>
-          <p className="text-sm mt-2 ml-1 flex flex-row justify-between">
-            Name: <span>{pName}</span>
-          </p>
-          <div className="flex gap-2 px-1 pt-4">
-            <Link
-              variant={"button"}
-              click={(e) => {
-                e.preventDefault;
-                prevStep();
-              }}
-              label={"Back"}
-              className={"w-1/2"}
-            />
+        <Accordion
+          title={"Complete"}
+          click={() => {
+            setStep(6);
+          }}
+          collapsed={step === 6 ? false : true}
+        >
+          <div className="px-1 pt-4 pb-1">
             <Button
               click={handleSubmit}
-              label={"Submit Planet"}
-              className={"w-1/2"}
+              label={"Create Your Planet"}
+              className={"w-full"}
             />
           </div>
         </Accordion>
@@ -595,7 +592,7 @@ export default function Create() {
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
-          camera={{ fov: 75, position: [0, 0, 20] }}
+          camera={{ fov: 75, position: [0, 0, zoom || 20] }}
           style={{
             height: "100vh",
             width: "40vw",
@@ -619,13 +616,62 @@ export default function Create() {
           </Text> */}
             <Stars fade={true} />
             <Planet />
-            <OrbitControls enableZoom={false} enablePan={false} />
+            <OrbitControls
+              enableZoom={true}
+              enablePan={false}
+              enableRotate={false}
+            />
           </Suspense>
         </Canvas>
         <div
           className="z-50 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
           style={{ width: "60vw" }}
         >
+          <div className="mt-6 flex flex-col space-y-2 w-full px-1 pb-4">
+            <p>Planet Zoom</p>
+            <input
+              type="range"
+              min={
+                terrestrial
+                  ? 1
+                  : superEarth
+                  ? 4
+                  : neptuneLike
+                  ? 7
+                  : gasGiant
+                  ? 10
+                  : 10
+              }
+              max={
+                terrestrial
+                  ? 20
+                  : superEarth
+                  ? 20
+                  : neptuneLike
+                  ? 20
+                  : gasGiant
+                  ? 20
+                  : 20
+              }
+              defaultValue={
+                terrestrial
+                  ? 20
+                  : superEarth
+                  ? 20
+                  : neptuneLike
+                  ? 20
+                  : gasGiant
+                  ? 20
+                  : 20
+              }
+              onChange={(e) => {
+                setZoom(e.target.value);
+              }}
+              id="zoom"
+              step="-1"
+              className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
+            />
+          </div>
           <form action="" className="flex flex-col justify-between h-max pb-4">
             {RenderSteps()}
           </form>
@@ -636,14 +682,19 @@ export default function Create() {
           </div>
         ) : null}
         {message ? (
-          <div className="z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
+          <div className="absolute z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
             <div className="absolute z-50 grid place-items-center">
               <h3 className="text-xl font-secondary uppercase p-8">
                 {message}
               </h3>
               <Background />
             </div>
-            <p className="absolute mt-48">Refresh the page to start again.</p>
+            <Link
+              className="absolute mt-48 w-max p-4"
+              url={"/"}
+              label={"Start Over"}
+              variant={"link"}
+            />
           </div>
         ) : null}
       </div>

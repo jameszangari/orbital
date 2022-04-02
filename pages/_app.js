@@ -79,6 +79,12 @@ function MyApp({ Component, pageProps }) {
         documentation: https://dev.twitter.com/cards/getting-started
         Be sure validate your Twitter card markup on the documentation site. */}
         <meta name="twitter:card" content="summary" />
+        <link
+          rel="preload"
+          href="/api/posts"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
         {/* <meta name="twitter:site" content="@" /> */}
       </Head>
       {/* <Nav /> */}

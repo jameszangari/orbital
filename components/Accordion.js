@@ -1,9 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Accordion = ({ collapsed, children, title, className, click }) => {
-  // TODO add an active class to not collapsed div, use this to set option to open another div if not active
-  console.log(collapsed);
+const Accordion = ({
+  collapsed,
+  children,
+  title,
+  className,
+  click,
+  selection,
+}) => {
   return (
     <>
       <motion.div
@@ -17,22 +22,26 @@ const Accordion = ({ collapsed, children, title, className, click }) => {
         exit={{ opacity: 0 }}
         className={
           collapsed
-            ? "border-pink-border border-2 mt-1 first-of-type:my-0 p-1 " +
+            ? "border-pink-border bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 " +
               className
-            : "border-pink-border border-2 mt-1 first-of-type:my-0 p-1 h-max " +
+            : "border-blue-border bg-[#496EEF] bg-opacity-10 border-2 mt-1 first-of-type:my-0 p-1 h-max " +
               className
         }
       >
-        <a className={"block w-full cursor-pointer"} onClick={click}>
+        <a
+          className={"flex justify-between items-center w-full cursor-pointer"}
+          onClick={click}
+        >
           <h1
             className={
               collapsed
                 ? "uppercase tracking-wider font-secondary text-xs opacity-75"
-                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1"
+                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight"
             }
           >
             {title}
           </h1>
+          <span className="flex gap-2">{selection}</span>
         </a>
         {!collapsed && (
           <motion.div
