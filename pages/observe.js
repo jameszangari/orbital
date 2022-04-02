@@ -24,7 +24,6 @@ async function fetcher(url) {
   };
 }
 function Observe() {
-  // Allows for hot reload of planets
   const { data, error } = useSWR(API_URL, fetcher);
 
   if (error)
@@ -76,10 +75,9 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 25, position: [200, 100, 0] }}
+            camera={{ fov: 25, position: [300, 100, 0] }}
             style={{ height: "100vh" }}
           >
-            {/* <Stats /> */}
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
             <Suspense fallback={null}>

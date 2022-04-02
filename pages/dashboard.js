@@ -1,8 +1,9 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
-import { LayerMaterial, Base, Depth, Fresnel, Texture, Noise } from "lamina";
+import { Stars } from "@react-three/drei";
+import { LayerMaterial, Depth, Texture } from "lamina";
+import Background from "../components/Background";
 import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
 
@@ -21,10 +22,24 @@ export default function Dashboard() {
 
   if (error)
     return (
-      <div className="absolute w-full h-full text-center">failed to load</div>
+      <div className="z-50 h-screen w-full grid place-items-center">
+        <div className="absolute z-50 grid place-items-center">
+          <h3 className="text-xl font-secondary uppercase p-8">
+            Failed to load.
+          </h3>
+          <Background />
+        </div>
+      </div>
     );
   if (!data)
-    return <div className="absolute w-full h-full text-center">loading...</div>;
+    return (
+      <div className="z-50 h-screen w-full grid place-items-center">
+        <div className="absolute z-50 grid place-items-center">
+          <h3 className="text-xl font-secondary uppercase p-8">Loading...</h3>
+          <Background />
+        </div>
+      </div>
+    );
 
   if (error) {
     console.log("Error:");
@@ -49,7 +64,6 @@ export default function Dashboard() {
   data.posts.forEach((planet) => {
     AllPlanets.push(planet);
   });
-  console.log(AllPlanets);
 
   let recentPlanet = [];
   if (data) {
@@ -57,6 +71,7 @@ export default function Dashboard() {
       recentPlanet.push(data[key].slice(-1)[0]);
     });
   }
+  console.log(recentPlanet);
 
   const Planet = () => {
     const targetRef = useRef();
@@ -70,13 +85,12 @@ export default function Dashboard() {
           position={[0, 0, 0]}
           scale={recentPlanet[0].pSize}
         >
-          <LayerMaterial color={recentPlanet[0].pCoreColor.hex} alpha={1}>
-            {/* <Base
-              color={recentPlanet[0].pCoreColor.hex}
-              value={recentPlanet[0].pCoreColor.hex}
-              alpha={1}
-              mode="normal"
-            /> */}
+          <LayerMaterial
+            color={recentPlanet[0].pCoreColor.hex}
+            alpha={1}
+            lighting="physical"
+            transmission={0.1}
+          >
             <Texture
               map={useTexture(recentPlanet[0].pCoreTexture)}
               alpha={0.65}
@@ -84,14 +98,7 @@ export default function Dashboard() {
             <Texture
               map={useTexture(recentPlanet[0].pCloudTexture)}
               alpha={recentPlanet[0].pCloudAlpha}
-              // attachObject={Noise}
             />
-            {/* <Noise
-              colorA={recentPlanet[0].pAtmosColor.hex}
-              colorB="#000000"
-              alpha={0.5}
-              mode="darken"
-            /> */}
             <Depth
               colorA={recentPlanet[0].pAtmosColor.hex}
               colorB="#000000"
@@ -123,25 +130,33 @@ export default function Dashboard() {
       <Head>
         <title>Orbital | Mission Control</title>
       </Head>
-      <h1 className="absolute z-10 pt-24 pb-8 text-3xl w-full text-center">
-        Mission Control Center
-      </h1>
+      <div className="absolute z-10 w-full flex justify-center mt-8">
+        <h1 className="text-3xl uppercase border-blue-border bg-[#496EEF] bg-opacity-10 border-2 py-4 px-8 text-orbital-blueLight">
+          Mission Control Center
+        </h1>
+      </div>
       {recentPlanet && (
         <>
-          <div className="absolute right-0 z-10 border p-4">
-            <h2>Planet Info</h2>
+          <div className="absolute right-0 z-10 border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
+            <h2 className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blue">
+              Planet Info
+            </h2>
             {recentPlanet.map((planet, i) => {
               return (
                 <div key={i}>
-                  <p>Type: {planet.pType ? planet.pType : "undefined"}</p>
-                  <p>Size: {planet.pSize ? planet.pSize : "undefined"}</p>
-                  <p>
+                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
+                    Type: {planet.pType ? planet.pType : "undefined"}
+                  </p>
+                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
+                    Size: {planet.pSize ? planet.pSize : "undefined"}
+                  </p>
+                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
                     Core:{" "}
                     {planet.pCoreColor.hex
                       ? planet.pCoreColor.hex
                       : "undefined"}
                   </p>
-                  <p>
+                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
                     Atmosphere:{" "}
                     {planet.pAtmosColor.hex
                       ? planet.pAtmosColor.hex
@@ -151,16 +166,28 @@ export default function Dashboard() {
               );
             })}
           </div>
-          <div className="absolute bottom-0 z-10 flex flex-row">
-            <div className="border p-4">
-              <h2>Total Planets Found</h2>
-              <h2>{PlanetCount}</h2>
+          <div className="absolute bottom-0 z-10 flex flex-row gap-2 w-full">
+            <div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 w-1/2">
+              <h2 className="uppercase tracking-wider font-primary text-base pt-1 pl-1 text-orbital-blueLight">
+                Total Planets Found
+              </h2>
+              <h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-orbital-blue">
+                {PlanetCount}
+              </h2>
             </div>
-            <div className="border p-4">
-              <h2>{gasGiant} Gas Giant</h2>
-              <h2>{neptuneLike} Neptune-like</h2>
-              <h2>{superEarth} Super Earth</h2>
-              <h2>{terrestrial} Terrestrial</h2>
+            <div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 w-1/2">
+              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {gasGiant} Gas Giant
+              </h2>
+              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {neptuneLike} Neptune-like
+              </h2>
+              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {superEarth} Super Earth
+              </h2>
+              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {terrestrial} Terrestrial
+              </h2>
             </div>
           </div>
         </>

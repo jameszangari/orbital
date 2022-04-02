@@ -2,22 +2,13 @@ import Head from "next/head";
 import { Suspense, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text, Stars, Cloud } from "@react-three/drei";
-import {
-  LayerMaterial,
-  Color,
-  Depth,
-  Fresnel,
-  Texture,
-  Noise,
-  Matcap,
-} from "lamina";
+import { OrbitControls, Stars } from "@react-three/drei";
+import { LayerMaterial, Depth, Texture } from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
 import Button from "../components/Button";
 import FormButton from "../components/Form/FormButton";
 import { CirclePicker } from "react-color";
 import Accordion from "../components/Accordion";
-// import Particles from "../components/Particles";
 import Image from "next/image";
 import * as Images from "../components/Images";
 import Link from "../components/Link";
@@ -26,7 +17,6 @@ import Background from "../components/Background";
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
   const router = useRouter();
-  // Set default values for all inputs
   const [pType, setType] = useState("Gas Giant");
   const [pSize, setSize] = useState("5");
   const [pCoreColor, setCoreColor] = useState({ hex: "#2196f3" });
@@ -36,13 +26,7 @@ export default function Create() {
   // TODO Move these values to observe page ie. z/xRadius
   const pSpeed = random(0.05, 0.06);
   const pOffset = random(0, Math.PI * 2);
-  // // Log inputs
-  // console.log("type: " + pType);
-  // console.log("size: " + pSize);
-  // console.log("core: " + pCoreColor.hex);
-  // console.log("atmos: " + pAtmosColor.hex);
 
-  // set type to variable
   const gasGiant = pType === "Gas Giant";
   const neptuneLike = pType === "Neptune-like";
   const superEarth = pType === "Super Earth";
@@ -89,13 +73,9 @@ export default function Create() {
       ? "/img/terrestrial/Terrestrial1.png"
       : "";
   };
-  // console.log(setTextures());
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
   const [pCloudAlpha, setCloudAlpha] = useState(0.5);
-  // console.log("core texture: " + pCoreTexture);
-  // console.log("cloud texture: " + pCloudTexture);
-  // console.log("cloud alpha: " + pCloudAlpha);
   const [pName, setName] = useState("Your Planet Name");
   const [zoom, setZoom] = useState(10);
 
@@ -111,37 +91,14 @@ export default function Create() {
     return (
       <>
         <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
-          {/* <meshStandardMaterial color={"orange"} /> */}
           <LayerMaterial
             color={pCoreColor.hex}
             alpha={1}
             lighting="physical"
             transmission={0.5}
           >
-            {/* <Base
-              color={pCoreColor.hex}
-              value={pCoreColor.hex}
-              alpha={1}
-              mode="normal"
-            /> */}
-            {/* <Color color={pCoreColor.hex} alpha={1} /> */}
             <Texture map={useTexture(pCloudTexture)} alpha={0.5} />
             <Texture map={useTexture(pCoreTexture)} alpha={0.65} />
-            {/* <Fresnel
-              color={pAtmosColor.hex}
-              // colorB="#000000"
-              onChange={(e) => setAtmosColor(e.target.value)}
-              // alpha={pCloudAlpha}
-              alpha={0.5}
-              // mode="darken"
-            /> */}
-            {/* <Noise
-              colorA={pAtmosColor.hex}
-              colorB="#000000"
-              onChange={(e) => setAtmosColor(e.target.value)}
-              alpha={0.5}
-              mode="darken"
-            /> */}
             <Depth
               colorA={pAtmosColor.hex}
               colorB="#000000"
@@ -159,7 +116,6 @@ export default function Create() {
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
-    // const prevStep = () => setStep(() => step - 1);
     var Filter = require("bad-words"),
       filter = new Filter();
     return (
@@ -594,8 +550,6 @@ export default function Create() {
         <title>Orbital | Create</title>
       </Head>
       <div className="portrait:hidden">
-        {/* TODO convert canvas to motioncanvas */}
-        {/* @link https://www.framer.com/docs/motioncanvas/ */}
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
@@ -610,17 +564,6 @@ export default function Create() {
           <Suspense fallback={null}>
             <ambientLight intensity={1} />
             <pointLight position={[100, 100, 100]} />
-            {/* TODO figure out planet name tags */}
-            {/* <Text
-            fontSize={0.5}
-            outlineWidth={"5%"}
-            outlineColor="#000000"
-            outlineOpacity={1}
-            position={[0, 3, 0]}
-            onChange={(e) => set({ title: e.target.value })}
-          >
-            {title}
-          </Text> */}
             <Stars fade={true} />
             <Planet />
             <OrbitControls
