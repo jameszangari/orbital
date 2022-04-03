@@ -605,20 +605,20 @@ export default function Create() {
               }
               defaultValue={
                 terrestrial
-                  ? 20
+                  ? 10
                   : superEarth
-                  ? 20
+                  ? 10
                   : neptuneLike
-                  ? 20
+                  ? 10
                   : gasGiant
-                  ? 20
-                  : 20
+                  ? 10
+                  : 10
               }
               onChange={(e) => {
                 setZoom(e.target.value);
               }}
               id="zoom"
-              step="-1"
+              step="1"
               className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
             />
           </div>
