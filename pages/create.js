@@ -477,6 +477,7 @@ export default function Create() {
           click={() => {
             setStep(6);
           }}
+          selection=" "
           collapsed={step === 6 ? false : true}
         >
           <div className="px-1 pt-4 pb-1">

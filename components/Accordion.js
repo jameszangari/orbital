@@ -43,7 +43,9 @@ const Accordion = ({
           </h1>
           <span className="flex gap-2">
             {typeof selection === "string" ? (
-              <p className="text-xs uppercase opacity-50">{selection}</p>
+              <p className="text-xs uppercase opacity-50 h-[30px] flex flex-col justify-center items-center">
+                {selection}
+              </p>
             ) : (
               selection
             )}
