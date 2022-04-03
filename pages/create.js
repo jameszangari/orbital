@@ -228,7 +228,7 @@ export default function Create() {
               onChange={(e) => setSize(e.target.value)}
               id="size"
               step="0.1"
-              className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
+              className="slider-blue appearance-none w-full h-1 p-0 bg-blue-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb mb-4"
             ></input>
           </div>
           <div className="px-1 pt-4 pb-1">
@@ -558,7 +558,7 @@ export default function Create() {
             height: "100vh",
             width: "40vw",
             position: "fixed",
-            zIndex: 50,
+            zIndex: 0,
           }}
         >
           <Suspense fallback={null}>
@@ -573,12 +573,10 @@ export default function Create() {
             />
           </Suspense>
         </Canvas>
-        <div
-          className="z-50 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
-          style={{ width: "60vw" }}
-        >
-          <div className="mt-6 flex flex-col space-y-2 w-full px-1 pb-4">
-            <p>Planet Zoom</p>
+        <div className="fixed bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
+          <div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1">
+            <p className="text-xs uppercase opacity-50 w-2/6">Planet Zoom</p>
+            <span className="font-secondary text-xl opacity-50">+</span>
             <input
               type="range"
               min={
@@ -619,9 +617,15 @@ export default function Create() {
               }}
               id="zoom"
               step="1"
-              className="appearance-none w-full h-1 p-0 bg-orbital-blue bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none mb-4"
+              className="slider-purple appearance-none w-4/6 h-1 p-0 bg-purple-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb"
             />
+            <span className="font-secondary text-xl opacity-50">-</span>
           </div>
+        </div>
+        <div
+          className="z-0 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
+          style={{ width: "60vw" }}
+        >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -637,8 +641,8 @@ export default function Create() {
           </div>
         ) : null}
         {message ? (
-          <div className="absolute z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
-            <div className="absolute z-50 grid place-items-center">
+          <div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
+            <div className="absolute z-50 flex flex-col justify-center items-center">
               <h3 className="text-xl font-secondary uppercase p-8">
                 {message}
               </h3>
@@ -653,8 +657,8 @@ export default function Create() {
           </div>
         ) : null}
       </div>
-      <div className="landscape:hidden z-50 h-screen w-full grid place-items-center bg-black bg-opacity-75">
-        <div className="absolute z-50 grid place-items-center">
+      <div className="landscape:hidden z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
+        <div className="absolute z-50 flex flex-col justify-center items-center">
           <h3 className="text-xl font-secondary uppercase p-8">
             Please rotate your device.
           </h3>

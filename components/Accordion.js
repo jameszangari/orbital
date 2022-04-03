@@ -36,12 +36,18 @@ const Accordion = ({
             className={
               collapsed
                 ? "uppercase tracking-wider font-secondary text-xs opacity-75"
-                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight"
+                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight font-semibold"
             }
           >
             {title}
           </h1>
-          <span className="flex gap-2">{selection}</span>
+          <span className="flex gap-2">
+            {typeof selection === "string" ? (
+              <p className="text-xs uppercase opacity-50">{selection}</p>
+            ) : (
+              selection
+            )}
+          </span>
         </a>
         {!collapsed && (
           <motion.div
