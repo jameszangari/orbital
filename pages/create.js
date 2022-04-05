@@ -87,7 +87,6 @@ export default function Create() {
     useFrame((state) => {
       state.camera.position.z = zoom;
     });
-    console.log("zoom: " + zoom);
     return (
       <>
         <Sphere ref={targetRef} position={[0, 0, 0]} scale={pSize}>
@@ -97,8 +96,8 @@ export default function Create() {
             lighting="physical"
             transmission={0.5}
           >
-            <Texture map={useTexture(pCloudTexture)} alpha={0.5} />
             <Texture map={useTexture(pCoreTexture)} alpha={0.65} />
+            <Texture map={useTexture(pCloudTexture)} alpha={0.5} />
             <Depth
               colorA={pAtmosColor.hex}
               colorB="#000000"
