@@ -13,6 +13,8 @@ import Image from "next/image";
 import * as Images from "../components/Images";
 import Link from "../components/Link";
 import Background from "../components/Background";
+import RotateIcon from "../components/RotateIcon";
+import { motion } from "framer-motion";
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
@@ -62,17 +64,7 @@ export default function Create() {
     Images.Clouds3.src,
     Images.Clouds4.src,
   ];
-  const setTextures = () => {
-    return gasGiant
-      ? "/img/gas-giant/Gaseous1.png"
-      : neptuneLike
-      ? "/img/habitable/Tropical.png"
-      : superEarth
-      ? "/img/habitable/Savannah.png"
-      : terrestrial
-      ? "/img/terrestrial/Terrestrial1.png"
-      : "";
-  };
+
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
   const [pCloudAlpha, setCloudAlpha] = useState(0.5);
@@ -127,7 +119,7 @@ export default function Create() {
           selection={pType}
           collapsed={step === 1 ? false : true}
         >
-          <div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
+          <motion.div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
             <FormButton
               imgSrc={gasTextures[0]}
               label={"Gas Giant"}
@@ -168,8 +160,8 @@ export default function Create() {
                 setZoom(10);
               }}
             />
-          </div>
-          <div className="px-1 pt-4 pb-1">
+          </motion.div>
+          <motion.div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -178,7 +170,7 @@ export default function Create() {
               }}
               label={"Next"}
             />
-          </div>
+          </motion.div>
         </Accordion>
         <Accordion
           title={"Size"}
@@ -188,8 +180,8 @@ export default function Create() {
           selection={"Size: " + pSize}
           collapsed={step === 2 ? false : true}
         >
-          <div className="mt-6 flex flex-col space-y-2 w-full px-1">
-            <input
+          <motion.div className="mt-6 flex flex-col space-y-2 w-full px-1">
+            <motion.input
               type="range"
               min={
                 terrestrial
@@ -228,9 +220,9 @@ export default function Create() {
               id="size"
               step="0.1"
               className="slider-blue appearance-none w-full h-1 p-0 bg-blue-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb mb-4"
-            ></input>
-          </div>
-          <div className="px-1 pt-4 pb-1">
+            />
+          </motion.div>
+          <motion.div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -239,7 +231,7 @@ export default function Create() {
               }}
               label={"Next"}
             />
-          </div>
+          </motion.div>
         </Accordion>
         <Accordion
           title={"Core"}
@@ -254,7 +246,7 @@ export default function Create() {
                 height={30}
                 width={30}
               />
-              <div
+              <motion.div
                 style={{ backgroundColor: pCoreColor.hex }}
                 className="w-[30px] h-[30px]"
               />
@@ -262,8 +254,8 @@ export default function Create() {
           }
           collapsed={step === 3 ? false : true}
         >
-          <div className="px-1 pt-2 w-full">
-            <div className="grid grid-cols-4 gap-2 w-full mb-4">
+          <motion.div className="px-1 pt-2 w-full">
+            <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
               {gasGiant && (
                 <>
                   <FormButton
@@ -360,15 +352,15 @@ export default function Create() {
                   />
                 </>
               )}
-            </div>
+            </motion.div>
             <CirclePicker
               width={"100%"}
               color={pCoreColor}
               onChange={setCoreColor}
               className={"mt-2"}
             />
-          </div>
-          <div className="px-1 pt-4 pb-1">
+          </motion.div>
+          <motion.div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -377,7 +369,7 @@ export default function Create() {
               }}
               label={"Next"}
             />
-          </div>
+          </motion.div>
         </Accordion>
         <Accordion
           title={"Atmosphere"}
@@ -392,7 +384,7 @@ export default function Create() {
                 height={30}
                 width={30}
               />
-              <div
+              <motion.div
                 style={{ backgroundColor: pAtmosColor.hex }}
                 className="w-[30px] h-[30px]"
               />
@@ -400,8 +392,8 @@ export default function Create() {
           }
           collapsed={step === 4 ? false : true}
         >
-          <div className="px-1 pt-2 w-full">
-            <div className="grid grid-cols-4 gap-2 w-full mb-4">
+          <motion.div className="px-1 pt-2 w-full">
+            <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
               <FormButton
                 imgSrc={cloudTextures[0]}
                 label={"Type 1"}
@@ -422,14 +414,14 @@ export default function Create() {
                 label={"Type 4"}
                 click={() => setCloudTexture(cloudTextures[3])}
               />
-            </div>
+            </motion.div>
             <CirclePicker
               width={"100%"}
               color={pAtmosColor.hex}
               onChange={setAtmosColor}
             />
-          </div>
-          <div className="px-1 pt-4 pb-1">
+          </motion.div>
+          <motion.div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -438,7 +430,7 @@ export default function Create() {
               }}
               label={"Next"}
             />
-          </div>
+          </motion.div>
         </Accordion>
         <Accordion
           title={"Title"}
@@ -448,8 +440,8 @@ export default function Create() {
           selection={pName}
           collapsed={step === 5 ? false : true}
         >
-          <div className="px-1 pt-4">
-            <input
+          <motion.div className="px-1 pt-4">
+            <motion.input
               type="text"
               name="name"
               id="name"
@@ -459,8 +451,8 @@ export default function Create() {
                 "block text-sm font-medium w-full bg-transparent border-blue-border border-2 p-2"
               }
             />
-          </div>
-          <div className="px-1 pt-4 pb-1">
+          </motion.div>
+          <motion.div className="px-1 pt-4 pb-1">
             <Link
               variant={"button"}
               click={(e) => {
@@ -469,7 +461,7 @@ export default function Create() {
               }}
               label={"Next"}
             />
-          </div>
+          </motion.div>
         </Accordion>
         <Accordion
           title={"Complete"}
@@ -479,13 +471,13 @@ export default function Create() {
           selection=" "
           collapsed={step === 6 ? false : true}
         >
-          <div className="px-1 pt-4 pb-1">
+          <motion.div className="px-1 pt-4 pb-1">
             <Button
               click={handleSubmit}
               label={"Create Your Planet"}
               className={"w-full"}
             />
-          </div>
+          </motion.div>
         </Accordion>
       </>
     );
@@ -549,7 +541,7 @@ export default function Create() {
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <div className="portrait:hidden">
+      <motion.div className="portrait:hidden">
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
@@ -573,11 +565,15 @@ export default function Create() {
             />
           </Suspense>
         </Canvas>
-        <div className="fixed bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
-          <div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1">
-            <p className="text-xs uppercase opacity-50 w-2/6">Planet Zoom</p>
-            <span className="font-secondary text-xl opacity-50">+</span>
-            <input
+        <motion.div className="fixed bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
+          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1">
+            <motion.p className="font-secondary text-xs uppercase opacity-50 w-2/6">
+              Planet Zoom
+            </motion.p>
+            <motion.span className="font-secondary text-xl opacity-50">
+              +
+            </motion.span>
+            <motion.input
               type="range"
               min={
                 terrestrial
@@ -619,52 +615,55 @@ export default function Create() {
               step="1"
               className="slider-purple appearance-none w-4/6 h-1 p-0 bg-purple-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb"
             />
-            <span className="font-secondary text-xl opacity-50">-</span>
-          </div>
-        </div>
-        <div
+            <motion.span className="font-secondary text-xl opacity-50">
+              -
+            </motion.span>
+          </motion.div>
+        </motion.div>
+        <motion.div
           className="z-0 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
           style={{ width: "60vw" }}
         >
-          <form
+          <motion.form
             onSubmit={(e) => {
               e.preventDefault();
             }}
             className="flex flex-col justify-between h-max pb-4"
           >
             {RenderSteps()}
-          </form>
-        </div>
+          </motion.form>
+        </motion.div>
         {error ? (
-          <div className="block w-full my-3 mx-auto">
-            <h3 className="text-red-500">{error}</h3>
-          </div>
+          <motion.div className="block w-full my-3 mx-auto">
+            <motion.h3 className="text-red-500">{error}</motion.h3>
+          </motion.div>
         ) : null}
         {message ? (
-          <div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
-            <div className="absolute z-50 flex flex-col justify-center items-center">
-              <h3 className="text-xl font-secondary uppercase p-8">
+          <motion.div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
+            <motion.div className="absolute z-50 flex flex-col justify-center items-center">
+              <motion.h3 className="text-xl font-secondary uppercase p-8">
                 {message}
-              </h3>
+              </motion.h3>
               <Background />
-            </div>
+            </motion.div>
             <Link
               className="absolute mt-48 w-max p-4"
               click={() => router.push("/")}
               label={"Start Over"}
               variant={"link"}
             />
-          </div>
+          </motion.div>
         ) : null}
-      </div>
-      <div className="landscape:hidden z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
-        <div className="absolute z-50 flex flex-col justify-center items-center">
-          <h3 className="text-xl font-secondary uppercase p-8">
+      </motion.div>
+      <motion.div className="landscape:hidden z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
+        <motion.div className="absolute z-50 flex flex-col justify-center items-center mx-4">
+          <RotateIcon className={"block w-24 h-24 mt-8"} />
+          <motion.h3 className="text-xl font-secondary uppercase p-8">
             Please rotate your device.
-          </h3>
+          </motion.h3>
           <Background />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </>
   );
 }
