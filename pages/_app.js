@@ -4,6 +4,7 @@ import Nav from "../components/Nav";
 // import { useRouter } from "next/router";
 // import Loading from "../components/Loading";
 import "../styles/globals.css";
+import "../public/fonts/fonts.css";
 
 const title = "Orbital: UXID Senior Project";
 const url = "https://orbital-webapp.vercel.app/";
@@ -36,7 +37,6 @@ function MyApp({ Component, pageProps }) {
         <meta name="author" content={author} />
         <meta name="designer" content={author} />
         <meta name="publisher" content={author} />
-
         {/* Search Engine Optimization Meta Tags */}
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -52,7 +52,6 @@ function MyApp({ Component, pageProps }) {
         <meta name="og:image" content={image} />
         <meta name="og:site_name" content={title} />
         <meta name="og:description" content={description} />
-
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="32x32" href="/favicon-32x32.png" />
@@ -64,7 +63,6 @@ function MyApp({ Component, pageProps }) {
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" color="#000000" href="/safari-pinned-tab.svg" />
         {/* <link rel="apple-touch-startup-image" href="/startup.png" /> */}
-
         {/* Meta Tags for HTML pages on Mobile */}
         {/* <meta name="format-detection" content="telephone=yes"/>
         <meta name="HandheldFriendly" content="true"/>  */}
@@ -74,7 +72,6 @@ function MyApp({ Component, pageProps }) {
         />
         <meta name="theme-color" content="#000" />
         <link rel="shortcut icon" href="/favicon.ico" />
-
         {/* 
       Twitter Summary card
         documentation: https://dev.twitter.com/cards/getting-started
@@ -86,7 +83,7 @@ function MyApp({ Component, pageProps }) {
           as="fetch"
           crossOrigin="anonymous"
         />
-        {/* <meta name="twitter:site" content="@" /> */}
+        {/* <meta name="twitter:site" content="@" /> */}``
       </Head>
       {/* <Nav /> */}
       <main className="overflow-x-hidden">
