@@ -17,8 +17,8 @@ async function fetcher(url) {
   };
 }
 export default function Dashboard() {
-  // Allows for hot reload of planets
-  const { data, error } = useSWR(API_URL, fetcher);
+  // @link https://swr.vercel.app/docs/revalidation
+  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
   if (error)
     return (

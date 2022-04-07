@@ -24,7 +24,8 @@ async function fetcher(url) {
   };
 }
 function Observe() {
-  const { data, error } = useSWR(API_URL, fetcher);
+  // @link https://swr.vercel.app/docs/revalidation
+  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
   if (error)
     return (
