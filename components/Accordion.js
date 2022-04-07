@@ -12,14 +12,15 @@ const Accordion = ({
   return (
     <>
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0, height: 0 }}
         animate={{
           opacity: 1,
           transition: {
             duration: 0.5,
           },
+          height: "auto",
         }}
-        exit={{ opacity: 0 }}
+        exit={{ opacity: 0, height: 0 }}
         className={
           collapsed
             ? "border-pink-border bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 " +
@@ -28,11 +29,11 @@ const Accordion = ({
               className
         }
       >
-        <a
+        <motion.a
           className={"flex justify-between items-center w-full cursor-pointer"}
           onClick={click}
         >
-          <h1
+          <motion.h1
             className={
               collapsed
                 ? "uppercase tracking-wider font-secondary text-xs opacity-75"
@@ -40,27 +41,28 @@ const Accordion = ({
             }
           >
             {title}
-          </h1>
-          <span className="flex gap-2">
+          </motion.h1>
+          <motion.span className="flex gap-2">
             {typeof selection === "string" ? (
-              <p className="text-xs uppercase opacity-50 h-[30px] flex flex-col justify-center items-center">
+              <motion.p className="font-secondary text-xs uppercase opacity-50 h-[30px] flex flex-col justify-center items-center">
                 {selection}
-              </p>
+              </motion.p>
             ) : (
               selection
             )}
-          </span>
-        </a>
+          </motion.span>
+        </motion.a>
         {!collapsed && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, height: 0 }}
             animate={{
               opacity: 1,
+              height: "auto",
               transition: {
                 duration: 0.5,
               },
             }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, height: 0 }}
             // className={collapsed ? "hidden" : "block"}
             aria-expanded={!collapsed}
           >

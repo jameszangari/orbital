@@ -1,13 +1,23 @@
 import Image from "next/image";
 import Background from "../Background";
+import { motion } from "framer-motion";
 
 export default function Create({ imgSrc, label, click }) {
   return (
-    <a
+    <motion.a
       className="relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-xs md:text-sm font-secondary uppercase hover:bg-orbital-blue focus:bg-orbital-blue active:bg-orbital-blue transition-all"
       onClick={click}
+      initial={{ opacity: 0, height: 0 }}
+      animate={{
+        opacity: 1,
+        transition: {
+          duration: 0.5,
+        },
+        height: "auto",
+      }}
+      exit={{ opacity: 0, height: 0 }}
     >
-      <span className="z-10 flex flex-col justify-center items-center pointer-events-none">
+      <motion.span className="z-10 flex flex-col justify-center items-center pointer-events-none">
         <Image
           src={imgSrc}
           alt={"Clouds " + label}
@@ -17,10 +27,15 @@ export default function Create({ imgSrc, label, click }) {
           // placeholder="blur"
           priority={true}
           className="rounded-full shadow-lg mb-2"
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{ opacity: 0 }}
         />
         {label}
-      </span>
+      </motion.span>
       <Background />
-    </a>
+    </motion.a>
   );
 }
