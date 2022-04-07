@@ -7,8 +7,9 @@ import Sun from "../components/Sun";
 import Background from "../components/Background";
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { server } from "../lib/server";
 
-const API_URL = "/api/posts";
+const API_URL = `${server}/api/posts`;
 
 async function fetcher(url) {
   const res = await fetch(url);

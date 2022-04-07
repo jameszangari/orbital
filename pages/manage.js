@@ -2,26 +2,22 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
+import { server } from "../lib/server";
 
 export default function Manage({ posts }) {
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
 
-  // Delete post
   const deletePost = async (postId) => {
-    //change deleting state
     setDeleting(true);
-
     try {
       // Delete post
-      await fetch("/api/posts", {
+      await fetch(`${server}/api/posts`, {
         method: "DELETE",
         body: postId,
       });
-
       // reset the deleting state
       setDeleting(false);
-
       // reload the page
       return router.push(router.asPath);
     } catch (error) {
@@ -103,13 +99,7 @@ export default function Manage({ posts }) {
   );
 }
 export async function getServerSideProps(ctx) {
-  // get the current environment
-  let dev = process.env.NODE_ENV !== "production";
-  let { DEV_URL, PROD_URL } = process.env;
-
-  // request posts from api
-  let response = await fetch(`${dev ? DEV_URL : PROD_URL}/api/posts`);
-  // extract the data
+  let response = await fetch(`${server}/api/posts`);
   let data = await response.json();
 
   return {
