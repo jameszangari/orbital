@@ -6,17 +6,6 @@ import Ecliptic from "./Ecliptic";
 
 export default function Planet({ post, xRadius, zRadius }) {
   const ref = useRef();
-  const gasGiant = post.pType === "Gas Giant";
-  const neptuneLike = post.pType === "Neptune-like";
-  const superEarth = post.pType === "Super Earth";
-  const terrestrial = post.pType === "Terrestrial";
-
-  const texture = useTexture([
-    "/img/gaseous/Gaseous1.png",
-    "/img/inhabitable/Icy.png",
-    "/img/habitable/Alpine.png",
-    "/img/terrestrial/Terrestrial1.png",
-  ]);
 
   const random = (a, b) => a + Math.random() * b;
 
