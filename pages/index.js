@@ -1,50 +1,71 @@
 import Head from "next/head";
-import { useRef, useState } from "react";
-import Nav from "../components/Nav";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import Planet from "../components/Planet";
-// import Sun from "../components/Sun";
 
 export default function Home({ posts }) {
   console.log(posts);
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <title>Orbital | Observe</title>
       </Head>
 
-      <Nav />
-
       <main>
-        {/* <div className="max-w-3xl my-5 mx-auto p-3"> */}
-        {posts.length === 0 ? (
-          <h2 className="max-w-3xl mx-auto px-2 pt-4">No planets added yet</h2>
-        ) : (
-          <>
-            <Canvas
-              // figure out how to center camera
-              camera={{
-                fov: 100,
-                near: 1,
-                far: 1000,
-                position: [0, 0, 50],
-              }}
-              // camera={{ fov: 90, near: 1, far: 1000, position: [0, 0, 10] }}
-              style={{ height: "100vh", width: "100vw" }}
-              // className="js-canvas"
-            >
-              <ambientLight intensity={1} />
-              <pointLight position={[100, 100, 100]} />
-              {/* <Sun /> */}
-              {posts.map((post, i) => (
-                <Planet post={post} key={i} />
-              ))}
-              <OrbitControls />
-            </Canvas>
-          </>
-        )}
+        {posts
+          ? posts.map((planet, i) => {
+              {
+                console.log(planet);
+              }
+              return (
+                <div key={i} className="py-4 max-w-3xl m-auto">
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">ID: </span>
+                    <span className="w-1/2 text-right">{planet._id}</span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">Created: </span>
+                    <span className="w-1/2 text-right">{planet.createdAt}</span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">type: </span>
+                    <span className="w-1/2 text-right">{planet.pType}</span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">size: </span>
+                    <span className="w-1/2 text-right">{planet.pSize}</span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">core: </span>
+                    <span className="w-1/2 text-right">
+                      {planet.pCoreColor.hex}
+                    </span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">atmos: </span>
+                    <span className="w-1/2 text-right">
+                      {planet.pAtmosColor.hex}
+                    </span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">core texture: </span>
+                    <span className="w-1/2 text-right">
+                      {planet.pCoreTexture}
+                    </span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">cloud texture: </span>
+                    <span className="w-1/2 text-right">
+                      {planet.pCloudTexture}
+                    </span>
+                  </p>
+                  <p className="flex flex-row w-full">
+                    <span className="w-1/2">cloud alpha: </span>
+                    <span className="w-1/2 text-right">
+                      {planet.pCloudAlpha}
+                    </span>
+                  </p>
+                </div>
+              );
+            })
+          : null}
       </main>
     </div>
   );
