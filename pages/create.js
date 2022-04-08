@@ -15,6 +15,7 @@ import Link from "../components/Link";
 import Background from "../components/Background";
 import RotateIcon from "../components/RotateIcon";
 import { motion } from "framer-motion";
+// import { ImageLoader, prepareTexture } from "../components/ImageLoader";
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
@@ -70,6 +71,36 @@ export default function Create() {
   const [pCloudAlpha, setCloudAlpha] = useState(0.5);
   const [pName, setName] = useState("Your Planet Name");
   const [zoom, setZoom] = useState(10);
+
+  const preloadCoreTexture = (texturePath) =>
+    new Promise((resolve, reject) => {
+      const image = new window.Image(texturePath);
+      image.onload = () => resolve(texturePath);
+      image.src = texturePath;
+    });
+  const prepareCoreTexture = async (texturePath) => {
+    try {
+      await preloadCoreTexture(texturePath);
+      setCoreTexture(texturePath);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const preloadCloudTexture = (texturePath) =>
+    new Promise((resolve, reject) => {
+      const image = new window.Image(texturePath);
+      image.onload = () => resolve(texturePath);
+      image.src = texturePath;
+    });
+  const prepareCloudTexture = async (texturePath) => {
+    try {
+      await preloadCloudTexture(texturePath);
+      setCloudTexture(texturePath);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const Planet = () => {
     const targetRef = useRef();
@@ -136,7 +167,8 @@ export default function Create() {
               click={() => {
                 setType("Neptune-like");
                 setSize("3.5");
-                setCoreTexture(neptuneTextures[0]);
+                preloadCoreTexture(neptuneTextures[0]);
+                prepareCoreTexture(neptuneTextures[0]);
                 setZoom(10);
               }}
             />
@@ -146,7 +178,8 @@ export default function Create() {
               click={() => {
                 setType("Super Earth");
                 setSize("2");
-                setCoreTexture(superTextures[0]);
+                preloadCoreTexture(superTextures[0]);
+                prepareCoreTexture(superTextures[0]);
                 setZoom(10);
               }}
             />
@@ -156,7 +189,8 @@ export default function Create() {
               click={() => {
                 setType("Terrestrial");
                 setSize("0.5");
-                setCoreTexture(terrestrialTextures[0]);
+                preloadCoreTexture(terrestrialTextures[0]);
+                prepareCoreTexture(terrestrialTextures[0]);
                 setZoom(10);
               }}
             />
@@ -261,22 +295,34 @@ export default function Create() {
                   <FormButton
                     imgSrc={gasTextures[0]}
                     label={"Type 1"}
-                    click={() => setCoreTexture(gasTextures[0])}
+                    click={() => {
+                      preloadCoreTexture(gasTextures[0]);
+                      prepareCoreTexture(gasTextures[0]);
+                    }}
                   />
                   <FormButton
                     imgSrc={gasTextures[1]}
                     label={"Type 2"}
-                    click={() => setCoreTexture(gasTextures[1])}
+                    click={() => {
+                      preloadCoreTexture(gasTextures[1]);
+                      prepareCoreTexture(gasTextures[1]);
+                    }}
                   />
                   <FormButton
                     imgSrc={gasTextures[2]}
                     label={"Type 3"}
-                    click={() => setCoreTexture(gasTextures[2])}
+                    click={() => {
+                      preloadCoreTexture(gasTextures[2]);
+                      prepareCoreTexture(gasTextures[2]);
+                    }}
                   />
                   <FormButton
                     imgSrc={gasTextures[3]}
                     label={"Type 4"}
-                    click={() => setCoreTexture(gasTextures[3])}
+                    click={() => {
+                      preloadCoreTexture(gasTextures[3]);
+                      prepareCoreTexture(gasTextures[3]);
+                    }}
                   />
                 </>
               )}
@@ -285,22 +331,34 @@ export default function Create() {
                   <FormButton
                     imgSrc={neptuneTextures[0]}
                     label={"Type 1"}
-                    click={() => setCoreTexture(neptuneTextures[0])}
+                    click={() => {
+                      preloadCoreTexture(neptuneTextures[0]);
+                      prepareCoreTexture(neptuneTextures[0]);
+                    }}
                   />
                   <FormButton
                     imgSrc={neptuneTextures[1]}
                     label={"Type 2"}
-                    click={() => setCoreTexture(neptuneTextures[1])}
+                    click={() => {
+                      preloadCoreTexture(neptuneTextures[1]);
+                      prepareCoreTexture(neptuneTextures[1]);
+                    }}
                   />
                   <FormButton
                     imgSrc={neptuneTextures[2]}
                     label={"Type 3"}
-                    click={() => setCoreTexture(neptuneTextures[2])}
+                    click={() => {
+                      preloadCoreTexture(neptuneTextures[2]);
+                      prepareCoreTexture(neptuneTextures[2]);
+                    }}
                   />
                   <FormButton
                     imgSrc={neptuneTextures[3]}
                     label={"Type 4"}
-                    click={() => setCoreTexture(neptuneTextures[3])}
+                    click={() => {
+                      preloadCoreTexture(neptuneTextures[3]);
+                      prepareCoreTexture(neptuneTextures[3]);
+                    }}
                   />
                 </>
               )}
@@ -309,12 +367,18 @@ export default function Create() {
                   <FormButton
                     imgSrc={superTextures[0]}
                     label={"Type 1"}
-                    click={() => setCoreTexture(superTextures[0])}
+                    click={() => {
+                      preloadCoreTexture(superTextures[0]);
+                      prepareCoreTexture(superTextures[0]);
+                    }}
                   />
                   <FormButton
                     imgSrc={superTextures[1]}
                     label={"Type 2"}
-                    click={() => setCoreTexture(superTextures[1])}
+                    click={() => {
+                      preloadCoreTexture(superTextures[1]);
+                      prepareCoreTexture(superTextures[1]);
+                    }}
                   />
                   <FormButton
                     imgSrc={superTextures[2]}
@@ -324,7 +388,10 @@ export default function Create() {
                   <FormButton
                     imgSrc={superTextures[3]}
                     label={"Type 4"}
-                    click={() => setCoreTexture(superTextures[3])}
+                    click={() => {
+                      preloadCoreTexture(superTextures[3]);
+                      prepareCoreTexture(superTextures[3]);
+                    }}
                   />
                 </>
               )}
@@ -333,22 +400,34 @@ export default function Create() {
                   <FormButton
                     imgSrc={terrestrialTextures[0]}
                     label={"Type 1"}
-                    click={() => setCoreTexture(terrestrialTextures[0])}
+                    click={() => {
+                      preloadCoreTexture(terrestrialTextures[0]);
+                      prepareCoreTexture(terrestrialTextures[0]);
+                    }}
                   />
                   <FormButton
                     imgSrc={terrestrialTextures[1]}
                     label={"Type 2"}
-                    click={() => setCoreTexture(terrestrialTextures[1])}
+                    click={() => {
+                      preloadCoreTexture(terrestrialTextures[1]);
+                      prepareCoreTexture(terrestrialTextures[1]);
+                    }}
                   />
                   <FormButton
                     imgSrc={terrestrialTextures[2]}
                     label={"Type 3"}
-                    click={() => setCoreTexture(terrestrialTextures[2])}
+                    click={() => {
+                      preloadCoreTexture(terrestrialTextures[2]);
+                      prepareCoreTexture(terrestrialTextures[2]);
+                    }}
                   />
                   <FormButton
                     imgSrc={terrestrialTextures[3]}
                     label={"Type 4"}
-                    click={() => setCoreTexture(terrestrialTextures[3])}
+                    click={() => {
+                      preloadCoreTexture(terrestrialTextures[3]);
+                      prepareCoreTexture(terrestrialTextures[3]);
+                    }}
                   />
                 </>
               )}
@@ -397,22 +476,34 @@ export default function Create() {
               <FormButton
                 imgSrc={cloudTextures[0]}
                 label={"Type 1"}
-                click={() => setCloudTexture(cloudTextures[0])}
+                click={() => {
+                  preloadCloudTexture(cloudTextures[0]);
+                  prepareCloudTexture(cloudTextures[0]);
+                }}
               />
               <FormButton
                 imgSrc={cloudTextures[1]}
                 label={"Type 2"}
-                click={() => setCloudTexture(cloudTextures[1])}
+                click={() => {
+                  preloadCloudTexture(cloudTextures[1]);
+                  prepareCloudTexture(cloudTextures[1]);
+                }}
               />
               <FormButton
                 imgSrc={cloudTextures[2]}
                 label={"Type 3"}
-                click={() => setCloudTexture(cloudTextures[2])}
+                click={() => {
+                  preloadCloudTexture(cloudTextures[2]);
+                  prepareCloudTexture(cloudTextures[2]);
+                }}
               />
               <FormButton
                 imgSrc={cloudTextures[3]}
                 label={"Type 4"}
-                click={() => setCloudTexture(cloudTextures[3])}
+                click={() => {
+                  preloadCloudTexture(cloudTextures[3]);
+                  prepareCloudTexture(cloudTextures[3]);
+                }}
               />
             </motion.div>
             <CirclePicker
