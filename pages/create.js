@@ -15,7 +15,6 @@ import Link from "../components/Link";
 import Background from "../components/Background";
 import RotateIcon from "../components/RotateIcon";
 import { motion } from "framer-motion";
-// import { ImageLoader, prepareTexture } from "../components/ImageLoader";
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
