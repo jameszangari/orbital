@@ -59,11 +59,11 @@ const Accordion = ({
               opacity: 1,
               height: "auto",
               transition: {
-                duration: 0.5,
+                duration: 0.25,
+                delay: 0.25,
               },
             }}
             exit={{ opacity: 0, height: 0 }}
-            // className={collapsed ? "hidden" : "block"}
             aria-expanded={!collapsed}
           >
             {children}

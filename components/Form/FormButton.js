@@ -11,29 +11,29 @@ export default function Create({ imgSrc, label, click }) {
       animate={{
         opacity: 1,
         transition: {
-          duration: 0.5,
+          duration: 0.25,
         },
         height: "auto",
       }}
       exit={{ opacity: 0, height: 0 }}
     >
-      <motion.span className="z-10 flex flex-col justify-center items-center pointer-events-none">
+      <motion.span className="z-10 flex flex-col justify-center items-center pointer-events-none py-1">
         <Image
           src={imgSrc}
           alt={"Clouds " + label}
           layout="fixed"
           width={50}
           height={50}
-          // placeholder="blur"
-          priority={true}
+          loading={"lazy"}
           className="rounded-full shadow-lg mb-2"
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
+            delay: 0.5,
           }}
           exit={{ opacity: 0 }}
         />
-        {label}
+        <motion.p className="pt-2">{label}</motion.p>
       </motion.span>
       <Background />
     </motion.a>

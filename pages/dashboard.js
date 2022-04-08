@@ -1,5 +1,6 @@
 import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
+import Image from "next/image";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
@@ -143,26 +144,50 @@ export default function Dashboard() {
             </h2>
             {recentPlanet.map((planet, i) => {
               return (
-                <div key={i}>
-                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
-                    Type: {planet.pType ? planet.pType : "undefined"}
-                  </p>
-                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
-                    Size: {planet.pSize ? planet.pSize : "undefined"}
-                  </p>
-                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
-                    Core:{" "}
-                    {planet.pCoreColor.hex
-                      ? planet.pCoreColor.hex
-                      : "undefined"}
-                  </p>
-                  <p className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight">
-                    Atmosphere:{" "}
-                    {planet.pAtmosColor.hex
-                      ? planet.pAtmosColor.hex
-                      : "undefined"}
-                  </p>
-                </div>
+                <>
+                  <div key={i} className="w-full flex flex-col gap-4 mt-4">
+                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                      Type: {planet.pType ? planet.pType : "undefined"}
+                    </p>
+                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                      Size: {planet.pSize ? planet.pSize : "undefined"}
+                    </p>
+                    <div className="flex flex-row justify-between">
+                      <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                        Core:
+                      </p>
+                      <div className="flex flex-row gap-2 ml-4">
+                        <Image
+                          src={planet.pCoreTexture}
+                          alt={"Core Texture"}
+                          height={30}
+                          width={30}
+                        />
+                        <div
+                          style={{ backgroundColor: planet.pCoreColor.hex }}
+                          className="w-[30px] h-[30px]"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-row justify-between">
+                      <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                        Atmosphere:
+                      </p>
+                      <div className="flex flex-row gap-2 ml-4">
+                        <Image
+                          src={planet.pCloudTexture}
+                          alt={"Core Texture"}
+                          height={30}
+                          width={30}
+                        />
+                        <div
+                          style={{ backgroundColor: planet.pAtmosColor.hex }}
+                          className="w-[30px] h-[30px]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
               );
             })}
           </div>

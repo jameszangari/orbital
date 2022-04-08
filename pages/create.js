@@ -549,7 +549,7 @@ export default function Create() {
           style={{
             height: "100vh",
             width: "40vw",
-            position: "fixed",
+            position: "absolute",
             zIndex: 0,
           }}
         >
@@ -565,7 +565,7 @@ export default function Create() {
             />
           </Suspense>
         </Canvas>
-        <motion.div className="fixed bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
+        <motion.div className="absolute bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
           <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1">
             <motion.p className="font-secondary text-xs uppercase opacity-50 w-2/6">
               Planet Zoom
@@ -621,7 +621,7 @@ export default function Create() {
           </motion.div>
         </motion.div>
         <motion.div
-          className="z-0 fixed right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
+          className="z-0 absolute right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
           style={{ width: "60vw" }}
         >
           <motion.form
