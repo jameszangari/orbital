@@ -23,21 +23,7 @@ async function fetcher(url) {
 }
 export default function Dashboard() {
   // @link https://swr.vercel.app/docs/revalidation
-  const { data, error } = useSWR(API_URL, fetcher, {
-    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-      // Never retry on 404.
-      if (error.status === 404) return;
-
-      // Never retry for a specific key.
-      if (key === "/api/user") return;
-
-      // Only retry up to 10 times.
-      if (retryCount >= 10) return;
-
-      // Retry after 5 seconds.
-      setTimeout(() => revalidate({ retryCount }), 60);
-    },
-  });
+  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
   if (error)
     return (
