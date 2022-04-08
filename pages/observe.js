@@ -12,21 +12,39 @@ import { server } from "../lib/server";
 const API_URL = `${server}/api/posts`;
 
 async function fetcher(url) {
-  const res = await fetch(url);
-  const json = await res.json();
-  let planets = [];
-  json.message.forEach((row, i) => {
-    (row.xRadius = (i + 3) * 12),
-      (row.zRadius = (i + 3) * 8),
-      planets.push(row);
-  });
-  return {
-    posts: planets,
-  };
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    let planets = [];
+    json.message.forEach((row, i) => {
+      (row.xRadius = (i + 3) * 12),
+        (row.zRadius = (i + 3) * 8),
+        planets.push(row);
+    });
+    return {
+      posts: planets,
+    };
+  } catch (error) {
+    return error;
+  }
 }
 function Observe() {
   // @link https://swr.vercel.app/docs/revalidation
-  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
+  const { data, error } = useSWR(API_URL, fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Never retry on 404.
+      if (error.status === 404) return;
+
+      // Never retry for a specific key.
+      if (key === "/api/user") return;
+
+      // Only retry up to 10 times.
+      if (retryCount >= 10) return;
+
+      // Retry after 5 seconds.
+      setTimeout(() => revalidate({ retryCount }), 60);
+    },
+  });
 
   if (error)
     return (

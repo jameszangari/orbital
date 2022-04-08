@@ -11,15 +11,33 @@ import Head from "next/head";
 const API_URL = "/api/posts";
 
 async function fetcher(url) {
-  const res = await fetch(url);
-  const json = await res.json();
-  return {
-    posts: json["message"],
-  };
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    return {
+      posts: json["message"],
+    };
+  } catch (error) {
+    return error;
+  }
 }
 export default function Dashboard() {
   // @link https://swr.vercel.app/docs/revalidation
-  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
+  const { data, error } = useSWR(API_URL, fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Never retry on 404.
+      if (error.status === 404) return;
+
+      // Never retry for a specific key.
+      if (key === "/api/user") return;
+
+      // Only retry up to 10 times.
+      if (retryCount >= 10) return;
+
+      // Retry after 5 seconds.
+      setTimeout(() => revalidate({ retryCount }), 60);
+    },
+  });
 
   if (error)
     return (
@@ -41,24 +59,6 @@ export default function Dashboard() {
         </div>
       </div>
     );
-
-  if (error) {
-    console.log("Error:");
-    console.log(error);
-    return null;
-  }
-  if (!data) {
-    console.log("No Data:");
-    console.log(!data);
-  }
-  if (!error) {
-    console.log("No Error:");
-    console.log(!error);
-  }
-  if (data) {
-    console.log("Data:");
-    console.log(data);
-  }
 
   const PlanetCount = Object.keys(data.posts).length;
   let AllPlanets = [];
@@ -144,50 +144,48 @@ export default function Dashboard() {
             </h2>
             {recentPlanet.map((planet, i) => {
               return (
-                <>
-                  <div key={i} className="w-full flex flex-col gap-4 mt-4">
+                <div key={i} className="w-full flex flex-col gap-4 mt-4">
+                  <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                    Type: {planet.pType ? planet.pType : "undefined"}
+                  </p>
+                  <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                    Size: {planet.pSize ? planet.pSize : "undefined"}
+                  </p>
+                  <div className="flex flex-row justify-between">
                     <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                      Type: {planet.pType ? planet.pType : "undefined"}
+                      Core:
                     </p>
-                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                      Size: {planet.pSize ? planet.pSize : "undefined"}
-                    </p>
-                    <div className="flex flex-row justify-between">
-                      <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                        Core:
-                      </p>
-                      <div className="flex flex-row gap-2 ml-4">
-                        <Image
-                          src={planet.pCoreTexture}
-                          alt={"Core Texture"}
-                          height={30}
-                          width={30}
-                        />
-                        <div
-                          style={{ backgroundColor: planet.pCoreColor.hex }}
-                          className="w-[30px] h-[30px]"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-row justify-between">
-                      <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                        Atmosphere:
-                      </p>
-                      <div className="flex flex-row gap-2 ml-4">
-                        <Image
-                          src={planet.pCloudTexture}
-                          alt={"Core Texture"}
-                          height={30}
-                          width={30}
-                        />
-                        <div
-                          style={{ backgroundColor: planet.pAtmosColor.hex }}
-                          className="w-[30px] h-[30px]"
-                        />
-                      </div>
+                    <div className="flex flex-row gap-2 ml-4">
+                      <Image
+                        src={planet.pCoreTexture}
+                        alt={"Core Texture"}
+                        height={30}
+                        width={30}
+                      />
+                      <div
+                        style={{ backgroundColor: planet.pCoreColor.hex }}
+                        className="w-[30px] h-[30px]"
+                      />
                     </div>
                   </div>
-                </>
+                  <div className="flex flex-row justify-between">
+                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                      Atmosphere:
+                    </p>
+                    <div className="flex flex-row gap-2 ml-4">
+                      <Image
+                        src={planet.pCloudTexture}
+                        alt={"Core Texture"}
+                        height={30}
+                        width={30}
+                      />
+                      <div
+                        style={{ backgroundColor: planet.pAtmosColor.hex }}
+                        className="w-[30px] h-[30px]"
+                      />
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>
