@@ -6,71 +6,14 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Space Grotesk", sans-serif, -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
-  background: #000;
-  color: #fff;
-  touch-action: none;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Krona One", sans-serif, -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
-}
-
-p {
-  font-family: "Space Grotesk", sans-serif, -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  background: #000000;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.slider-purple::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  @apply bg-oPurple border-0;
-  border-radius: 100%;
-  cursor: pointer;
-}
-
-.slider-purple::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  @apply bg-oPurple border-0;
-  border-radius: 100%;
-  cursor: pointer;
-}
-.slider-blue::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  @apply bg-orbital-blue border-0;
-  border-radius: 100%;
-  cursor: pointer;
-}
-
-.slider-blue::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  @apply bg-orbital-blue border-0;
-  border-radius: 100%;
-  cursor: pointer;
+a {
+  color: inherit;
+  text-decoration: none;
 }
