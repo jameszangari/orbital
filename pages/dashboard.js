@@ -2,11 +2,13 @@ import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
+import { Stars, Text } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
 import Background from "../components/Background";
 import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
+import { motion } from "framer-motion";
+import WarningIcon from "../components/WarningIcon";
 
 const API_URL = "/api/posts";
 
@@ -21,11 +23,12 @@ async function fetcher(url) {
     return error;
   }
 }
+
 export default function Dashboard() {
   // @link https://swr.vercel.app/docs/revalidation
   const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
-  if (error)
+  if (error) {
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
@@ -36,7 +39,8 @@ export default function Dashboard() {
         </div>
       </div>
     );
-  if (!data)
+  }
+  if (!data) {
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
@@ -45,22 +49,48 @@ export default function Dashboard() {
         </div>
       </div>
     );
+  }
 
+  // number padding
+  function pad(num, size) {
+    var s = "0" + num;
+    return s.substr(s.length - size);
+  }
+
+  // get current planet count
   const PlanetCount = Object.keys(data.posts).length;
   let AllPlanets = [];
   data.posts.forEach((planet) => {
     AllPlanets.push(planet);
   });
 
+  // push most recent planet to it own array
   let recentPlanet = [];
   if (data) {
     Object.keys(data).forEach((key) => {
       recentPlanet.push(data[key].slice(-1)[0]);
     });
   }
-  console.log(recentPlanet);
+
+  const preloadCoreTexture = (texturePath) =>
+    new Promise((resolve, reject) => {
+      const image = new window.Image(texturePath);
+      image.onload = () => resolve(texturePath);
+      image.src = texturePath;
+    });
+
+  const prepareCoreTexture = async (texturePath) => {
+    try {
+      await preloadCoreTexture(texturePath);
+      setCoreTexture(texturePath);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const Planet = () => {
+    // preloadCoreTexture(recentPlanet[0].pCoreTexture);
+    // prepareCoreTexture(recentPlanet[0].pCoreTexture);
     const targetRef = useRef();
     useFrame(({ clock }) => {
       targetRef.current.rotation.y = clock.getElapsedTime() / 10;
@@ -87,7 +117,7 @@ export default function Dashboard() {
               alpha={recentPlanet[0].pCloudAlpha}
             />
             <Depth
-              colorA={recentPlanet[0].pAtmosColor.hex}
+              colorA={recentPlanet[0].pCloudColor.hex}
               colorB="#000000"
               alpha={0.5}
               mode="darken"
@@ -99,6 +129,7 @@ export default function Dashboard() {
     );
   };
 
+  // set planet types to variables
   const gasGiant = AllPlanets.filter(
     ({ pType }) => pType === "Gas Giant"
   ).length;
@@ -117,88 +148,105 @@ export default function Dashboard() {
       <Head>
         <title>Orbital | Mission Control</title>
       </Head>
-      <div className="absolute z-10 w-full flex justify-center mt-8">
-        <h1 className="text-3xl uppercase border-blue-border bg-[#496EEF] bg-opacity-10 border-2 py-4 px-8 text-orbital-blueLight">
+      <motion.div className="absolute top-5 z-10 w-full flex justify-center">
+        <motion.h1 className="text-3xl tracking-[0.2em] uppercase border-blue-border bg-[#496EEF] bg-opacity-10 border-2 py-4 px-8 text-orbital-blueLight">
           Mission Control Center
-        </h1>
-      </div>
+        </motion.h1>
+      </motion.div>
+      <motion.div
+        className="absolute top-32 left-5 z-10 flex justify-center"
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          duration: 2,
+          ease: "easeInOut",
+          times: [0, 0.2, 0.5, 0.8, 1],
+          repeat: Infinity,
+        }}
+      >
+        <motion.h1 className="flex flex-row text-2xl uppercase border-pink-border bg-purple-bg border-2 py-4 pl-4 pr-8 text-pink-accent tracking-[0.15em]">
+          <WarningIcon className={"w-16 h-16 mr-4"} />
+          New Planet
+          <br /> Discovered
+        </motion.h1>
+      </motion.div>
       {recentPlanet && (
         <>
-          <div className="absolute right-0 z-10 border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-            <h2 className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blue">
+          <motion.div className="absolute right-5 top-[50vh] z-10 border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
+            <motion.h2 className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blue">
               Planet Info
-            </h2>
+            </motion.h2>
             {recentPlanet.map((planet, i) => {
               return (
-                <div key={i} className="w-full flex flex-col gap-4 mt-4">
-                  <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                <motion.div key={i} className="w-full flex flex-col gap-4 mt-4">
+                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
                     Type: {planet.pType ? planet.pType : "undefined"}
-                  </p>
-                  <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                  </motion.p>
+                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
                     Size: {planet.pSize ? planet.pSize : "undefined"}
-                  </p>
-                  <div className="flex flex-row justify-between">
-                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                  </motion.p>
+                  <motion.div className="flex flex-row justify-between">
+                    <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
                       Core:
-                    </p>
-                    <div className="flex flex-row gap-2 ml-4">
+                    </motion.p>
+                    <motion.div className="flex flex-row gap-2 ml-4">
                       <Image
                         src={planet.pCoreTexture}
                         alt={"Core Texture"}
                         height={30}
                         width={30}
                       />
-                      <div
+                      <motion.div
                         style={{ backgroundColor: planet.pCoreColor.hex }}
                         className="w-[30px] h-[30px]"
                       />
-                    </div>
-                  </div>
-                  <div className="flex flex-row justify-between">
-                    <p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                    </motion.div>
+                  </motion.div>
+                  <motion.div className="flex flex-row justify-between">
+                    <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
                       Atmosphere:
-                    </p>
-                    <div className="flex flex-row gap-2 ml-4">
+                    </motion.p>
+                    <motion.div className="flex flex-row gap-2 ml-4">
                       <Image
                         src={planet.pCloudTexture}
                         alt={"Core Texture"}
                         height={30}
                         width={30}
                       />
-                      <div
-                        style={{ backgroundColor: planet.pAtmosColor.hex }}
+                      <motion.div
+                        style={{ backgroundColor: planet.pCloudColor.hex }}
                         className="w-[30px] h-[30px]"
                       />
-                    </div>
-                  </div>
-                </div>
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
               );
             })}
-          </div>
-          <div className="absolute bottom-0 z-10 flex flex-row gap-2 w-full">
-            <div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 w-1/2">
-              <h2 className="uppercase tracking-wider font-primary text-base pt-1 pl-1 text-orbital-blueLight">
+          </motion.div>
+          <motion.div className="absolute bottom-5 mx-5 z-10 flex flex-row gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
+            <motion.div className="w-1/2">
+              <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blueLight">
                 Total Planets Found
-              </h2>
-              <h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-orbital-blue">
-                {PlanetCount}
-              </h2>
-            </div>
-            <div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 w-1/2">
-              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {gasGiant} Gas Giant
-              </h2>
-              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {neptuneLike} Neptune-like
-              </h2>
-              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {superEarth} Super Earth
-              </h2>
-              <h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {terrestrial} Terrestrial
-              </h2>
-            </div>
-          </div>
+                <br /> In System
+              </motion.h2>
+              <motion.h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-orbital-blue">
+                {pad(PlanetCount)}
+              </motion.h2>
+            </motion.div>
+            <motion.div className="w-1/2">
+              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {pad(gasGiant)} Gas Giant
+              </motion.h2>
+              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {pad(neptuneLike)} Neptune-like
+              </motion.h2>
+              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {pad(superEarth)} Super Earth
+              </motion.h2>
+              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                {pad(terrestrial)} Terrestrial
+              </motion.h2>
+            </motion.div>
+          </motion.div>
         </>
       )}
       <Canvas

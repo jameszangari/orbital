@@ -32,7 +32,7 @@ export default function Planet({ post, xRadius, zRadius }) {
             alpha={post.pCloudAlpha}
           />
           <Depth
-            colorA={post.pAtmosColor.hex}
+            colorA={post.pCloudColor.hex}
             colorB="#000000"
             alpha={0.5}
             mode="darken"

@@ -64,9 +64,9 @@ export default function Manage({ posts }) {
                   </span>
                 </p>
                 <p className="flex flex-row w-full">
-                  <span className="w-1/2">atmos: </span>
+                  <span className="w-1/2">cloud: </span>
                   <span className="w-1/2 text-right">
-                    {planet.pAtmosColor.hex}
+                    {planet.pCloudColor.hex}
                   </span>
                 </p>
                 <p className="flex flex-row w-full">

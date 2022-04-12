@@ -1,8 +1,4 @@
 import Head from "next/head";
-import Nav from "../components/Nav";
-// import { useState, useEffect } from "react";
-// import { useRouter } from "next/router";
-// import Loading from "../components/Loading";
 import "../styles/globals.css";
 import "../public/fonts/fonts.css";
 
@@ -14,19 +10,6 @@ const description =
 const author = "The Orbital Team";
 
 function MyApp({ Component, pageProps }) {
-  // const router = useRouter();
-  // const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const handleStart = (url) => {
-  //     url !== router.pathname ? setLoading(true) : setLoading(false);
-  //   };
-  //   const handleComplete = (url) => setLoading(false);
-
-  //   router.events.on("routeChangeStart", handleStart);
-  //   router.events.on("routeChangeComplete", handleComplete);
-  //   router.events.on("routeChangeError", handleComplete);
-  // }, [router]);
   return (
     <>
       <Head>
@@ -38,13 +21,11 @@ function MyApp({ Component, pageProps }) {
         <meta name="designer" content={author} />
         <meta name="publisher" content={author} />
         {/* Search Engine Optimization Meta Tags */}
-        <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content="" />
         <meta name="robots" content="index,follow" />
         <meta name="distribution" content="web" />
-        {/* 
-      Facebook Open Graph meta tags
+        {/* Facebook Open Graph meta tags
         documentation: https://developers.facebook.com/docs/sharing/opengraph */}
         <meta name="og:title" content={title} />
         <meta name="og:type" content="site" />
@@ -62,18 +43,14 @@ function MyApp({ Component, pageProps }) {
         />
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" color="#000000" href="/safari-pinned-tab.svg" />
-        {/* <link rel="apple-touch-startup-image" href="/startup.png" /> */}
+        <link rel="apple-touch-startup-image" href="/orbital-icon.png" />
         {/* Meta Tags for HTML pages on Mobile */}
-        {/* <meta name="format-detection" content="telephone=yes"/>
-        <meta name="HandheldFriendly" content="true"/>  */}
-        <meta
-          name="viewport"
-          content="width=device-width, minimum-scale=1, initial-scale=1.0, user-scalable=no"
-        />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta content="width=device-width, minimum-scale=1, initial-scale=1.0, user-scalable=no" />
         <meta name="theme-color" content="#000" />
         <link rel="shortcut icon" href="/favicon.ico" />
-        {/* 
-      Twitter Summary card
+        {/* Twitter Summary card
         documentation: https://dev.twitter.com/cards/getting-started
         Be sure validate your Twitter card markup on the documentation site. */}
         <meta name="twitter:card" content="summary" />
@@ -83,11 +60,8 @@ function MyApp({ Component, pageProps }) {
           as="fetch"
           crossOrigin="anonymous"
         />
-        {/* <meta name="twitter:site" content="@" /> */}``
       </Head>
-      {/* <Nav /> */}
       <main className="overflow-x-hidden">
-        {/* <Loading loading={loading} /> */}
         <Component {...pageProps} />
       </main>
     </>

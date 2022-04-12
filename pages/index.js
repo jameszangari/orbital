@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import Link from "../components/Link";
-import Icon from "../components/Icon";
+import { motion } from "framer-motion";
 
 export default function Index({ posts }) {
   const description =
@@ -11,19 +11,20 @@ export default function Index({ posts }) {
       <Head>
         <title>Orbital | Welcome</title>
       </Head>
-      <div className="py-4 max-w-3xl m-auto grid place-items-center h-screen">
-        <div className="flex flex-col justify-center">
-          <Icon />
-          <h1 className="text-center pb-8 pt-24 text-3xl">Welcome!</h1>
-          <p>{description}</p>
-          <Link
-            variant={"link"}
-            url={"/create"}
-            label={"Create Your Planet!"}
-            className={"mt-8"}
-          />
-        </div>
-      </div>
+      <motion.div>
+        <motion.div className="py-4 max-w-3xl m-auto grid place-items-center mx-4">
+          <motion.div className="flex flex-col justify-center">
+            <motion.h1 className="pb-8 pt-24 text-3xl">Welcome!</motion.h1>
+            <motion.p>{description}</motion.p>
+            <Link
+              variant={"link"}
+              url={"/create"}
+              label={`Create Your Planet!`}
+              className={"mt-8 w-max"}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </>
   );
 }
