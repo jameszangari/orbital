@@ -1,27 +1,23 @@
 import Link from "./Link";
 import { motion } from "framer-motion";
+import Icon from "./Icon";
 
 export default function Nav() {
   return (
     <motion.nav
-      className="absolute top-0 p-1 m-auto z-50"
-      initial={{ opacity: 0 }}
+      className="absolute top-0 p-1 m-auto z-[999]"
+      initial={{ opacity: 0, x: -50, y: -50 }}
       animate={{
+        x: 0,
+        y: 0,
         opacity: 1,
         transition: {
-          duration: 0.5,
+          duration: 1,
         },
       }}
       exit={{ opacity: 0 }}
     >
-      <ul className="flex w-full list-none">
-        <li className="block mr-1">
-          <Link label="Create" url="/" variant="link" />
-        </li>
-        <li className="block">
-          <Link label="Observe" url="/observe" variant="link" />
-        </li>
-      </ul>
+      <Icon className={"w-36 h-auto"} />
     </motion.nav>
   );
 }

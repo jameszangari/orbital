@@ -9,8 +9,9 @@ import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import WarningIcon from "../components/WarningIcon";
+import { server } from "../lib/server";
 
-const API_URL = "/api/posts";
+const API_URL = `${server}/api/posts`;
 
 async function fetcher(url) {
   try {
@@ -154,7 +155,7 @@ export default function Dashboard() {
         </motion.h1>
       </motion.div>
       <motion.div
-        className="absolute top-32 left-5 z-10 flex justify-center"
+        className="absolute top-32 left-32 z-10 flex justify-center"
         animate={{ opacity: [0, 1, 0] }}
         transition={{
           duration: 2,
@@ -178,6 +179,9 @@ export default function Dashboard() {
             {recentPlanet.map((planet, i) => {
               return (
                 <motion.div key={i} className="w-full flex flex-col gap-4 mt-4">
+                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
+                    Name: {planet.pName ? planet.pName : "undefined"}
+                  </motion.p>
                   <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
                     Type: {planet.pType ? planet.pType : "undefined"}
                   </motion.p>

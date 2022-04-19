@@ -20,7 +20,9 @@ import {
 import Link from "../components/Link";
 import Background from "../components/Background";
 import RotateIcon from "../components/RotateIcon";
+import Nav from "../components/Nav";
 import { motion } from "framer-motion";
+import { server } from "../lib/server";
 
 // const defaultValues = {
 //   type: "Gas Giant",
@@ -250,7 +252,7 @@ export default function Create() {
           </motion.div>
         </Accordion>
         <Accordion
-          title={"Core"}
+          title={"Surface"}
           click={() => {
             setStep(3);
           }}
@@ -433,7 +435,7 @@ export default function Create() {
           </motion.div>
         </Accordion>
         <Accordion
-          title={"Cloudphere"}
+          title={"Atmosphere"}
           click={() => {
             setStep(4);
           }}
@@ -506,7 +508,7 @@ export default function Create() {
           </motion.div>
         </Accordion>
         <Accordion
-          title={"Title"}
+          title={"Name"}
           click={() => {
             setStep(5);
           }}
@@ -537,11 +539,11 @@ export default function Create() {
           </motion.div>
         </Accordion>
         <Accordion
-          title={"Complete"}
+          title={"Finish"}
           click={() => {
             setStep(6);
           }}
-          selection=" "
+          selection={""}
           collapsed={step === 6 ? false : true}
         >
           <motion.div className="px-1 pt-4 pb-1">
@@ -583,7 +585,7 @@ export default function Create() {
     setMessage("");
 
     // save the post
-    let response = await fetch("/api/posts", {
+    let response = await fetch(`${server}/api/posts`, {
       method: "POST",
       body: JSON.stringify(post),
     });
@@ -613,7 +615,18 @@ export default function Create() {
       <Head>
         <title>Orbital | Create</title>
       </Head>
-      <motion.div className="portrait:hidden">
+      <Nav />
+      <motion.div
+        className="portrait:hidden"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 1.5,
+          },
+        }}
+        exit={{ opacity: 0 }}
+      >
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: false }}
@@ -637,8 +650,20 @@ export default function Create() {
             />
           </Suspense>
         </Canvas>
-        <motion.div className="absolute bottom-0 left-0 p-1 w-[40vw] bg-purple-bg">
-          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1">
+        <motion.div
+          className="absolute bottom-0 left-0 p-1 w-[40vw] bg-purple-bg"
+          initial={{ opacity: 0, x: -50, y: 50 }}
+          animate={{
+            x: 0,
+            y: 0,
+            opacity: 1,
+            transition: {
+              duration: 1,
+            },
+          }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1 shadow-sm shadow-pink-border/10">
             <motion.p className="font-secondary text-xs uppercase opacity-50 w-2/6">
               Planet Zoom
             </motion.p>
@@ -695,6 +720,15 @@ export default function Create() {
         <motion.div
           className="z-0 absolute right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
           style={{ width: "60vw" }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+            transition: {
+              duration: 1.5,
+            },
+          }}
+          exit={{ opacity: 0 }}
         >
           <motion.form
             onSubmit={(e) => {

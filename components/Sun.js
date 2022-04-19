@@ -3,7 +3,7 @@ import { useTexture } from "@react-three/drei";
 
 export default function Planet() {
   const ref = useRef();
-  const texture = useTexture("/sun.jpg");
+  const texture = useTexture("/img/sun.jpg");
   return (
     <>
       <mesh ref={ref} position={[0, 0, 0]} scale={10}>

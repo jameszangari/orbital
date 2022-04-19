@@ -1,4 +1,9 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import NProgress from "nprogress";
+import "../public/nprogress.css";
 import "../styles/globals.css";
 import "../public/fonts/fonts.css";
 
@@ -10,6 +15,27 @@ const description =
 const author = "The Orbital Team";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleStart = (url) => {
+      console.log(`Loading: ${url}`);
+      NProgress.start();
+    };
+    const handleStop = () => {
+      NProgress.done();
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router]);
   return (
     <>
       <Head>
@@ -63,6 +89,19 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <main className="overflow-x-hidden">
         <Component {...pageProps} />
+        {/* {!loading ? (
+          <Component {...pageProps} />
+        ) : (
+          <div className="w-screen h-screen flex justify-center items-center">
+            <Image
+              src="/planet.gif"
+              alt="animation"
+              // layout="fill"
+              width={480}
+              height={270}
+            />
+          </div>
+        )} */}
       </main>
     </>
   );
