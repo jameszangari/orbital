@@ -7,7 +7,6 @@ import { LayerMaterial, Base, Noise, Depth, Fresnel, Texture } from "lamina";
 import Title from "./components/Title.js";
 import Time from "./components/Time.js";
 import Creators from "./components/Creators.js";
-import CTA from "./components/CTA.js";
 import Instagram from "./icons/Instagram.js";
 import BackgroundAlt from "./components/BackgroundAlt.js";
 import * as gtag from "./../lib/gtag";
@@ -108,7 +107,6 @@ export default function Home() {
       <div className="absolute flex flex-col flex-wrap w-full sm:flex-row px-4 gap-2 bottom-0 z-10 sm:gap-4">
         <Time />
         <Creators />
-        <CTA />
         <Link href="https://www.instagram.com/orbitalteam.app" passHref>
           <a
             className="relative w-full flex items-center justify-center px-4 py-2 text-xs md:text-sm text-text hover:text-blue-accent uppercase font-space tracking-widest mb-4"
