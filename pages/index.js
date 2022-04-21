@@ -109,7 +109,7 @@ export default function Home() {
         <Time />
         <Creators />
         <CTA />
-        <Link href="https://www.instagram.com/orbital_drexel" passHref>
+        <Link href="https://www.instagram.com/orbitalteam.app" passHref>
           <a
             className="relative w-full flex items-center justify-center px-4 py-2 text-xs md:text-sm text-text hover:text-blue-accent uppercase font-space tracking-widest mb-4"
             target="_blank"
