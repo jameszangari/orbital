@@ -1,5 +1,8 @@
 import Head from "next/head";
 import React from "react";
+import { Canvas } from "@react-three/fiber";
+import { Stars } from "@react-three/drei";
+import Logo from "../components/Logo";
 import Link from "../components/Link";
 import Background from "../components/Background";
 import RotateIcon from "../components/RotateIcon";
@@ -7,22 +10,33 @@ import { motion } from "framer-motion";
 
 export default function Index({ posts }) {
   const description =
-    "Orbital is an interactive art exhibit where visitors can create a custom planet and add it to our collaborative solar system and see it projected in real-time. Through the individual contributions of our visitors, our solar system will be filled with unique and vibrant planets for all to see.";
+    "Your mission is to create a custom planet which will be added to the collaborative solar system projected in front of you!";
   return (
     <>
       <Head>
         <title>Orbital | Welcome</title>
       </Head>
+      <Canvas
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: false }}
+        camera={{ fov: 50, position: [0, 0, 20] }}
+        style={{ height: "100vh", width: "100vw", position: "fixed" }}
+        shadows
+      >
+        <Stars />
+      </Canvas>
       <motion.div className="portrait:hidden">
-        <motion.div className="py-4 max-w-3xl m-auto grid place-items-center mx-4">
-          <motion.div className="flex flex-col justify-center">
-            <motion.h1 className="pb-8 pt-24 text-3xl">Welcome!</motion.h1>
-            <motion.p>{description}</motion.p>
+        <motion.div className="py-4 m-auto grid place-items-center mx-4 absolute w-full h-full">
+          <motion.div className="flex flex-col justify-center max-w-3xl">
+            <Logo />
+            <motion.p className="pt-12 text-lg uppercase tracking-[0.15em]">
+              {description}
+            </motion.p>
             <Link
               variant={"link"}
               url={"/create"}
               label={`Create Your Planet!`}
-              className={"mt-8 w-max"}
+              className={"mt-12 w-max mx-auto"}
             />
           </motion.div>
         </motion.div>
