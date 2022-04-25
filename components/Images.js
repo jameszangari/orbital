@@ -1,27 +1,27 @@
-import Gaseous1 from "../public/img/gaseous/Gaseous1.png";
-import Gaseous2 from "../public/img/gaseous/Gaseous2.png";
-import Gaseous3 from "../public/img/gaseous/Gaseous3.png";
-import Gaseous4 from "../public/img/gaseous/Gaseous4.png";
+const Gaseous1 = "/img/gaseous/Gaseous1.png";
+const Gaseous2 = "/img/gaseous/Gaseous2.png";
+const Gaseous3 = "/img/gaseous/Gaseous3.png";
+const Gaseous4 = "/img/gaseous/Gaseous4.png";
 
-import Inhabitable1 from "../public/img/inhabitable/Icy.png";
-import Inhabitable2 from "../public/img/inhabitable/Martian.png";
-import Inhabitable3 from "../public/img/inhabitable/Venusian.png";
-import Inhabitable4 from "../public/img/inhabitable/Volcanic.png";
+const Inhabitable1 = "/img/inhabitable/Icy.png";
+const Inhabitable2 = "/img/inhabitable/Martian.png";
+const Inhabitable3 = "/img/inhabitable/Venusian.png";
+const Inhabitable4 = "/img/inhabitable/Volcanic.png";
 
-import Habitable1 from "../public/img/habitable/Alpine.png";
-import Habitable2 from "../public/img/habitable/Savannah.png";
-import Habitable3 from "../public/img/habitable/Swamp.png";
-import Habitable4 from "../public/img/habitable/Tropical.png";
+const Habitable1 = "/img/habitable/Alpine.png";
+const Habitable2 = "/img/habitable/Savannah.png";
+const Habitable3 = "/img/habitable/Swamp.png";
+const Habitable4 = "/img/habitable/Tropical.png";
 
-import Terrestrial1 from "../public/img/terrestrial/Terrestrial1.png";
-import Terrestrial2 from "../public/img/terrestrial/Terrestrial2.png";
-import Terrestrial3 from "../public/img/terrestrial/Terrestrial3.png";
-import Terrestrial4 from "../public/img/terrestrial/Terrestrial4.png";
+const Terrestrial1 = "/img/terrestrial/Terrestrial1.png";
+const Terrestrial2 = "/img/terrestrial/Terrestrial2.png";
+const Terrestrial3 = "/img/terrestrial/Terrestrial3.png";
+const Terrestrial4 = "/img/terrestrial/Terrestrial4.png";
 
-import Clouds1 from "../public/img/clouds/Clouds1.png";
-import Clouds2 from "../public/img/clouds/Clouds2.png";
-import Clouds3 from "../public/img/clouds/Clouds3.png";
-import Clouds4 from "../public/img/clouds/Clouds4.png";
+const Clouds1 = "/img/clouds/Clouds1.png";
+const Clouds2 = "/img/clouds/Clouds2.png";
+const Clouds3 = "/img/clouds/Clouds3.png";
+const Clouds4 = "/img/clouds/Clouds4.png";
 
 const gasTextures = [Gaseous1, Gaseous2, Gaseous3, Gaseous4];
 const neptuneTextures = [

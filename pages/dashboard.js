@@ -1,14 +1,14 @@
 import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
-import Image from "next/image";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Stars, Text } from "@react-three/drei";
+import { SpotLight, Stars, Text } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
-import Background from "../components/Background";
 import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import WarningIcon from "../components/WarningIcon";
+import Background from "../components/Background";
+import Image from "../components/Image";
 import { server } from "../lib/server";
 
 const API_URL = `${server}/api/posts`;
@@ -101,7 +101,8 @@ export default function Dashboard() {
         <Sphere
           ref={targetRef}
           position={[0, 0, 0]}
-          scale={recentPlanet[0].pSize}
+          scale={6}
+          // scale={recentPlanet[0].pSize}
         >
           <LayerMaterial
             color={recentPlanet[0].pCoreColor.hex}
@@ -155,7 +156,7 @@ export default function Dashboard() {
         </motion.h1>
       </motion.div>
       <motion.div
-        className="absolute top-32 left-32 z-10 flex justify-center"
+        className="absolute top-48 left-32 z-10 flex justify-center"
         animate={{ opacity: [0, 1, 0] }}
         transition={{
           duration: 2,
@@ -164,7 +165,7 @@ export default function Dashboard() {
           repeat: Infinity,
         }}
       >
-        <motion.h1 className="flex flex-row text-2xl uppercase border-pink-border bg-purple-bg border-2 py-4 pl-4 pr-8 text-pink-accent tracking-[0.15em]">
+        <motion.h1 className="flex flex-row text-2xl uppercase border-pink-border bg-purple-bg border-2 py-4 pl-4 pr-6 text-pink-accent tracking-[0.15em]">
           <WarningIcon className={"w-16 h-16 mr-4"} />
           New Planet
           <br /> Discovered
@@ -172,83 +173,116 @@ export default function Dashboard() {
       </motion.div>
       {recentPlanet && (
         <>
-          <motion.div className="absolute right-5 top-[50vh] z-10 border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-            <motion.h2 className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blue">
-              Planet Info
-            </motion.h2>
-            {recentPlanet.map((planet, i) => {
-              return (
-                <motion.div key={i} className="w-full flex flex-col gap-4 mt-4">
-                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                    Name: {planet.pName ? planet.pName : "undefined"}
-                  </motion.p>
-                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                    Type: {planet.pType ? planet.pType : "undefined"}
-                  </motion.p>
-                  <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                    Size: {planet.pSize ? planet.pSize : "undefined"}
-                  </motion.p>
-                  <motion.div className="flex flex-row justify-between">
-                    <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                      Core:
-                    </motion.p>
-                    <motion.div className="flex flex-row gap-2 ml-4">
-                      <Image
-                        src={planet.pCoreTexture}
-                        alt={"Core Texture"}
-                        height={30}
-                        width={30}
-                      />
-                      <motion.div
-                        style={{ backgroundColor: planet.pCoreColor.hex }}
-                        className="w-[30px] h-[30px]"
-                      />
+          <motion.div className="absolute bottom-5 mx-5 z-10">
+            <motion.div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 mb-5">
+              <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blue">
+                Planet Info
+              </motion.h2>
+              {recentPlanet.map((planet, i) => {
+                return (
+                  <motion.div
+                    key={i}
+                    className="w-full flex flex-col gap-4 mt-4"
+                  >
+                    <motion.div className="flex flex-row justify-between">
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        Name:
+                      </motion.p>
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        {planet.pName ? planet.pName : "undefined"}
+                      </motion.p>
+                    </motion.div>
+                    <motion.div className="flex flex-row justify-between">
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        Type:
+                      </motion.p>
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        {planet.pType ? planet.pType : "undefined"}
+                      </motion.p>
+                    </motion.div>
+                    <motion.div className="flex flex-row justify-between">
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        Size:
+                      </motion.p>
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        {planet.pSize ? planet.pSize : "undefined"}
+                      </motion.p>
+                    </motion.div>
+                    <motion.div className="flex flex-row justify-between">
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        Core:
+                      </motion.p>
+                      <motion.div className="flex flex-row gap-2 ml-4">
+                        <Image
+                          src={planet.pCoreTexture}
+                          alt={"Core Texture"}
+                          height={30}
+                          width={70}
+                          className="object-cover"
+                        />
+                        <motion.div
+                          style={{ backgroundColor: planet.pCoreColor.hex }}
+                          className="w-[70px] h-[30px]"
+                        />
+                      </motion.div>
+                    </motion.div>
+                    <motion.div className="flex flex-row justify-between">
+                      <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-orbital-blueLight">
+                        Atmosphere:
+                      </motion.p>
+                      <motion.div className="flex flex-row gap-2 ml-4">
+                        <Image
+                          src={planet.pCloudTexture}
+                          alt={"Core Texture"}
+                          height={30}
+                          width={70}
+                          className="object-cover"
+                        />
+                        <motion.div
+                          style={{ backgroundColor: planet.pCloudColor.hex }}
+                          className="w-[70px] h-[30px]"
+                        />
+                      </motion.div>
                     </motion.div>
                   </motion.div>
-                  <motion.div className="flex flex-row justify-between">
-                    <motion.p className="uppercase tracking-wider font-secondary text-base px-1 text-orbital-blueLight">
-                      Atmosphere:
-                    </motion.p>
-                    <motion.div className="flex flex-row gap-2 ml-4">
-                      <Image
-                        src={planet.pCloudTexture}
-                        alt={"Core Texture"}
-                        height={30}
-                        width={30}
-                      />
-                      <motion.div
-                        style={{ backgroundColor: planet.pCloudColor.hex }}
-                        className="w-[30px] h-[30px]"
-                      />
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-          <motion.div className="absolute bottom-5 mx-5 z-10 flex flex-row gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-            <motion.div className="w-1/2">
-              <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blueLight">
-                Total Planets Found
-                <br /> In System
-              </motion.h2>
-              <motion.h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-orbital-blue">
-                {pad(PlanetCount)}
-              </motion.h2>
+                );
+              })}
             </motion.div>
-            <motion.div className="w-1/2">
-              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {pad(gasGiant)} Gas Giant
-              </motion.h2>
-              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {pad(neptuneLike)} Neptune-like
-              </motion.h2>
-              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {pad(superEarth)} Super Earth
-              </motion.h2>
-              <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-                {pad(terrestrial)} Terrestrial
-              </motion.h2>
+            <motion.div className="flex flex-row justify-between gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
+              <motion.div className="">
+                <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blue mr-4">
+                  Total Planets Found <br /> In System
+                </motion.h2>
+                <motion.h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-oPinkLight">
+                  {pad(PlanetCount)}
+                </motion.h2>
+              </motion.div>
+              <motion.div className="">
+                <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                  <motion.span className="text-oPinkLight mr-4">
+                    {pad(gasGiant)}
+                  </motion.span>
+                  Gas Giant
+                </motion.h2>
+                <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                  <motion.span className="text-oPinkLight mr-4">
+                    {pad(neptuneLike)}
+                  </motion.span>
+                  Neptune-like
+                </motion.h2>
+                <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                  <motion.span className="text-oPinkLight mr-4">
+                    {pad(superEarth)}
+                  </motion.span>
+                  Super Earth
+                </motion.h2>
+                <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
+                  <motion.span className="text-oPinkLight mr-4">
+                    {pad(terrestrial)}
+                  </motion.span>
+                  Terrestrial
+                </motion.h2>
+              </motion.div>
             </motion.div>
           </motion.div>
         </>
@@ -258,9 +292,10 @@ export default function Dashboard() {
         gl={{ antialias: true, alpha: false }}
         camera={{ fov: 50, position: [0, 0, 20] }}
         style={{ height: "100vh", width: "100vw", position: "fixed" }}
+        shadows
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={1} />
+          <ambientLight intensity={0.02} />
           <pointLight position={[100, 100, 100]} />
           {recentPlanet && <Planet />}
           <Stars />

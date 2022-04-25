@@ -3,5 +3,6 @@ module.exports = {
   swcMinify: true,
   images: {
     minimumCacheTTL: 60,
+    loader: "custom",
   },
 };
