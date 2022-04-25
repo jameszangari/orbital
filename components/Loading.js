@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "../components/Image";
 import OrbitalIcon from "../public/orbital-icon.png";
 // import * as LottiePlayer from "@lottiefiles/lottie-player"; // import styles from "./Loading.module.css";
 

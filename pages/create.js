@@ -9,7 +9,7 @@ import Button from "../components/Button";
 import FormButton from "../components/Form/FormButton";
 import { CirclePicker } from "react-color";
 import Accordion from "../components/Accordion";
-import Image from "next/image";
+import Image from "../components/Image";
 import {
   gasTextures,
   neptuneTextures,

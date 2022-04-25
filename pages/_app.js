@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import NProgress from "nprogress";
 import "../public/nprogress.css";
 import "../styles/globals.css";
@@ -89,19 +88,6 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <main className="overflow-x-hidden">
         <Component {...pageProps} />
-        {/* {!loading ? (
-          <Component {...pageProps} />
-        ) : (
-          <div className="w-screen h-screen flex justify-center items-center">
-            <Image
-              src="/planet.gif"
-              alt="animation"
-              // layout="fill"
-              width={480}
-              height={270}
-            />
-          </div>
-        )} */}
       </main>
     </>
   );

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "../Image";
 import Background from "../Background";
 import { motion } from "framer-motion";
 

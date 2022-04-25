@@ -1,14 +1,14 @@
 import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
-import Image from "next/image";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars, Text } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
-import Background from "../components/Background";
 import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import WarningIcon from "../components/WarningIcon";
+import Background from "../components/Background";
+import Image from "../components/Image";
 import { server } from "../lib/server";
 
 const API_URL = `${server}/api/posts`;
