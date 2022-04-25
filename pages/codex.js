@@ -294,20 +294,39 @@ export default function Dashboard() {
           <p>{allPlanets[joyPos] && allPlanets[joyPos].pCloudTexture}</p>
         </div>
       </motion.div>
-      <p>Give permission to use device (this only needs to be done once)</p>
-      <button onClick={() => requestDeviceButton()}> Request Device</button>
-      <p>Open connection with device</p>
-      <button onClick={() => openButton()}>Open Device</button>
-      <p>Close connection with device</p>
-      <button onClick={() => closeButton()}>Close Device</button>
+      <div className="absolute z-10">
+        <p>Give permission to use device (this only needs to be done once)</p>
+        <button
+          className="bg-white text-black p-2 hover:bg-opacity-75 mb-4"
+          onClick={() => requestDeviceButton()}
+        >
+          {" "}
+          Request Device
+        </button>
+        <p>Open connection with device</p>
+        <button
+          className="bg-white text-black p-2 hover:bg-opacity-75 mb-4"
+          onClick={() => openButton()}
+        >
+          Open Device
+        </button>
+        <p>Close connection with device</p>
+        <button
+          className="bg-white text-black p-2 hover:bg-opacity-75"
+          onClick={() => closeButton()}
+        >
+          Close Device
+        </button>
+      </div>
       <Suspense fallback={null}>
         <Canvas
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: false }}
           camera={{ fov: 50, position: [0, 0, 20] }}
           style={{ height: "100vh", width: "100vw", position: "fixed" }}
+          shadows
         >
-          <ambientLight intensity={1} />
+          <ambientLight intensity={0.02} />
           <pointLight position={[100, 100, 100]} />
           {allPlanets && <Planet />}
           <Stars />

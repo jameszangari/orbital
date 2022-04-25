@@ -83,12 +83,14 @@ function Observe() {
             gl={{ antialias: true, alpha: false }}
             camera={{ fov: 25, position: [300, 50, 0] }}
             style={{ height: "100vh" }}
+            shadows
           >
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
             <Suspense fallback={null}>
               <Stars fade={false} />
-              <ambientLight intensity={1} />
+              <ambientLight intensity={0.02} />
+              <pointLight position={[100, 50, 0]} />
               <Sun />
               {posts
                 ? posts.map((planet, i) => {
