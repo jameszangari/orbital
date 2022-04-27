@@ -23,9 +23,9 @@ const Accordion = ({
         exit={{ opacity: 0, height: 0 }}
         className={
           collapsed
-            ? "border-pink-border bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 shadow-sm shadow-pink-border/10 " +
+            ? "border-pink-border bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 shadow-md shadow-pink-border/10 " +
               className
-            : "border-blue-border bg-[#496EEF] bg-opacity-10 border-2 mt-1 first-of-type:my-0 p-1 h-max shadow-sm shadow-blue-border/10 " +
+            : "border-blue-border bg-[#496EEF] bg-opacity-10 border-2 mt-1 first-of-type:my-0 p-1 h-max shadow-md shadow-blue-border/10 " +
               className
         }
       >

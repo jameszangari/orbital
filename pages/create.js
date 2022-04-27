@@ -664,7 +664,7 @@ export default function Create() {
           }}
           exit={{ opacity: 0 }}
         >
-          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1 shadow-sm shadow-pink-border/10">
+          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1 shadow-md shadow-pink-border/10">
             <motion.p className="font-secondary text-xs uppercase opacity-50 w-2/6">
               Planet Zoom
             </motion.p>

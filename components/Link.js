@@ -7,7 +7,7 @@ export default function Button({ label, click, url, variant, className }) {
       {variant === "button" && (
         <motion.a
           className={
-            "text-sm sm:text-md uppercase bg-purple-bg bg-opacity-25 border-pink-border border-2 text-text py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-25 hover:border-oPurple w-full cursor-pointer text-center shadow-sm shadow-pink-border/10 " +
+            "text-sm sm:text-md uppercase bg-purple-bg bg-opacity-25 border-pink-border border-2 text-text py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-25 hover:border-oPurple w-full cursor-pointer text-center shadow-md shadow-pink-border/10 " +
             className
           }
           onClick={click || null}
@@ -28,7 +28,7 @@ export default function Button({ label, click, url, variant, className }) {
         <Link href={url || ""} passHref>
           <motion.a
             className={
-              "text-sm sm:text-md uppercase bg-oPurple bg-opacity-25 border-pink-border border-2 text-text py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-50 hover:border-oPurple w-full shadow-sm shadow-oPurple/10 " +
+              "text-sm sm:text-md uppercase bg-oPurple bg-opacity-25 border-pink-border border-2 text-text py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-50 hover:border-oPurple w-full shadow-md shadow-oPurple/10 " +
               className
             }
             onClick={click || null}
