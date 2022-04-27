@@ -637,10 +637,11 @@ export default function Create() {
             position: "absolute",
             zIndex: 0,
           }}
+          shadows
         >
           <Suspense fallback={null}>
-            <ambientLight intensity={1} />
-            <pointLight position={[100, 100, 100]} />
+            <ambientLight intensity={0.02} />
+            <pointLight position={[100, 100, 100]} intensity={2} />
             <Stars fade={true} />
             <Planet />
             <OrbitControls

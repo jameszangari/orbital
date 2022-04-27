@@ -7,6 +7,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { Sphere, useTexture } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
+import PlanetDetails from "../components/PlanetDetails";
 import { motion } from "framer-motion";
 
 const Joystick = dynamic(() => import("../components/Joystick"));
@@ -27,15 +28,13 @@ async function fetcher(url) {
 }
 
 export default function Dashboard() {
-  // @link https://swr.vercel.app/docs/revalidation
   const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
-  // console.log(data);
   let allPlanets = data ? [...data.posts] : [];
   console.log(allPlanets);
 
   const [joyPos, setPos] = useState(0);
   console.log(allPlanets[joyPos]);
-  console.log(allPlanets[joyPos]?.pCoreColor.hex);
+
   let joystickMin = 0;
   let joystickMax = allPlanets.length - 1;
   let joystickPosition = joystickMin;
@@ -202,7 +201,8 @@ export default function Dashboard() {
         <Sphere
           ref={targetRef}
           position={[0, 0, 0]}
-          scale={allPlanets[joyPos] && allPlanets[joyPos].pSize}
+          // scale={allPlanets[joyPos] && allPlanets[joyPos].pSize}
+          scale={6}
         >
           <LayerMaterial
             color={allPlanets[joyPos] && allPlanets[joyPos].pCoreColor.hex}
@@ -273,27 +273,19 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Orbital | Mission Control</title>
+        <title>Orbital | Planet Codex</title>
       </Head>
-      <motion.div className="absolute right-5 top-[50vh] z-10 border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-        <motion.h2 className="uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blue">
-          Planet Info
-        </motion.h2>
-        <Joystick onChange={setPos} />
-        <div className="post-items">
-          <p>{allPlanets[joyPos] && allPlanets[joyPos]._id}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].createdAt}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pType}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pName}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pSize}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pOffset}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pSpeed}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos]?.pCoreColor.hex}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pCoreTexture}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos]?.pCloudColor.hex}</p>
-          <p>{allPlanets[joyPos] && allPlanets[joyPos].pCloudTexture}</p>
-        </div>
-      </motion.div>
+      <Joystick onChange={setPos} />
+      <PlanetDetails
+        className={"absolute bottom-5 mx-5 z-10"}
+        name={allPlanets[joyPos].pName}
+        type={allPlanets[joyPos].pType}
+        size={allPlanets[joyPos].pSize}
+        core={allPlanets[joyPos]?.pCoreTexture}
+        coreColor={allPlanets[joyPos]?.pCoreColor.hex}
+        atmos={allPlanets[joyPos]?.pCloudTexture}
+        atmosColor={allPlanets[joyPos]?.pCloudColor.hex}
+      />
       <div className="absolute z-10">
         <p>Give permission to use device (this only needs to be done once)</p>
         <button

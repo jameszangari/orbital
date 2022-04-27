@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }) {
           sizes="180x180"
           href="/apple-touch-icon.png"
         />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" color="#000000" href="/safari-pinned-tab.svg" />
         <link rel="apple-touch-startup-image" href="/orbital-icon.png" />
         {/* Meta Tags for HTML pages on Mobile */}
