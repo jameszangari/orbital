@@ -1,13 +1,15 @@
 import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { SpotLight, Stars, Text } from "@react-three/drei";
+import { SpotLight, Stars, Text, Stats } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
 import { Sphere, useTexture } from "@react-three/drei";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import WarningIcon from "../components/WarningIcon";
 import Background from "../components/Background";
+import BackgroundCornerLeft from "../components/BackgroundCornerLeft";
+import BackgroundCornerRight from "../components/BackgroundCornerRight";
 import PlanetDetails from "../components/PlanetDetails";
 import Image from "../components/Image";
 import { server } from "../lib/server";
@@ -102,7 +104,7 @@ export default function Dashboard() {
         <Sphere
           ref={targetRef}
           position={[0, 0, 0]}
-          scale={6}
+          scale={8}
           // scale={recentPlanet[0].pSize}
         >
           <LayerMaterial
@@ -146,6 +148,25 @@ export default function Dashboard() {
     ({ pType }) => pType === "Terrestrial"
   ).length;
 
+  const values = [
+    {
+      number: pad(gasGiant),
+      title: "Gas Giant",
+    },
+    {
+      number: pad(neptuneLike),
+      title: "Neptune-like",
+    },
+    {
+      number: pad(superEarth),
+      title: "Super Earth",
+    },
+    {
+      number: pad(terrestrial),
+      title: "Terrestrial",
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -157,7 +178,7 @@ export default function Dashboard() {
         </motion.h1>
       </motion.div>
       <motion.div
-        className="absolute top-48 left-32 z-10 flex justify-center"
+        className="absolute right-5 top-96 z-10 flex justify-center"
         animate={{ opacity: [0, 1, 0] }}
         transition={{
           duration: 2,
@@ -166,47 +187,39 @@ export default function Dashboard() {
           repeat: Infinity,
         }}
       >
-        <motion.h1 className="flex flex-row text-2xl uppercase border-pink-border bg-purple-bg border-2 py-4 pl-4 pr-6 text-pink-accent tracking-[0.15em]">
-          <WarningIcon className={"w-16 h-16 mr-4"} />
+        <motion.h1 className="flex flex-row text-2xl uppercase border-pink-border bg-purple-bg border-2 py-4 pl-6 pr-4 text-pink-accent tracking-[0.15em] w-96">
+          <WarningIcon className={"w-16 h-16 mr-6"} />
           New Planet
           <br /> Discovered
         </motion.h1>
       </motion.div>
       <motion.div className="absolute right-5 bottom-5 z-10">
-        <motion.div className="flex flex-col justify-between gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-          <motion.div className="mb-4">
-            <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blue mr-4">
-              Total Planets Found
+        <motion.div className="flex flex-col justify-between gap-2 p-4 h-72 w-96">
+          <BackgroundCornerRight className={"absolute right-0 bottom-0 z-10"} />
+          <motion.div className="">
+            <motion.h2 className="uppercase tracking-widest font-primary text-lg mb-2 text-orbital-blue text-right">
+              Total Planets
+              <br />
+              Discovered
             </motion.h2>
-            <motion.h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-oPinkLight">
+            <motion.h2 className="uppercase tracking-widest font-secondary text-4xl p-2 text-oPinkLight text-right bg-pink-border w-max ml-auto">
               {pad(PlanetCount)}
             </motion.h2>
           </motion.div>
           <motion.div className="">
-            <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-              <motion.span className="text-oPinkLight mr-4">
-                {pad(gasGiant)}
-              </motion.span>
-              Gas Giant
-            </motion.h2>
-            <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-              <motion.span className="text-oPinkLight mr-4">
-                {pad(neptuneLike)}
-              </motion.span>
-              Neptune-like
-            </motion.h2>
-            <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-              <motion.span className="text-oPinkLight mr-4">
-                {pad(superEarth)}
-              </motion.span>
-              Super Earth
-            </motion.h2>
-            <motion.h2 className="uppercase tracking-wider font-secondary text-xl pt-1 pl-1 text-orbital-blueLight">
-              <motion.span className="text-oPinkLight mr-4">
-                {pad(terrestrial)}
-              </motion.span>
-              Terrestrial
-            </motion.h2>
+            {values.map((value, i) => {
+              return (
+                <motion.h2
+                  key={i}
+                  className="uppercase tracking-wider font-secondary text-2xl text-orbital-blueLight"
+                >
+                  <motion.span className="text-oPinkLight mr-4">
+                    {value.number}
+                  </motion.span>
+                  {value.title}
+                </motion.h2>
+              );
+            })}
           </motion.div>
         </motion.div>
       </motion.div>
@@ -230,10 +243,10 @@ export default function Dashboard() {
         gl={{ antialias: true, alpha: false }}
         camera={{ fov: 50, position: [0, 0, 20] }}
         style={{ height: "100vh", width: "100vw", position: "fixed" }}
-        shadows
+        // shadows
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.02} />
+          <ambientLight intensity={0.65} />
           <pointLight position={[100, 100, 100]} />
           {recentPlanet && <Planet />}
           <Stars />
