@@ -13,7 +13,7 @@ export default function PlanetDetails({
 }) {
   return (
     <motion.div className={className}>
-      <motion.div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4 mb-5">
+      <motion.div className="border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
         <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blue">
           Planet Info
         </motion.h2>

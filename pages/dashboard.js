@@ -172,25 +172,11 @@ export default function Dashboard() {
           <br /> Discovered
         </motion.h1>
       </motion.div>
-      <motion.div className="absolute bottom-5 mx-5 z-10">
-        {recentPlanet.map((planet, i) => {
-          return (
-            <PlanetDetails
-              key={i}
-              name={planet.pName}
-              type={planet.pType}
-              size={planet.pSize}
-              core={planet.pCoreTexture}
-              coreColor={planet.pCoreColor.hex}
-              atmos={planet.pCloudTexture}
-              atmosColor={planet.pCloudColor.hex}
-            />
-          );
-        })}
-        <motion.div className="flex flex-row justify-between gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
-          <motion.div className="">
+      <motion.div className="absolute right-5 bottom-5 z-10">
+        <motion.div className="flex flex-col justify-between gap-2 w-max border-blue-border bg-[#496EEF] bg-opacity-10 border-2 p-4">
+          <motion.div className="mb-4">
             <motion.h2 className="uppercase tracking-[0.2em] font-primary text-base pt-1 pl-1 text-orbital-blue mr-4">
-              Total Planets Found <br /> In System
+              Total Planets Found
             </motion.h2>
             <motion.h2 className="uppercase tracking-wider font-secondary text-3xl pt-1 pl-1 text-oPinkLight">
               {pad(PlanetCount)}
@@ -224,6 +210,21 @@ export default function Dashboard() {
           </motion.div>
         </motion.div>
       </motion.div>
+      {recentPlanet.map((planet, i) => {
+        return (
+          <PlanetDetails
+            key={i}
+            className="absolute bottom-5 left-5 z-10"
+            name={planet.pName}
+            type={planet.pType}
+            size={planet.pSize}
+            core={planet.pCoreTexture}
+            coreColor={planet.pCoreColor.hex}
+            atmos={planet.pCloudTexture}
+            atmosColor={planet.pCloudColor.hex}
+          />
+        );
+      })}
       <Canvas
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: false }}
