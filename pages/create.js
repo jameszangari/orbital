@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
@@ -52,6 +52,7 @@ export default function Create() {
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
   const [pCloudAlpha, setCloudAlpha] = useState(0.5);
+  console.log(pCloudAlpha);
   const [pName, setName] = useState("Your Planet Name");
   const [zoom, setZoom] = useState(10);
 
@@ -103,7 +104,7 @@ export default function Create() {
             transmission={0.5}
           >
             <Texture map={useTexture(pCoreTexture)} alpha={0.65} />
-            <Texture map={useTexture(pCloudTexture)} alpha={0.5} />
+            <Texture map={useTexture(pCloudTexture)} alpha={0.3} />
             <Depth
               colorA={pCloudColor.hex}
               colorB="#000000"
@@ -455,6 +456,18 @@ export default function Create() {
           }
           collapsed={step === 4 ? false : true}
         >
+          <motion.div className="mt-6 flex flex-col space-y-2 w-full px-1">
+            <motion.input
+              type="range"
+              min={0}
+              max={1}
+              defaultValue={0.5}
+              onChange={(e) => setCloudAlpha(e.target.value)}
+              id="alpha"
+              step="0.1"
+              className="slider-blue appearance-none w-full h-1 p-0 bg-blue-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb mb-4"
+            />
+          </motion.div>
           <motion.div className="px-1 pt-2 w-full">
             <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
               <FormButton
@@ -601,7 +614,7 @@ export default function Create() {
       setCloudColor({ hex: "#f44336" });
       setCoreTexture(gasTextures[0]);
       setCloudTexture(cloudTextures[0]);
-      setCloudAlpha(1);
+      setCloudAlpha(0.5);
       setName("Your Planet Name");
       // set the message
       return setMessage(data.message);
@@ -755,7 +768,7 @@ export default function Create() {
             </motion.div>
             <Link
               className="absolute mt-48 w-max p-4"
-              click={() => router.push("/")}
+              url={"/"}
               label={"Start Over"}
               variant={"link"}
             />

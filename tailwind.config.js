@@ -15,7 +15,7 @@ module.exports = {
         "blue-border": "rgba(176, 225, 253, 0.30)",
         "pink-accent": "rgba(232, 148, 251, 1)",
         "orbital-blue": "#496EEF",
-        "orbital-blueLight": "#B0E1FD",
+        "orbital-blueLight": "#E4F5FF",
         oPurple: "#5B2CCB",
         oPink: "#D33CE7",
         oPinkLight: "#E894FB",

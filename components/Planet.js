@@ -19,7 +19,7 @@ export default function Planet({ post, xRadius, zRadius }) {
   });
   return (
     <>
-      <Sphere ref={ref} scale={post.pSize / 2}>
+      <Sphere ref={ref} scale={post.pSize / 2.5}>
         <LayerMaterial
           color={post.pCoreColor.hex}
           alpha={1}

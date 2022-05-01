@@ -173,7 +173,7 @@ export default function Dashboard() {
         <title>Orbital | Mission Control</title>
       </Head>
       <motion.div className="absolute top-5 z-10 w-full flex justify-center">
-        <motion.h1 className="text-3xl tracking-[0.2em] uppercase border-blue-border bg-[#496EEF] bg-opacity-10 border-2 py-4 px-8 text-orbital-blueLight">
+        <motion.h1 className="text-3xl tracking-[0.2em] uppercase border-orbital-blueLight/20 border-2 py-4 px-8 text-orbital-blueLight">
           Mission Control Center
         </motion.h1>
       </motion.div>
@@ -206,18 +206,20 @@ export default function Dashboard() {
               {pad(PlanetCount)}
             </motion.h2>
           </motion.div>
-          <motion.div className="">
+          <motion.div className="flex flex-col">
             {values.map((value, i) => {
               return (
-                <motion.h2
-                  key={i}
-                  className="uppercase tracking-wider font-secondary text-2xl text-orbital-blueLight"
-                >
-                  <motion.span className="text-oPinkLight mr-4">
+                <motion.div className="flex flex-row" key={i}>
+                  <motion.span className="uppercase tracking-wider font-secondary text-2xl text-oPinkLight mr-4 w-12">
                     {value.number}
                   </motion.span>
-                  {value.title}
-                </motion.h2>
+                  <motion.h2
+                    key={i}
+                    className="uppercase tracking-wider font-secondary text-2xl text-orbital-blueLight"
+                  >
+                    {value.title}
+                  </motion.h2>
+                </motion.div>
               );
             })}
           </motion.div>

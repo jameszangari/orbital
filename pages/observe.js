@@ -1,7 +1,7 @@
 import Head from "next/head";
 import useSWR from "swr";
 import React, { Suspense } from "react";
-import { TrackballControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
 import Background from "../components/Background";
@@ -32,6 +32,14 @@ function Observe() {
   // @link https://swr.vercel.app/docs/revalidation
   const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
+  let groupPlanet = [];
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      groupPlanet.push(data[key].slice(-30));
+    });
+  }
+  console.log(groupPlanet[0]);
+
   if (error)
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
@@ -52,8 +60,6 @@ function Observe() {
         </div>
       </div>
     );
-
-  const posts = data?.posts;
 
   if (error) {
     console.log("Error:");
@@ -81,7 +87,7 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 50, position: [300, 50, 0] }}
+            camera={{ fov: 75, position: [200, 50, 10] }}
             style={{ height: "100vh" }}
             shadows
           >
@@ -92,22 +98,22 @@ function Observe() {
               <ambientLight intensity={0.02} />
               <pointLight position={[100, 50, 0]} />
               <Sun />
-              {posts
-                ? posts.map((planet, i) => {
+              {groupPlanet[0]
+                ? groupPlanet[0].map((planet, i) => {
                     {
-                      console.log(planet);
+                      // console.log(planet);
                     }
                     return (
                       <Planet
                         post={planet}
-                        zRadius={planet.zRadius / 2}
-                        xRadius={planet.zRadius / 2}
+                        zRadius={planet.zRadius / 1.5}
+                        xRadius={planet.zRadius / 1.5}
                         key={i}
                       />
                     );
                   })
                 : null}
-              <TrackballControls />
+              <OrbitControls enableDamping />
             </Suspense>
           </Canvas>
         </div>
