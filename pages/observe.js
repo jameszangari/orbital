@@ -81,14 +81,14 @@ function Observe() {
           <Canvas
             dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 25, position: [300, 50, 0] }}
+            camera={{ fov: 50, position: [300, 50, 0] }}
             style={{ height: "100vh" }}
             shadows
           >
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
             <Suspense fallback={null}>
-              <Stars fade={false} />
+              <Stars fade={true} />
               <ambientLight intensity={0.02} />
               <pointLight position={[100, 50, 0]} />
               <Sun />
