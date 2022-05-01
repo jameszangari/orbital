@@ -11,15 +11,15 @@ export default function Planet({ post, xRadius, zRadius }) {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime() * post.pSpeed + post.pOffset;
-    const x = xRadius * Math.sin(t * 2);
-    const z = zRadius * Math.cos(t * 2);
+    const x = xRadius * Math.sin(t * 1.25);
+    const z = zRadius * Math.cos(t * 1.25);
     ref.current.position.x = x;
     ref.current.position.z = z;
     ref.current.rotation.y += random(0.008, 0.004);
   });
   return (
     <>
-      <Sphere ref={ref} scale={post.pSize}>
+      <Sphere ref={ref} scale={post.pSize / 2}>
         <LayerMaterial
           color={post.pCoreColor.hex}
           alpha={1}

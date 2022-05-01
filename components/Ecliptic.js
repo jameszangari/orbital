@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 export default function Ecliptic({ xRadius = 1, zRadius = 1 }) {
   const points = [];
+  // TODO change 64 to db length
   for (let index = 0; index < 64; index++) {
     const angle = (index / 64) * 2 * Math.PI;
     const x = xRadius * Math.cos(angle);

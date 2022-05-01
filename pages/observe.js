@@ -100,8 +100,8 @@ function Observe() {
                     return (
                       <Planet
                         post={planet}
-                        zRadius={planet.zRadius}
-                        xRadius={planet.zRadius}
+                        zRadius={planet.zRadius / 2}
+                        xRadius={planet.zRadius / 2}
                         key={i}
                       />
                     );
