@@ -27,10 +27,7 @@ export default function Planet({ post, xRadius, zRadius }) {
           transmission={0.1}
         >
           <Texture map={useTexture(post.pCoreTexture)} alpha={0.65} />
-          <Texture
-            map={useTexture(post.pCloudTexture)}
-            alpha={post.pCloudAlpha}
-          />
+          <Texture map={useTexture(post.pCloudTexture)} alpha={0.3} />
           <Depth
             colorA={post.pCloudColor.hex}
             colorB="#000000"

@@ -15,14 +15,8 @@ async function fetcher(url) {
   try {
     const res = await fetch(url);
     const json = await res.json();
-    let planets = [];
-    json.message.forEach((row, i) => {
-      (row.xRadius = (i + 3) * 12),
-        (row.zRadius = (i + 3) * 8),
-        planets.push(row);
-    });
     return {
-      posts: planets,
+      posts: json["message"],
     };
   } catch (error) {
     return error;
@@ -32,15 +26,7 @@ function Observe() {
   // @link https://swr.vercel.app/docs/revalidation
   const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
 
-  let groupPlanet = [];
-  if (data) {
-    Object.keys(data).forEach((key) => {
-      groupPlanet.push(data[key].slice(-30));
-    });
-  }
-  console.log(groupPlanet[0]);
-
-  if (error)
+  if (error) {
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
@@ -51,7 +37,8 @@ function Observe() {
         </div>
       </div>
     );
-  if (!data)
+  }
+  if (!data) {
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
@@ -60,6 +47,20 @@ function Observe() {
         </div>
       </div>
     );
+  }
+
+  const planets = data?.posts;
+
+  // Set max limit to 30, add x and z radius
+  let AllPlanets = [];
+  if (planets) {
+    planets.slice(-30).forEach((planet, i) => {
+      (planet.xRadius = (i + 6) * 12),
+        (planet.zRadius = (i + 6) * 8),
+        AllPlanets.push(planet);
+    });
+  }
+  console.log(AllPlanets);
 
   if (error) {
     console.log("Error:");
@@ -95,13 +96,13 @@ function Observe() {
             <AdaptiveEvents />
             <Suspense fallback={null}>
               <Stars fade={true} />
-              <ambientLight intensity={0.02} />
+              <ambientLight intensity={0.05} />
               <pointLight position={[100, 50, 0]} />
               <Sun />
-              {groupPlanet[0]
-                ? groupPlanet[0].map((planet, i) => {
+              {AllPlanets
+                ? AllPlanets.map((planet, i) => {
                     {
-                      // console.log(planet);
+                      console.log(planet);
                     }
                     return (
                       <Planet

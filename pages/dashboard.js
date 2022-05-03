@@ -68,7 +68,7 @@ export default function Dashboard() {
     AllPlanets.push(planet);
   });
 
-  // push most recent planet to it own array
+  // push most recent planet to its own array
   let recentPlanet = [];
   if (data) {
     Object.keys(data).forEach((key) => {
@@ -101,12 +101,7 @@ export default function Dashboard() {
     });
     return (
       <>
-        <Sphere
-          ref={targetRef}
-          position={[0, 0, 0]}
-          scale={8}
-          // scale={recentPlanet[0].pSize}
-        >
+        <Sphere ref={targetRef} position={[0, 0, 0]} scale={8}>
           <LayerMaterial
             color={recentPlanet[0].pCoreColor.hex}
             alpha={1}
@@ -119,7 +114,7 @@ export default function Dashboard() {
             />
             <Texture
               map={useTexture(recentPlanet[0].pCloudTexture)}
-              alpha={recentPlanet[0].pCloudAlpha}
+              alpha={0.3}
             />
             <Depth
               colorA={recentPlanet[0].pCloudColor.hex}

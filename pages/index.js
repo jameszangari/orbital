@@ -8,13 +8,13 @@ import Background from "../components/Background";
 import RotateIcon from "../components/RotateIcon";
 import { motion } from "framer-motion";
 
-export default function Index({ posts }) {
+export default function Index() {
   const description =
-    "Your mission is to create a custom planet which will be added to the collaborative solar system projected in front of you!";
+    "Your mission is to design a unique planet that will be instantly added to the collaborative solar system projected in front of you!";
   return (
     <>
       <Head>
-        <title>Orbital | Welcome</title>
+        <title>Orbital</title>
       </Head>
       <Canvas
         dpr={[1, 2]}
@@ -29,13 +29,14 @@ export default function Index({ posts }) {
         <motion.div className="py-4 m-auto grid place-items-center mx-4 absolute w-full h-full">
           <motion.div className="flex flex-col justify-center max-w-3xl">
             <Logo />
-            <motion.p className="pt-12 text-lg uppercase tracking-[0.15em]">
-              {description}
-            </motion.p>
+            <motion.p
+              className="pt-12 text-lg uppercase tracking-[0.15em]"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
             <Link
               variant={"link"}
               url={"/create"}
-              label={`Create Your Planet!`}
+              label={`Create Your Planet`}
               className={"mt-12 w-max mx-auto"}
             />
           </motion.div>

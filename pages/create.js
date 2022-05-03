@@ -51,8 +51,6 @@ export default function Create() {
 
   const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
   const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
-  const [pCloudAlpha, setCloudAlpha] = useState(0.5);
-  console.log(pCloudAlpha);
   const [pName, setName] = useState("Your Planet Name");
   const [zoom, setZoom] = useState(10);
 
@@ -109,7 +107,7 @@ export default function Create() {
               colorA={pCloudColor.hex}
               colorB="#000000"
               onChange={(e) => setCloudColor(e.target.value)}
-              alpha={0.5}
+              alpha={0.65}
               mode="darken"
               mapping={"vector"}
             />
@@ -457,16 +455,25 @@ export default function Create() {
           collapsed={step === 4 ? false : true}
         >
           <motion.div className="mt-6 flex flex-col space-y-2 w-full px-1">
-            <motion.input
+            <motion.label className="relative flex justify-between items-center group p-2 text-l">
+              Send 😺 memes to my inbox?
+              <motion.input
+                type="checkbox"
+                className="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
+                onChange={(e) => setCloudAlpha(e.target.checked)}
+              />
+              <motion.span className="w-12 h-6 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-6"></motion.span>
+            </motion.label>
+            {/* <motion.input
               type="range"
-              min={0}
-              max={1}
-              defaultValue={0.5}
+              min={"0"}
+              max={"1"}
+              defaultValue={"0.5"}
               onChange={(e) => setCloudAlpha(e.target.value)}
               id="alpha"
               step="0.1"
               className="slider-blue appearance-none w-full h-1 p-0 bg-blue-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb mb-4"
-            />
+            /> */}
           </motion.div>
           <motion.div className="px-1 pt-2 w-full">
             <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
@@ -588,7 +595,6 @@ export default function Create() {
       pCloudColor,
       pCoreTexture,
       pCloudTexture,
-      pCloudAlpha,
       pName,
       createdAt: new Date().toISOString(),
     };
@@ -614,7 +620,7 @@ export default function Create() {
       setCloudColor({ hex: "#f44336" });
       setCoreTexture(gasTextures[0]);
       setCloudTexture(cloudTextures[0]);
-      setCloudAlpha(0.5);
+      setCloudAlpha("0.5");
       setName("Your Planet Name");
       // set the message
       return setMessage(data.message);
@@ -665,7 +671,7 @@ export default function Create() {
           </Suspense>
         </Canvas>
         <motion.div
-          className="absolute bottom-0 left-0 p-1 w-[40vw] bg-purple-bg"
+          className="absolute bottom-0 left-0 p-1 w-[40vw] bg-purple-bg z-10"
           initial={{ opacity: 0, x: -50, y: 50 }}
           animate={{
             x: 0,
