@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import A2HS from "./../components/A2HS";
 import NProgress from "nprogress";
 import "../public/nprogress.css";
 import "../styles/globals.css";
@@ -17,6 +18,22 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
+    var customServiceWorkerUrl = "/sw.js";
+    navigator.serviceWorker
+      .register(customServiceWorkerUrl, { scope: "." })
+      .then(
+        function (registration) {
+          // Registration was successful
+          console.log(
+            "CustomServiceWorker registration successful with scope: ",
+            registration.scope
+          );
+        },
+        function (err) {
+          // registration failed
+          console.log("CustomServiceWorker registration failed: ", err);
+        }
+      );
     const handleStart = (url) => {
       console.log(`Loading: ${url}`);
       NProgress.start();
@@ -86,6 +103,7 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         />
       </Head>
+      <A2HS />
       <main className="overflow-x-hidden">
         <Component {...pageProps} />
       </main>
