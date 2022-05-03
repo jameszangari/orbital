@@ -1,12 +1,16 @@
+import { useState } from "react";
 import Image from "../Image";
 import Background from "../Background";
 import { motion } from "framer-motion";
 
-export default function Create({ imgSrc, label, click }) {
+export default function Create({ imgSrc, label, click, className }) {
   return (
     <motion.a
-      className="relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-xs md:text-sm font-secondary uppercase hover:bg-orbital-blue focus:bg-orbital-blue active:bg-orbital-blue transition-all shadow-md shadow-orbital-blue/10"
-      onClick={click}
+      className={
+        "relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-xs md:text-sm font-secondary uppercase hover:bg-orbital-blue focus:bg-orbital-blue active:bg-orbital-blue transition-all shadow-md shadow-orbital-blue/10 " +
+          className || null
+      }
+      onClick={click || null}
       initial={{ opacity: 0, height: 0 }}
       animate={{
         opacity: 1,
@@ -20,12 +24,12 @@ export default function Create({ imgSrc, label, click }) {
       <motion.span className="z-10 flex flex-col justify-center items-center pointer-events-none py-1">
         <Image
           src={imgSrc}
-          alt={"Clouds " + label}
+          alt={label}
           layout="fixed"
           width={50}
           height={50}
           unoptimized={true}
-          className="rounded-full shadow-md mb-2"
+          className="rounded-full mb-2"
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
@@ -35,7 +39,7 @@ export default function Create({ imgSrc, label, click }) {
         />
         <motion.p className="pt-2">{label}</motion.p>
       </motion.span>
-      <Background />
+      <Background color={"#496EEF"} border={"blue-bg"} />
     </motion.a>
   );
 }

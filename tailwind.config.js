@@ -9,6 +9,7 @@ module.exports = {
         text: "rgba(254, 254, 254, 1)",
         "text-transparent": "rgba(254, 254, 254, 0.75)",
         "purple-bg": "rgba(91, 44, 203, 0.15)",
+        "purple-accent": "rgba(91, 44, 203, 0.30)",
         "blue-bg": "rgba(73, 110, 239, 0.15)",
         "pink-border": "rgba(211, 60, 231, 0.30)",
         "blue-accent": "rgba(176, 225, 253, 1)",

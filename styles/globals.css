@@ -11,7 +11,8 @@ body {
     Helvetica Neue, sans-serif;
   background: #000;
   color: #fff;
-  touch-action: none;
+  @apply overflow-x-hidden;
+  /* touch-action: none; */
 }
 
 a {

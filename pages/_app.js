@@ -104,9 +104,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <A2HS />
-      <main className="overflow-x-hidden">
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </>
   );
 }

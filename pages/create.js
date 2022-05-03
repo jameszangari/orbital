@@ -142,6 +142,27 @@ export default function Create() {
       zoom: 10,
     },
   ];
+  const PlanetType = () => {
+    // const [isActive, setActive] = useState(false);
+    return defaultValues.map((value, i) => {
+      return (
+        <FormButton
+          key={i}
+          imgSrc={value.image}
+          label={value.type}
+          // className={isActive ? "bg-orbital-blue" : null}
+          click={() => {
+            // setActive(!isActive);
+            setType(value.type);
+            setSize(value.size);
+            preloadCoreTexture(value.image);
+            prepareCoreTexture(value.image);
+            setZoom(value.zoom);
+          }}
+        />
+      );
+    });
+  };
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
@@ -158,22 +179,7 @@ export default function Create() {
           collapsed={step === 1 ? false : true}
         >
           <motion.div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
-            {defaultValues.map((value, i) => {
-              return (
-                <FormButton
-                  key={i}
-                  imgSrc={value.image}
-                  label={value.type}
-                  click={() => {
-                    setType(value.type);
-                    setSize(value.size);
-                    preloadCoreTexture(value.image);
-                    prepareCoreTexture(value.image);
-                    setZoom(value.zoom);
-                  }}
-                />
-              );
-            })}
+            {PlanetType()}
           </motion.div>
           <motion.div className="px-1 pt-4 pb-1">
             <Link
@@ -274,7 +280,7 @@ export default function Create() {
                 <>
                   <FormButton
                     imgSrc={gasTextures[0]}
-                    label={"Type 1"}
+                    label={"Carbon"}
                     click={() => {
                       preloadCoreTexture(gasTextures[0]);
                       prepareCoreTexture(gasTextures[0]);
@@ -282,7 +288,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={gasTextures[1]}
-                    label={"Type 2"}
+                    label={"Earthy"}
                     click={() => {
                       preloadCoreTexture(gasTextures[1]);
                       prepareCoreTexture(gasTextures[1]);
@@ -290,7 +296,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={gasTextures[2]}
-                    label={"Type 3"}
+                    label={"Nuclear"}
                     click={() => {
                       preloadCoreTexture(gasTextures[2]);
                       prepareCoreTexture(gasTextures[2]);
@@ -298,7 +304,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={gasTextures[3]}
-                    label={"Type 4"}
+                    label={"Humid"}
                     click={() => {
                       preloadCoreTexture(gasTextures[3]);
                       prepareCoreTexture(gasTextures[3]);
@@ -310,7 +316,7 @@ export default function Create() {
                 <>
                   <FormButton
                     imgSrc={neptuneTextures[0]}
-                    label={"Type 1"}
+                    label={"Icy"}
                     click={() => {
                       preloadCoreTexture(neptuneTextures[0]);
                       prepareCoreTexture(neptuneTextures[0]);
@@ -318,7 +324,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={neptuneTextures[1]}
-                    label={"Type 2"}
+                    label={"Martian"}
                     click={() => {
                       preloadCoreTexture(neptuneTextures[1]);
                       prepareCoreTexture(neptuneTextures[1]);
@@ -326,7 +332,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={neptuneTextures[2]}
-                    label={"Type 3"}
+                    label={"Venusian"}
                     click={() => {
                       preloadCoreTexture(neptuneTextures[2]);
                       prepareCoreTexture(neptuneTextures[2]);
@@ -334,7 +340,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={neptuneTextures[3]}
-                    label={"Type 4"}
+                    label={"Volcanic"}
                     click={() => {
                       preloadCoreTexture(neptuneTextures[3]);
                       prepareCoreTexture(neptuneTextures[3]);
@@ -346,7 +352,7 @@ export default function Create() {
                 <>
                   <FormButton
                     imgSrc={superTextures[0]}
-                    label={"Type 1"}
+                    label={"Alpine"}
                     click={() => {
                       preloadCoreTexture(superTextures[0]);
                       prepareCoreTexture(superTextures[0]);
@@ -354,7 +360,7 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={superTextures[1]}
-                    label={"Type 2"}
+                    label={"Savannah"}
                     click={() => {
                       preloadCoreTexture(superTextures[1]);
                       prepareCoreTexture(superTextures[1]);
@@ -362,12 +368,12 @@ export default function Create() {
                   />
                   <FormButton
                     imgSrc={superTextures[2]}
-                    label={"Type 3"}
+                    label={"Swamp"}
                     click={() => setCoreTexture(superTextures[2])}
                   />
                   <FormButton
                     imgSrc={superTextures[3]}
-                    label={"Type 4"}
+                    label={"Tropical"}
                     click={() => {
                       preloadCoreTexture(superTextures[3]);
                       prepareCoreTexture(superTextures[3]);
