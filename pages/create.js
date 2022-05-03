@@ -454,27 +454,6 @@ export default function Create() {
           }
           collapsed={step === 4 ? false : true}
         >
-          <motion.div className="mt-6 flex flex-col space-y-2 w-full px-1">
-            <motion.label className="relative flex justify-between items-center group p-2 text-l">
-              Send 😺 memes to my inbox?
-              <motion.input
-                type="checkbox"
-                className="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
-                onChange={(e) => setCloudAlpha(e.target.checked)}
-              />
-              <motion.span className="w-12 h-6 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-6"></motion.span>
-            </motion.label>
-            {/* <motion.input
-              type="range"
-              min={"0"}
-              max={"1"}
-              defaultValue={"0.5"}
-              onChange={(e) => setCloudAlpha(e.target.value)}
-              id="alpha"
-              step="0.1"
-              className="slider-blue appearance-none w-full h-1 p-0 bg-blue-bg bg-opacity-75 focus:outline-none focus:ring-0 focus:shadow-none rounded outline-none slider-thumb mb-4"
-            /> */}
-          </motion.div>
           <motion.div className="px-1 pt-2 w-full">
             <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
               <FormButton

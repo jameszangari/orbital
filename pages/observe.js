@@ -1,12 +1,12 @@
 import Head from "next/head";
 import useSWR from "swr";
 import React, { Suspense } from "react";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars, Stats } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
 import Background from "../components/Background";
 import { Canvas } from "@react-three/fiber";
-import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei"; // TODO: disable at some point
 import { server } from "../lib/server";
 
 const API_URL = `${server}/api/posts`;
@@ -99,6 +99,7 @@ function Observe() {
               <ambientLight intensity={0.05} />
               <pointLight position={[100, 50, 0]} />
               <Sun />
+              <Stats />
               {AllPlanets
                 ? AllPlanets.map((planet, i) => {
                     {
