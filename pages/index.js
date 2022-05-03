@@ -1,3 +1,4 @@
+// import dynamic from "next/dynamic";
 import Head from "next/head";
 import React from "react";
 import { Canvas } from "@react-three/fiber";
@@ -11,6 +12,18 @@ import { motion } from "framer-motion";
 export default function Index() {
   const description =
     "Your mission is to design a unique planet that will be instantly added to the collaborative solar system projected in front of you!";
+  // const post = {
+  //   pType: "Gas Giant",
+  //   pSize: "5",
+  //   pSpeed: 0.07526886550676606,
+  //   pOffset: 5.510836959675973,
+  //   pCoreColor: "#2196f3",
+  //   pCloudColor: "#f44336",
+  //   pCoreTexture: "/img/gaseous/Gaseous1.png",
+  //   pCloudTexture: "/img/clouds/Clouds1.png",
+  //   pCloudAlpha: 0.5,
+  //   pName: "Your Planet Name",
+  // };
   return (
     <>
       <Head>
@@ -37,7 +50,7 @@ export default function Index() {
               variant={"link"}
               url={"/create"}
               label={`Create Your Planet`}
-              className={"mt-12 w-max mx-auto"}
+              className={"mt-4 w-max mx-auto py-4 px-8"}
             />
           </motion.div>
         </motion.div>

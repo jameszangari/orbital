@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { Suspense, useRef, useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
@@ -24,20 +23,23 @@ import Nav from "../components/Nav";
 import { motion } from "framer-motion";
 import { server } from "../lib/server";
 
-// const defaultValues = {
-//   type: "Gas Giant",
-//   size: 5,
-//   coreColor: "#2196f3",
-//   cloudColor: "#f44336",
-// };
+const defaultVariables = {
+  type: "Gas Giant",
+  size: "5",
+  coreColor: { hex: "#2196f3" },
+  cloudColor: { hex: "#f44336" },
+  coreTexture: gasTextures[0],
+  cloudTexture: cloudTextures[0],
+  name: "Your Planet Name",
+  zoom: 10,
+};
 
 export default function Create() {
   const random = (a, b) => a + Math.random() * b;
-  const router = useRouter();
-  const [pType, setType] = useState("Gas Giant");
-  const [pSize, setSize] = useState("5");
-  const [pCoreColor, setCoreColor] = useState({ hex: "#2196f3" });
-  const [pCloudColor, setCloudColor] = useState({ hex: "#f44336" });
+  const [pType, setType] = useState(defaultVariables.type);
+  const [pSize, setSize] = useState(defaultVariables.size);
+  const [pCoreColor, setCoreColor] = useState(defaultVariables.coreColor);
+  const [pCloudColor, setCloudColor] = useState(defaultVariables.cloudColor);
   //  TODO set these values based on type
   //  ie. larger planetes = slower; smaller planets = faster;
   // TODO Move these values to observe page ie. z/xRadius
@@ -49,38 +51,47 @@ export default function Create() {
   const superEarth = pType === "Super Earth";
   const terrestrial = pType === "Terrestrial";
 
-  const [pCoreTexture, setCoreTexture] = useState(gasTextures[0]);
-  const [pCloudTexture, setCloudTexture] = useState(cloudTextures[0]);
-  const [pName, setName] = useState("Your Planet Name");
-  const [zoom, setZoom] = useState(10);
+  const [pCoreTexture, setCoreTexture] = useState(defaultVariables.coreTexture);
+  const [pCloudTexture, setCloudTexture] = useState(
+    defaultVariables.cloudTexture
+  );
+  const [pName, setName] = useState(defaultVariables.name);
+  const [zoom, setZoom] = useState(defaultVariables.zoom);
 
+  const [imageReady, setImageReady] = useState(false);
   const preloadCoreTexture = (texturePath) =>
     new Promise((resolve, reject) => {
-      const image = new window.Image(texturePath);
-      image.onload = () => resolve(texturePath);
+      const image = new window.Image();
+      image.onload = () => {
+        resolve(texturePath);
+        setImageReady(true);
+      };
       image.src = texturePath;
     });
   const prepareCoreTexture = async (texturePath) => {
     try {
       await preloadCoreTexture(texturePath);
       setCoreTexture(texturePath);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const preloadCloudTexture = (texturePath) =>
     new Promise((resolve, reject) => {
-      const image = new window.Image(texturePath);
-      image.onload = () => resolve(texturePath);
+      const image = new window.Image();
+      image.onload = () => {
+        resolve(texturePath);
+        setImageReady(true);
+      };
       image.src = texturePath;
     });
   const prepareCloudTexture = async (texturePath) => {
     try {
       await preloadCloudTexture(texturePath);
       setCloudTexture(texturePath);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -142,6 +153,7 @@ export default function Create() {
       zoom: 10,
     },
   ];
+
   const PlanetType = () => {
     // const [isActive, setActive] = useState(false);
     return defaultValues.map((value, i) => {
@@ -155,7 +167,6 @@ export default function Create() {
             // setActive(!isActive);
             setType(value.type);
             setSize(value.size);
-            preloadCoreTexture(value.image);
             prepareCoreTexture(value.image);
             setZoom(value.zoom);
           }}
@@ -170,15 +181,15 @@ export default function Create() {
     },
     {
       type: "Medium",
-      image: cloudTextures[0],
+      image: cloudTextures[1],
     },
     {
       type: "Heavy",
-      image: cloudTextures[0],
+      image: cloudTextures[2],
     },
     {
       type: "Smog",
-      image: cloudTextures[0],
+      image: cloudTextures[3],
     },
   ];
   const AtmosType = () => {
@@ -189,7 +200,6 @@ export default function Create() {
           imgSrc={value.image}
           label={value.type}
           click={() => {
-            preloadCloudTexture(value.image);
             prepareCloudTexture(value.image);
           }}
         />
@@ -598,13 +608,14 @@ export default function Create() {
 
     if (data.success) {
       // reset the fields back to default values
-      setType("Gas Giant");
-      setSize("5");
-      setCoreColor({ hex: "#2196f3" });
-      setCloudColor({ hex: "#f44336" });
-      setCoreTexture(gasTextures[0]);
-      setCloudTexture(cloudTextures[0]);
-      setName("Your Planet Name");
+      setType(defaultVariables.type);
+      setSize(defaultVariables.size);
+      setCoreColor(defaultVariables.coreColor);
+      setCloudColor(defaultVariables.cloudColor);
+      setCoreTexture(defaultVariables.coreTexture);
+      setCloudTexture(defaultVariables.cloudTexture);
+      setName(defaultVariables.name);
+      setZoom(defaultVariables.zoom);
       // set the message
       return setMessage(data.message);
     } else {
