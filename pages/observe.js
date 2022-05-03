@@ -8,6 +8,7 @@ import Background from "../components/Background";
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei"; // TODO: disable at some point
 import { server } from "../lib/server";
+import { trickle } from "nprogress";
 
 const API_URL = `${server}/api/posts`;
 
@@ -54,7 +55,7 @@ function Observe() {
   // Set max limit to 30, add x and z radius
   let AllPlanets = [];
   if (planets) {
-    planets.slice(-30).forEach((planet, i) => {
+    planets.slice(-50).forEach((planet, i) => {
       (planet.xRadius = (i + 6) * 12),
         (planet.zRadius = (i + 6) * 8),
         AllPlanets.push(planet);
@@ -86,18 +87,31 @@ function Observe() {
       <div>
         <div className="mx-auto">
           <Canvas
-            dpr={[1, 2]}
+            dpr={window.devicePixelRatio}
+            // dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
-            camera={{ fov: 75, position: [200, 50, 10] }}
+            camera={{
+              fov: 50,
+              position: [200, 100, -300],
+            }}
             style={{ height: "100vh" }}
             shadows
           >
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
             <Suspense fallback={null}>
-              <Stars fade={true} />
-              <ambientLight intensity={0.05} />
-              <pointLight position={[100, 50, 0]} />
+              {/* <Stars fade={true} /> */}
+              <Stars
+                radius={200}
+                depth={50}
+                count={5000}
+                factor={8}
+                saturation={10}
+                // fade
+                speed={3}
+              />
+              <ambientLight intensity={0.5} />
+              <pointLight position={[0, 0, 0]} />
               <Sun />
               <Stats />
               {AllPlanets
