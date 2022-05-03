@@ -116,7 +116,32 @@ export default function Create() {
       </>
     );
   };
-
+  const defaultValues = [
+    {
+      type: "Gas Giant",
+      image: gasTextures[0],
+      size: "5",
+      zoom: 10,
+    },
+    {
+      type: "Neptune-like",
+      image: neptuneTextures[0],
+      size: "3.5",
+      zoom: 10,
+    },
+    {
+      type: "Super Earth",
+      image: superTextures[0],
+      size: "2",
+      zoom: 10,
+    },
+    {
+      type: "Terrestrial",
+      image: terrestrialTextures[0],
+      size: "0.5",
+      zoom: 10,
+    },
+  ];
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
@@ -133,50 +158,22 @@ export default function Create() {
           collapsed={step === 1 ? false : true}
         >
           <motion.div className="px-1 pt-2 grid grid-cols-4 gap-2 w-full">
-            <FormButton
-              imgSrc={gasTextures[0]}
-              label={"Gas Giant"}
-              click={() => {
-                setType("Gas Giant");
-                setSize("5");
-                preloadCoreTexture(gasTextures[0]);
-                prepareCoreTexture(gasTextures[0]);
-                setZoom(10);
-              }}
-            />
-            <FormButton
-              imgSrc={neptuneTextures[0]}
-              label={"Neptune-like"}
-              click={() => {
-                setType("Neptune-like");
-                setSize("3.5");
-                preloadCoreTexture(neptuneTextures[0]);
-                prepareCoreTexture(neptuneTextures[0]);
-                setZoom(10);
-              }}
-            />
-            <FormButton
-              imgSrc={superTextures[0]}
-              label={"Super Earth"}
-              click={() => {
-                setType("Super Earth");
-                setSize("2");
-                preloadCoreTexture(superTextures[0]);
-                prepareCoreTexture(superTextures[0]);
-                setZoom(10);
-              }}
-            />
-            <FormButton
-              imgSrc={terrestrialTextures[0]}
-              label={"Terrestrial"}
-              click={() => {
-                setType("Terrestrial");
-                setSize("0.5");
-                preloadCoreTexture(terrestrialTextures[0]);
-                prepareCoreTexture(terrestrialTextures[0]);
-                setZoom(10);
-              }}
-            />
+            {defaultValues.map((value, i) => {
+              return (
+                <FormButton
+                  key={i}
+                  imgSrc={value.image}
+                  label={value.type}
+                  click={() => {
+                    setType(value.type);
+                    setSize(value.size);
+                    preloadCoreTexture(value.image);
+                    prepareCoreTexture(value.image);
+                    setZoom(value.zoom);
+                  }}
+                />
+              );
+            })}
           </motion.div>
           <motion.div className="px-1 pt-4 pb-1">
             <Link

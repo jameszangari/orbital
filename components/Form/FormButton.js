@@ -24,7 +24,7 @@ export default function Create({ imgSrc, label, click }) {
           layout="fixed"
           width={50}
           height={50}
-          loading={"lazy"}
+          unoptimized={true}
           className="rounded-full shadow-md mb-2"
           initial={{ opacity: 0 }}
           animate={{
