@@ -602,7 +602,6 @@ export default function Create() {
       setCloudColor({ hex: "#f44336" });
       setCoreTexture(gasTextures[0]);
       setCloudTexture(cloudTextures[0]);
-      setCloudAlpha("0.5");
       setName("Your Planet Name");
       // set the message
       return setMessage(data.message);
