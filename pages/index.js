@@ -48,7 +48,7 @@ export default function Index() {
           <motion.h3 className="text-xl font-secondary uppercase p-8">
             Please rotate your device.
           </motion.h3>
-          <Background />
+          <Background color={"#496EEF"} border={"blue-bg"} />
         </motion.div>
       </motion.div>
     </>

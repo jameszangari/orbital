@@ -255,7 +255,7 @@ export default function Dashboard() {
           <h3 className="text-xl font-secondary uppercase p-8">
             Failed to load.
           </h3>
-          <Background />
+          <Background color={"#496EEF"} border={"blue-bg"} />
         </div>
       </div>
     );
@@ -265,7 +265,7 @@ export default function Dashboard() {
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
           <h3 className="text-xl font-secondary uppercase p-8">Loading...</h3>
-          <Background />
+          <Background color={"#496EEF"} border={"blue-bg"} />
         </div>
       </div>
     );

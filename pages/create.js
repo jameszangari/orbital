@@ -163,6 +163,39 @@ export default function Create() {
       );
     });
   };
+  const defaultValues2 = [
+    {
+      type: "Minimal",
+      image: cloudTextures[0],
+    },
+    {
+      type: "Medium",
+      image: cloudTextures[0],
+    },
+    {
+      type: "Heavy",
+      image: cloudTextures[0],
+    },
+    {
+      type: "Smog",
+      image: cloudTextures[0],
+    },
+  ];
+  const AtmosType = () => {
+    return defaultValues2.map((value, i) => {
+      return (
+        <FormButton
+          key={i}
+          imgSrc={value.image}
+          label={value.type}
+          click={() => {
+            preloadCloudTexture(value.image);
+            prepareCloudTexture(value.image);
+          }}
+        />
+      );
+    });
+  };
   const RenderSteps = () => {
     const [step, setStep] = useState(1);
     const nextStep = () => setStep(() => step + 1);
@@ -459,38 +492,7 @@ export default function Create() {
         >
           <motion.div className="px-1 pt-2 w-full">
             <motion.div className="grid grid-cols-4 gap-2 w-full mb-4">
-              <FormButton
-                imgSrc={cloudTextures[0]}
-                label={"Type 1"}
-                click={() => {
-                  preloadCloudTexture(cloudTextures[0]);
-                  prepareCloudTexture(cloudTextures[0]);
-                }}
-              />
-              <FormButton
-                imgSrc={cloudTextures[1]}
-                label={"Type 2"}
-                click={() => {
-                  preloadCloudTexture(cloudTextures[1]);
-                  prepareCloudTexture(cloudTextures[1]);
-                }}
-              />
-              <FormButton
-                imgSrc={cloudTextures[2]}
-                label={"Type 3"}
-                click={() => {
-                  preloadCloudTexture(cloudTextures[2]);
-                  prepareCloudTexture(cloudTextures[2]);
-                }}
-              />
-              <FormButton
-                imgSrc={cloudTextures[3]}
-                label={"Type 4"}
-                click={() => {
-                  preloadCloudTexture(cloudTextures[3]);
-                  prepareCloudTexture(cloudTextures[3]);
-                }}
-              />
+              {AtmosType()}
             </motion.div>
             <CirclePicker
               width={"100%"}
@@ -751,7 +753,7 @@ export default function Create() {
               <motion.h3 className="text-xl font-secondary uppercase p-8">
                 {message}
               </motion.h3>
-              <Background />
+              <Background color={"#496EEF"} border={"blue-bg"} />
             </motion.div>
             <Link
               className="absolute mt-48 w-max p-4"
@@ -768,7 +770,7 @@ export default function Create() {
           <motion.h3 className="text-xl font-secondary uppercase p-8">
             Please rotate your device.
           </motion.h3>
-          <Background />
+          <Background color={"#496EEF"} border={"blue-bg"} />
         </motion.div>
       </motion.div>
     </>
