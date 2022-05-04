@@ -1,15 +1,14 @@
-import { useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "../Image";
-import Background from "../Background";
+// import Background from "../Background";
+const Background = dynamic(() => import("../Background"));
+
 import { motion } from "framer-motion";
 
-export default function Create({ imgSrc, label, click, className }) {
+export default function Create({ imgSrc, label, click }) {
   return (
     <motion.a
-      className={
-        "relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-xs md:text-sm font-secondary uppercase hover:bg-orbital-blue focus:bg-orbital-blue active:bg-orbital-blue transition-all shadow-md shadow-orbital-blue/10 " +
-          className || null
-      }
+      className="relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-xs md:text-sm font-secondary uppercase hover:bg-orbital-blue focus:bg-orbital-blue active:bg-orbital-blue transition-all shadow-md shadow-orbital-blue/10"
       onClick={click || null}
       initial={{ opacity: 0, height: 0 }}
       animate={{
@@ -37,9 +36,9 @@ export default function Create({ imgSrc, label, click, className }) {
           }}
           exit={{ opacity: 0 }}
         />
-        <motion.p className="pt-2">{label}</motion.p>
+        <motion.p className="pt-2 text-glow-blue">{label}</motion.p>
       </motion.span>
-      <Background color={"#496EEF"} border={"blue-bg"} />
+      <Background color={"blue"} border={"blue"} />
     </motion.a>
   );
 }

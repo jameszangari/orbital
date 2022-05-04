@@ -5,10 +5,9 @@ import { OrbitControls, Stars, Stats } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
 import Background from "../components/Background";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei"; // TODO: disable at some point
 import { server } from "../lib/server";
-import { trickle } from "nprogress";
 
 const API_URL = `${server}/api/posts`;
 
@@ -34,7 +33,7 @@ function Observe() {
           <h3 className="text-xl font-secondary uppercase p-8">
             Failed to load.
           </h3>
-          <Background color={"#496EEF"} border={"blue-bg"} />
+          <Background color={"blue"} border={"blue"} />
         </div>
       </div>
     );
@@ -44,7 +43,7 @@ function Observe() {
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
           <h3 className="text-xl font-secondary uppercase p-8">Loading...</h3>
-          <Background color={"#496EEF"} border={"blue-bg"} />
+          <Background color={"blue"} border={"blue"} />
         </div>
       </div>
     );
@@ -87,7 +86,7 @@ function Observe() {
       <div>
         <div className="mx-auto">
           <Canvas
-            dpr={window.devicePixelRatio}
+            dpr={window.devicePixelRatio || [1, 2]}
             // dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
             camera={{
@@ -96,6 +95,7 @@ function Observe() {
             }}
             style={{ height: "100vh" }}
             shadows
+            colorManagement
           >
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
@@ -107,10 +107,10 @@ function Observe() {
                 count={5000}
                 factor={8}
                 saturation={10}
-                // fade
-                speed={3}
+                fade
+                speed={2}
               />
-              <ambientLight intensity={0.5} />
+              <ambientLight intensity={0.65} />
               <pointLight position={[0, 0, 0]} />
               <Sun />
               <Stats />

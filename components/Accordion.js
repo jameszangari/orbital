@@ -1,14 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Accordion = ({
-  collapsed,
-  children,
-  title,
-  className,
-  click,
-  selection,
-}) => {
+const Accordion = ({ collapsed, children, title, click, selection, final }) => {
+  const lastStep = final === "true";
   return (
     <>
       <motion.div
@@ -22,11 +16,13 @@ const Accordion = ({
         }}
         exit={{ opacity: 0, height: 0 }}
         className={
-          collapsed
-            ? "border-pink-border bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 shadow-md shadow-pink-border/10 " +
-              className
-            : "border-blue-bg bg-orbital-blue/10 border-2 mt-1 first-of-type:my-0 p-1 h-max shadow-md shadow-blue-border/10 " +
-              className
+          lastStep
+            ? "border-pink-border bg-pink-bg border-2 mt-1 first-of-type:my-0 p-1 shadow-md shadow-oPink/10"
+            : collapsed
+            ? "border-purple-accent bg-purple-bg border-2 mt-1 first-of-type:my-0 p-1 shadow-md shadow-oPurple/10"
+            : !collapsed
+            ? "border-orbital-blue/60 bg-orbital-blue/10 border-2 mt-1 first-of-type:my-0 p-1 h-max shadow-sm shadow-orbital-blue/20"
+            : ""
         }
       >
         <motion.a
@@ -37,7 +33,7 @@ const Accordion = ({
             className={
               collapsed
                 ? "uppercase tracking-wider font-secondary text-xs opacity-75"
-                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight font-semibold"
+                : "uppercase tracking-wider font-secondary text-base pt-1 pl-1 text-orbital-blueLight font-semibold text-glow-blue-light"
             }
           >
             {title}

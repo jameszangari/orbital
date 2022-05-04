@@ -3,6 +3,8 @@ const runtimeCaching = require("next-pwa/cache");
 
 module.exports = withPWA({
   swcMinify: true,
+  // reactStrictMode: true,
+  // concurrentFeatures: true,
   images: {
     minimumCacheTTL: 60,
     loader: "custom",

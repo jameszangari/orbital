@@ -12,6 +12,7 @@ module.exports = {
         "purple-accent": "rgba(91, 44, 203, 0.30)",
         "blue-bg": "rgba(73, 110, 239, 0.15)",
         "pink-border": "rgba(211, 60, 231, 0.30)",
+        "pink-bg": "rgba(211, 60, 231, 0.15)",
         "blue-accent": "rgba(176, 225, 253, 1)",
         "blue-border": "rgba(176, 225, 253, 0.30)",
         "pink-accent": "rgba(232, 148, 251, 1)",

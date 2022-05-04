@@ -38,7 +38,7 @@ export default function Dashboard() {
           <h3 className="text-xl font-secondary uppercase p-8">
             Failed to load.
           </h3>
-          <Background color={"#496EEF"} border={"blue-bg"} />
+          <Background color={"blue"} border={"blue"} />
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ export default function Dashboard() {
       <div className="z-50 h-screen w-full grid place-items-center">
         <div className="absolute z-50 grid place-items-center">
           <h3 className="text-xl font-secondary uppercase p-8">Loading...</h3>
-          <Background color={"#496EEF"} border={"blue-bg"} />
+          <Background color={"blue"} border={"blue"} />
         </div>
       </div>
     );
@@ -118,7 +118,7 @@ export default function Dashboard() {
             <Depth
               colorA={recentPlanet[0].pCloudColor.hex}
               colorB="#000000"
-              alpha={0.5}
+              alpha={0.65}
               mode="darken"
               mapping={"vector"}
             />
@@ -200,7 +200,7 @@ export default function Dashboard() {
               {pad(PlanetCount)}
             </motion.h2>
           </motion.div>
-          <motion.div className="flex flex-col">
+          <motion.div className="flex flex-col w-max mt-2">
             {values.map((value, i) => {
               return (
                 <motion.div className="flex flex-row" key={i}>

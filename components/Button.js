@@ -1,14 +1,19 @@
+import dynamic from "next/dynamic";
+const Background = dynamic(() => import("./Background"));
+import { motion } from "framer-motion";
+
 export default function Button({ label, type, className, click }) {
   return (
-    <button
+    <motion.button
       className={
-        "text-sm sm:text-md uppercase bg-purple-bg bg-opacity-25 border-pink-border border-2 text-text py-2 px-4 font-secondary block hover:transition-cubicCustom hover:bg-oPurple hover:bg-opacity-25 hover:border-oPurple w-full cursor-pointer text-center shadow-md shadow-pink-border/10 " +
-        className
+        "relative cursor-pointer text-text p-2 flex flex-col justify-center items-center w-full active:bg-opacity-50 focus:bg-opacity-50 hover:bg-opacity-50 text-sm font-secondary uppercase hover:bg-oPink focus:bg-oPink active:bg-oPink transition-all shadow-md shadow-oPink/10 border-pink-border bg-pink-bg " +
+          className || null
       }
       type={type}
-      onClick={click}
+      onClick={click || null}
     >
       {label}
-    </button>
+      <Background color={"pink"} border={"pink"} />
+    </motion.button>
   );
 }

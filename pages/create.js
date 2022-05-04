@@ -537,7 +537,7 @@ export default function Create() {
               placeholder={pName}
               onChange={(e) => setName(filter.clean(e.target.value))}
               className={
-                "block text-sm font-medium w-full bg-transparent border-blue-border border-2 p-2"
+                "block text-sm font-medium w-full bg-transparent border-blue-border border-2 p-2 focus:outline-blue-border"
               }
             />
           </motion.div>
@@ -553,17 +553,21 @@ export default function Create() {
           </motion.div>
         </Accordion>
         <Accordion
-          title={"Finish"}
+          title={"Confirm"}
           click={() => {
             setStep(6);
           }}
           selection={""}
           collapsed={step === 6 ? false : true}
+          final={"true"}
         >
           <motion.div className="px-1 pt-4 pb-1">
+            <motion.p className="uppercase tracking-wider font-secondary text-base pb-4 text-orbital-blueLight">
+              Are you finished customizing your planet?
+            </motion.p>
             <Button
               click={handleSubmit}
-              label={"Create Your Planet"}
+              label={"Add to galaxy"}
               className={"w-full"}
             />
           </motion.div>
@@ -677,8 +681,8 @@ export default function Create() {
           }}
           exit={{ opacity: 0 }}
         >
-          <motion.div className="flex flex-row items-center gap-2 px-1 border-pink-border border-2 py-1 shadow-md shadow-pink-border/10">
-            <motion.p className="font-secondary text-xs uppercase opacity-50 w-2/6">
+          <motion.div className="flex flex-row items-center gap-2 px-1 border-purple-accent border-2 py-1 shadow-md shadow-oPurple/10">
+            <motion.p className="font-secondary text-xs uppercase opacity-75 w-2/6">
               Planet Zoom
             </motion.p>
             <motion.span className="font-secondary text-xl opacity-50">
@@ -759,12 +763,12 @@ export default function Create() {
           </motion.div>
         ) : null}
         {message ? (
-          <motion.div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-75">
+          <motion.div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-90">
             <motion.div className="absolute z-50 flex flex-col justify-center items-center">
               <motion.h3 className="text-xl font-secondary uppercase p-8">
                 {message}
               </motion.h3>
-              <Background color={"#496EEF"} border={"blue-bg"} />
+              <Background color={"pink"} border={"pink"} />
             </motion.div>
             <Link
               className="absolute mt-48 w-max p-4"
@@ -781,7 +785,7 @@ export default function Create() {
           <motion.h3 className="text-xl font-secondary uppercase p-8">
             Please rotate your device.
           </motion.h3>
-          <Background color={"#496EEF"} border={"blue-bg"} />
+          <Background color={"blue"} border={"blue"} />
         </motion.div>
       </motion.div>
     </>

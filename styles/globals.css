@@ -47,6 +47,13 @@ p {
   box-sizing: border-box;
 }
 
+.text-glow-blue {
+  text-shadow: 0 0 3px #496eef;
+}
+.text-glow-blue-light {
+  text-shadow: 0 0 3px rgba(176, 225, 253, 0.35);
+}
+
 .slider-purple::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
