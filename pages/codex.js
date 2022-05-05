@@ -9,6 +9,7 @@ import { Sphere, useTexture } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
 import PlanetDetails from "../components/PlanetDetails";
 import { motion } from "framer-motion";
+import Button from "../components/Button";
 
 const Joystick = dynamic(() => import("../components/Joystick"));
 const Background = dynamic(() => import("../components/Background"));
@@ -33,6 +34,8 @@ export default function Dashboard() {
   console.log(allPlanets);
 
   const [joyPos, setPos] = useState(0);
+  const [joyDevice, setDevice] = useState(false);
+  console.log(joyDevice);
   console.log(allPlanets[joyPos]);
 
   let joystickMin = 0;
@@ -43,7 +46,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!("hid" in navigator)) {
-      console.log("WebHID is not available yet.");
+      alert("WebHID is not available yet.");
     }
 
     navigator.hid.getDevices().then((devices) => {
@@ -79,7 +82,9 @@ export default function Dashboard() {
   // open connection
   const openButton = async (event) => {
     if (!device) return;
-
+    if (device) {
+      setDevice(true);
+    }
     await device.open();
     console.log(`Waiting for user to press button...`);
 
@@ -152,27 +157,6 @@ export default function Dashboard() {
     return;
   };
 
-  // // number padding
-  // function pad(num, size) {
-  //   var s = "0" + num;
-  //   return s.substr(s.length - size);
-  // }
-
-  // // get current planet count
-  // const PlanetCount = Object.keys(data.posts).length;
-  // let AllPlanets = [];
-  // data.posts.forEach((planet) => {
-  //   AllPlanets.push(planet);
-  // });
-
-  // // push most recent planet to it own array
-  // let recentPlanet = [];
-  // if (data) {
-  //   Object.keys(data).forEach((key) => {
-  //     recentPlanet.push(data[key].slice(-1)[0]);
-  //   });
-  // }
-
   const preloadCoreTexture = (texturePath) =>
     new Promise((resolve, reject) => {
       const image = new window.Image(texturePath);
@@ -190,20 +174,13 @@ export default function Dashboard() {
   };
 
   const Planet = () => {
-    // preloadCoreTexture(recentPlanet[0].pCoreTexture);
-    // prepareCoreTexture(recentPlanet[0].pCoreTexture);
     const targetRef = useRef();
     useFrame(({ clock }) => {
       targetRef.current.rotation.y = clock.getElapsedTime() / 10;
     });
     return (
       <>
-        <Sphere
-          ref={targetRef}
-          position={[0, 0, 0]}
-          // scale={allPlanets[joyPos] && allPlanets[joyPos].pSize}
-          scale={6}
-        >
+        <Sphere ref={targetRef} position={[0, 0, 0]} scale={8}>
           <LayerMaterial
             color={allPlanets[joyPos] && allPlanets[joyPos].pCoreColor.hex}
             alpha={1}
@@ -235,19 +212,25 @@ export default function Dashboard() {
     );
   };
 
-  // // set planet types to variables
-  // const gasGiant = AllPlanets.filter(
-  //   ({ pType }) => pType === "Gas Giant"
-  // ).length;
-  // const neptuneLike = AllPlanets.filter(
-  //   ({ pType }) => pType === "Neptune-like"
-  // ).length;
-  // const superEarth = AllPlanets.filter(
-  //   ({ pType }) => pType === "Super Earth"
-  // ).length;
-  // const terrestrial = AllPlanets.filter(
-  //   ({ pType }) => pType === "Terrestrial"
-  // ).length;
+  const joyStickControls = () => {
+    return (
+      <div className="absolute z-10 left-5 top-5 bg-blue-bg p-4 border-orbital-blue/50 border-2">
+        <p>Give permission to use device</p>
+        <Button
+          click={() => requestDeviceButton()}
+          label={"Request Device"}
+          className={"w-full mt-2"}
+        />
+        <p className="mt-4">Open connection with device</p>
+        <Button
+          click={() => openButton()}
+          label={"Open Device"}
+          className={"w-full mt-2"}
+        />
+      </div>
+    );
+  };
+
   if (error) {
     return (
       <div className="z-50 h-screen w-full grid place-items-center">
@@ -286,30 +269,7 @@ export default function Dashboard() {
         atmos={allPlanets[joyPos]?.pCloudTexture}
         atmosColor={allPlanets[joyPos]?.pCloudColor.hex}
       />
-      <div className="absolute z-10">
-        <p>Give permission to use device (this only needs to be done once)</p>
-        <button
-          className="bg-white text-black p-2 hover:bg-opacity-75 mb-4"
-          onClick={() => requestDeviceButton()}
-        >
-          {" "}
-          Request Device
-        </button>
-        <p>Open connection with device</p>
-        <button
-          className="bg-white text-black p-2 hover:bg-opacity-75 mb-4"
-          onClick={() => openButton()}
-        >
-          Open Device
-        </button>
-        <p>Close connection with device</p>
-        <button
-          className="bg-white text-black p-2 hover:bg-opacity-75"
-          onClick={() => closeButton()}
-        >
-          Close Device
-        </button>
-      </div>
+      {joyDevice === false ? joyStickControls() : ""}
       <Suspense fallback={null}>
         <Canvas
           dpr={[1, 2]}

@@ -62,7 +62,7 @@ export default function PlanetDetails({
                   {option.title}
                 </motion.p>
                 <motion.p className="uppercase tracking-wider font-secondary text-xl px-1 text-pink-accent">
-                  {option.value}
+                  {option.value.substring(0, 18)}
                 </motion.p>
               </motion.div>
             );
