@@ -1,16 +1,14 @@
 import React, { Suspense, useRef } from "react";
 import useSWR from "swr";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Sphere, useTexture, Stars, Text, Stats } from "@react-three/drei";
+import { Sphere, useTexture, Stars } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import WarningIcon from "../components/WarningIcon";
 import Background from "../components/Background";
-import BackgroundCornerLeft from "../components/BackgroundCornerLeft";
 import BackgroundCornerRight from "../components/BackgroundCornerRight";
 import PlanetDetails from "../components/PlanetDetails";
-import Image from "../components/Image";
 import { server } from "../lib/server";
 
 const API_URL = `${server}/api/posts`;
@@ -239,24 +237,12 @@ export default function Dashboard() {
         gl={{ antialias: true, alpha: false }}
         camera={{ fov: 50, position: [0, 0, 20] }}
         style={{ height: "100vh", width: "100vw", position: "fixed" }}
-        // shadows
       >
         <Suspense fallback={null}>
           <ambientLight intensity={1} />
           <pointLight position={[0, 0, 0]} />
-          {/* <pointLight position={[100, 100, 100]} /> */}
           {recentPlanet && <Planet />}
           <Stars count={10000} />
-          {/* <Stars
-            radius={100}
-            depth={100}
-            count={10000}
-            factor={8}
-            saturation={0}
-            fade
-            speed={1}
-          /> */}
-          <Stats />
         </Suspense>
       </Canvas>
     </>

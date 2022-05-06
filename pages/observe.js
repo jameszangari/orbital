@@ -1,12 +1,11 @@
 import Head from "next/head";
 import useSWR from "swr";
 import React, { Suspense } from "react";
-import { OrbitControls, Stars, Stats } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import Planet from "../components/Planet";
 import Sun from "../components/Sun";
 import Background from "../components/Background";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei"; // TODO: disable at some point
+import { Canvas } from "@react-three/fiber";
 import { server } from "../lib/server";
 
 const API_URL = `${server}/api/posts`;
@@ -51,7 +50,7 @@ function Observe() {
 
   const planets = data?.posts;
 
-  // Set max limit to 30, add x and z radius
+  // Set max limit to 50, add x and z radius
   let AllPlanets = [];
   if (planets) {
     planets.slice(-50).forEach((planet, i) => {
@@ -87,7 +86,6 @@ function Observe() {
         <div className="mx-auto">
           <Canvas
             dpr={window.devicePixelRatio || [1, 2]}
-            // dpr={[1, 2]}
             gl={{ antialias: true, alpha: false }}
             camera={{
               fov: 50,
@@ -97,10 +95,7 @@ function Observe() {
             shadows
             colorManagement
           >
-            <AdaptiveDpr pixelated />
-            <AdaptiveEvents />
             <Suspense fallback={null}>
-              {/* <Stars fade={true} /> */}
               <Stars
                 radius={200}
                 depth={50}
@@ -113,7 +108,6 @@ function Observe() {
               <ambientLight intensity={0.65} />
               <pointLight position={[0, 0, 0]} />
               <Sun />
-              <Stats />
               {AllPlanets
                 ? AllPlanets.map((planet, i) => {
                     {
