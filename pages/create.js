@@ -649,7 +649,7 @@ export default function Create() {
           gl={{ antialias: false }}
           camera={{ fov: 75, position: [0, 0, zoom || 20] }}
           style={{
-            height: "100vh",
+            height: "100%",
             width: "40vw",
             position: "absolute",
             zIndex: 0,
