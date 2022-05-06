@@ -736,7 +736,7 @@ export default function Create() {
           </motion.div>
         </motion.div>
         <motion.div
-          className="z-0 absolute right-0 p-1 h-screen overflow-y-scroll overscroll-y-contain"
+          className="z-0 absolute right-0 p-1 h-full overflow-y-scroll overscroll-y-contain"
           style={{ width: "60vw" }}
           initial={{ opacity: 0, x: 50 }}
           animate={{

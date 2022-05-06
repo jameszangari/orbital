@@ -13,6 +13,7 @@ body {
   color: #fff;
   @apply overflow-x-hidden;
   /* touch-action: none; */
+  height: 100%;
 }
 
 a {

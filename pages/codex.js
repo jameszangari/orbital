@@ -8,7 +8,6 @@ import { Stars } from "@react-three/drei";
 import { Sphere, useTexture } from "@react-three/drei";
 import { LayerMaterial, Depth, Texture } from "lamina";
 import PlanetDetails from "../components/PlanetDetails";
-import { motion } from "framer-motion";
 import Button from "../components/Button";
 
 const Joystick = dynamic(() => import("../components/Joystick"));
