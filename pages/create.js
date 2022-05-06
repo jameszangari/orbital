@@ -683,7 +683,7 @@ export default function Create() {
         >
           <motion.div className="flex flex-row items-center gap-2 px-1 border-purple-accent border-2 py-1 shadow-md shadow-oPurple/10">
             <motion.p className="font-secondary text-xs uppercase opacity-75 w-2/6">
-              Planet Zoom
+              Zoom
             </motion.p>
             <motion.span className="font-secondary text-xl opacity-50">
               +
