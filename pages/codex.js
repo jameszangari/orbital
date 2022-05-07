@@ -28,7 +28,10 @@ async function fetcher(url) {
 }
 
 export default function Dashboard() {
-  const { data, error } = useSWR(API_URL, fetcher, { refreshInterval: 60 });
+  const { data, error } = useSWR(API_URL, fetcher, {
+    refreshInterval: 60,
+    dedupingInterval: 0,
+  });
   let allPlanets = data ? [...data.posts] : [];
   console.log(allPlanets);
 
