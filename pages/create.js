@@ -763,7 +763,17 @@ export default function Create() {
           </motion.div>
         ) : null}
         {message ? (
-          <motion.div className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-90">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: {
+                duration: 1,
+              },
+            }}
+            exit={{ opacity: 0 }}
+            className="absolute z-50 h-screen w-full flex flex-col justify-center items-center bg-black bg-opacity-90"
+          >
             <motion.div className="absolute z-50 flex flex-col justify-center items-center">
               <motion.h3 className="text-xl font-secondary uppercase p-8">
                 {message}
