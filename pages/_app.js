@@ -93,7 +93,7 @@ function MyApp({ Component, pageProps }) {
         {/* Meta Tags for HTML pages on Mobile */}
         <meta name="format-detection" content="telephone=yes" />
         <meta name="HandheldFriendly" content="true" />
-        <meta content="width=device-width, minimum-scale=1, initial-scale=1.0, user-scalable=no" />
+        <meta content="width=device-width, height=device-height, minimum-scale=1, initial-scale=1.0, user-scalable=no, user-scalable=0" />
         <meta name="theme-color" content="#000" />
         <link rel="shortcut icon" href="/favicon.ico" />
         {/* Twitter Summary card
