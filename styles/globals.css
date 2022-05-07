@@ -2,27 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
-
-.js-canvas canvas {
-  height: 100vh;
-}
-
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Roboto Condensed", -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-    sans-serif;
+  font-family: "Space Grotesk", sans-serif, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   background: #000;
   color: #fff;
+  @apply overflow-x-hidden;
+  touch-action: none;
+  height: 100%;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  font-size: 16px;
 }
 
 h1,
@@ -31,13 +33,59 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Orbitron";
+  font-family: "Krona One", sans-serif, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 p {
-  font-family: "Roboto Condensed";
+  font-family: "Space Grotesk", sans-serif, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 3px #496eef;
+}
+.text-glow-blue-light {
+  text-shadow: 0 0 3px rgba(176, 225, 253, 0.35);
+}
+
+.slider-purple::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  @apply bg-oPurple border-0;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.slider-purple::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  @apply bg-oPurple border-0;
+  border-radius: 100%;
+  cursor: pointer;
+}
+.slider-blue::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  @apply bg-orbital-blue border-0;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.slider-blue::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  @apply bg-orbital-blue border-0;
+  border-radius: 100%;
+  cursor: pointer;
 }
