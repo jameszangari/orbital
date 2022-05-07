@@ -98,7 +98,7 @@ export default function Dashboard() {
     });
     return (
       <>
-        <Sphere ref={targetRef} position={[0, 0, 0]} scale={8}>
+        <Sphere ref={targetRef} position={[0, 0, 0]} scale={7}>
           <LayerMaterial
             color={recentPlanet[0].pCoreColor.hex}
             alpha={1}
