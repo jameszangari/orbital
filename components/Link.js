@@ -3,7 +3,14 @@ import Link from "next/link";
 // import Background from "./Background";
 import { motion } from "framer-motion";
 const Background = dynamic(() => import("./Background"));
-export default function Button({ label, click, url, variant, className }) {
+export default function Button({
+  label,
+  click,
+  url,
+  variant,
+  className,
+  color,
+}) {
   return (
     <>
       {variant === "button" && (
@@ -21,7 +28,10 @@ export default function Button({ label, click, url, variant, className }) {
           exit={{ opacity: 0, height: 0 }}
         >
           <motion.span>{label}</motion.span>
-          <Background color={"pink"} border={"pink"} />
+          <Background
+            color={color ? color : "pink"}
+            border={color ? color : "pink"}
+          />
         </motion.a>
       )}
       {variant === "link" && (
@@ -42,7 +52,10 @@ export default function Button({ label, click, url, variant, className }) {
             exit={{ opacity: 0, height: 0 }}
           >
             <motion.span>{label}</motion.span>
-            <Background color={"purp"} border={"purp"} />
+            <Background
+              color={color ? color : "purp"}
+              border={color ? color : "purp"}
+            />
           </motion.div>
         </Link>
       )}
