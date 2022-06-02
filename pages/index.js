@@ -36,32 +36,32 @@ export default function Landing() {
           <Link
             variant={"link"}
             url={"/begin"}
-            label={`Create Your Own Planet`}
+            label={`Create Your Planet`}
             className={"w-96 mx-auto py-4 px-8 mb-4"}
             color={"pink"}
           />
           <Link
             variant={"link"}
             url={"/observe"}
-            label={`Observe the Solar System`}
+            label={`Orbital Solar System`}
             className={"w-96 mx-auto py-4 px-8 mb-4"}
           />
           <Link
             variant={"link"}
             url={"/dashboard"}
-            label={`View the Mission Control Center`}
+            label={`Mission Control Center`}
             className={"w-96 mx-auto py-4 px-8 mb-4"}
           />
           <Link
             variant={"link"}
             url={"/codex"}
-            label={`View the Planet Codex`}
+            label={`Planet Codex`}
             className={"w-96 mx-auto py-4 px-8 mb-4"}
           />
           <Link
             variant={"link"}
             url={"/casestudy"}
-            label={`View the Case Study`}
+            label={`Case Study`}
             className={"w-96 mx-auto py-4 px-8 mb-4"}
             color={"blue"}
           />
