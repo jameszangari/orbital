@@ -634,7 +634,7 @@ export default function Create() {
       </Head>
       <Nav />
       <motion.div
-        className="portrait:hidden"
+        className="portrait:hidden touch-none"
         initial={{ opacity: 0 }}
         animate={{
           opacity: 1,
