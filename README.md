@@ -9,7 +9,7 @@ Technologies:
 - [SWR](https://swr.vercel.app/)
 - [Tailwind](https://tailwindcss.com/)
 
-###Getting the project up and running
+### Getting the project up and running
 
 1. Download specified `.env.local` file and add it to the root of the project
 
